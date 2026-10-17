@@ -114,7 +114,8 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
       "lhauto-fate": LHAutoCharacterSheet.#onFate,
       "lhauto-remove-bad": LHAutoCharacterSheet.#onRemoveBad,
       "lhauto-allocate": LHAutoCharacterSheet.#onAllocate,
-      "lhauto-gold": LHAutoCharacterSheet.#onGold
+      "lhauto-gold": LHAutoCharacterSheet.#onGold,
+      "lhauto-delete": LHAutoCharacterSheet.#onDelete
     }
   };
 
@@ -164,10 +165,23 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
     // Sidebar: HP, Barrier, Hate, Fatigue
     const hp = toInt(system.health?.value), hpMax = Math.max(0, toInt(system.health?.max));
     const pct = hpMax ? Math.clamp(Math.round((hp / hpMax) * 100), 0, 100) : 0;
-    lh.hp = { max: hpMax, pct, state: (hp <= 0) ? "down" : (pct <= 25) ? "low" : (pct <= 50) ? "warn" : "ok" };
+    lh.hp = { value: hp, max: hpMax, pct };
     lh.barrier = toInt(source["bad-status"]?.barrier);
     lh.hateRank = actor.statuses.has("hateTop") ? "top" : actor.statuses.has("hateUnder") ? "under" : null;
     if (lh.hateRank) lh.hateRankLabel = game.i18n.localize(`LHTRPG.StatusEffect.${lh.hateRank === "top" ? "hateTop" : "hateUnder"}`);
+
+    // Hate and Fatigue boxes fill up: Hate a tenth per point (full at 10), Fatigue by the share of the
+    // maximum HP it takes away. A little fill shows as soon as there is any.
+    const fill = share => ((share > 0) ? Math.clamp(Math.round(share * 100), 8, 100) : 0);
+    const hate = toInt(source.infos?.hate), fatigue = toInt(source.infos?.fatigue);
+    lh.hate = {
+      fill: fill(hate / 10),
+      tooltip: [L("Sheet.HateBox", { value: hate }), lh.hateRankLabel].filter(Boolean).join(" · ")
+    };
+    lh.fatigue = {
+      fill: fill(fatigue / Math.max(1, hpMax + fatigue)),
+      tooltip: L("Sheet.FatigueBox", { value: fatigue })
+    };
 
     // Header: Fate as stars
     const fate = toInt(source.fate?.value), fateMax = Math.max(0, toInt(system.fate?.max));
@@ -305,6 +319,10 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
     const root = this.element;
     root.classList.remove("lhtrpg");
 
+    // The band's title follows the open tab (a render prepared before a tab change would show the old one).
+    const title = root.querySelector(".lhpf-nav .panel-title");
+    if (title) title.textContent = L(`Sheet.Tab.${this.tabGroups.primary}`);
+
     // Barrier: its own field is also in the status panel, so this copy saves by itself (no form name).
     const barrier = root.querySelector(".lhpf-barrier");
     barrier?.addEventListener("change", event => {
@@ -397,6 +415,13 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
 
   static #onRemoveBad() {
     return removeBadStatus(this.actor);
+  }
+
+  /** Delete an item after a confirmation (connections and unions). */
+  static #onDelete(event, target) {
+    if (!this.isEditable) return;
+    const item = this.actor.items.get(target.closest("[data-item-id]")?.dataset.itemId);
+    return item?.deleteDialog();
   }
 
   static #onAllocate() {

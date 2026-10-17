@@ -177,7 +177,6 @@
       "BarrierHint": "Barrier: absorbs damage before HP.",
       "Hate": "Hate",
       "Fatigue": "Fatigue",
-      "FatigueHint": "Fatigue lowers the maximum HP.",
       "Defenses": "Defenses",
       "PhysDef": "Physical",
       "MagicDef": "Magic",
@@ -185,7 +184,6 @@
       "Speed": "Speed",
       "CombatChecks": "Combat checks",
       "AbilityChecks": "Ability checks",
-      "ChecksHint": "Click a check to roll it (asks for a modifier).",
       "Statuses": "Statuses",
       "NoStatus": "No status.",
       "RemoveBad": "Fate",
@@ -257,7 +255,9 @@
       "NoneYet": "Nothing yet.",
       "Connections": "Connections",
       "Unions": "Unions",
-      "BioHint": "Click the pencil to write the biography."
+      "BioHint": "Click the pencil to write the biography.",
+      "HateBox": "Hate {value}: the box fills a step per point, up to 10.",
+      "FatigueBox": "Fatigue {value}: the maximum HP drops by {value}. The box shows how much of the maximum HP Fatigue took."
     }
   }
 }

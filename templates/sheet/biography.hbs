@@ -31,7 +31,7 @@
 					{{#if item.lhTags.length}}<ul class="tags meta">{{#each item.lhTags}}<li class="tag tag_transparent">{{this}}</li>{{/each}}</ul>{{/if}}
 					<div class="item-controls">
 						<a class="item-control" data-action="item-edit" data-tooltip="LHTRPG.ButtonLabel.Edit"><i class="fa-solid fa-fw fa-pen-to-square"></i></a>
-						{{#if @root.editable}}<a class="item-control" data-action="item-delete" data-tooltip="LHTRPG.ButtonLabel.Delete"><i class="fa-solid fa-fw fa-trash"></i></a>{{/if}}
+						{{#if @root.editable}}<a class="item-control" data-action="lhauto-delete" data-tooltip="LHTRPG.ButtonLabel.Delete"><i class="fa-solid fa-fw fa-trash"></i></a>{{/if}}
 					</div>
 					<div class="item-summary" hidden></div>
 				</li>

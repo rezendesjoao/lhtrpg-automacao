@@ -15,16 +15,18 @@ verde à esquerda com o que se usa em jogo, o nome numa faixa escura, ícones re
 em pergaminho, com molduras finas e rótulos em versalete. Fontes Eczar e Gelasio, as mesmas da ficha de PF2e.
 Ela usa toda a lógica da ficha do sistema (equipar, rolar, tíquetes, efeitos, navegador de habilidades).
 
-- **Estandarte (barra lateral):** PV atual e máximo com a Barreira ao lado e uma barra do que resta; Ódio (com a
-  coroa quando está no Topo) e Fadiga; Defesa Física e Mágica em escudos, Iniciativa e Velocidade; Poder de
+- **Estandarte (barra lateral):** PV atual e máximo com a Barreira ao lado e uma barra vermelha do que resta;
+  Ódio numa caixa laranja (com a coroa quando está no Topo) e Fadiga numa caixa azul, que enchem conforme o
+  valor (o Ódio até 10; a Fadiga pela parte do PV máximo que ela tira); Defesa Física e Mágica em escudos, Iniciativa e Velocidade; Poder de
   Ataque, Mágico e de Recuperação; Precisão, Esquiva e Resistência com o número de dados, roláveis com um
   clique; e os estados ativos, com o botão de remover um Estado Negativo gastando Destino.
 - **Cabeçalho:** nome, Destino em estrelas (clique soma 1, botão direito tira 1) e o NP num brasão, com o botão
   de subir de NP.
-- **Personagem:** retrato, Raça, Classe (com o emblema), Subclasse e Guilda; as tags; Conexões e Uniões como
-  etiquetas; e os quatro atributos em molduras, com o botão de distribuir pontos.
+- **Personagem:** retrato quadrado de 256×256 (a arte do token cabe inteira) com Raça, Classe (com o emblema),
+  Subclasse e as tags ao lado; Conexões e Uniões como etiquetas, que se abrem com um clique e se excluem pelo ×
+  (com confirmação); e os quatro atributos em molduras, com o botão de distribuir pontos.
 - **Testes:** os oito testes de atributo e os três de combate em molduras, cada um com o modificador e os dados.
-  Clique para rolar.
+  Clique para rolar (pede o modificador).
 - **Habilidades:** Básicas, Gerais e de Combate, agrupadas pelo Momento (Ação Maior, Menor, Movimento,
   Instantânea, Reações, Abertura, Encerramento, Constantes…), com NH, custo e limite. Clique na imagem para usar
   e no nome para abrir os detalhes ali mesmo; o botão Procurar abre o navegador de habilidades.

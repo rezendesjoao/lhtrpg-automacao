@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.5.4 — 2026-10-17
+
+Ajustes na ficha de pergaminho:
+
+- Retrato quadrado de 256×256, para a arte do token caber inteira; Raça, Classe, Subclasse e as tags ficam ao
+  lado dele.
+- Sai o campo Guilda da ficha (o dado continua no personagem).
+- Conexões e Uniões podem ser excluídas: × nas etiquetas da aba Personagem e a lixeira na Biografia, as duas
+  com confirmação.
+- Barra de PV vermelha, mais grossa.
+- Ódio numa caixa laranja e Fadiga numa caixa azul, que enchem conforme o valor (o Ódio até 10; a Fadiga pela
+  parte do PV máximo que ela tira).
+- Testes de combate: Resistência do mesmo tamanho que Precisão e Esquiva.
+- Sai o texto de ajuda da aba Testes.
+- O título da faixa de abas acompanha a aba aberta mesmo quando a ficha redesenha durante a troca.
+
 ## 0.5.3 — 2026-10-17
 
 - Ficha de pergaminho, aba Inventário: o boneco. Uma figura humana desenhada a pena no centro, com os sete

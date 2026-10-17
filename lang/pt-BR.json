@@ -177,7 +177,6 @@
       "BarrierHint": "Barreira: absorve o dano antes dos PV.",
       "Hate": "Ódio",
       "Fatigue": "Fadiga",
-      "FatigueHint": "A Fadiga reduz o PV máximo.",
       "Defenses": "Defesas",
       "PhysDef": "Física",
       "MagicDef": "Mágica",
@@ -185,7 +184,6 @@
       "Speed": "Velocidade",
       "CombatChecks": "Testes de combate",
       "AbilityChecks": "Testes de atributo",
-      "ChecksHint": "Clique num teste para rolar (abre o modificador).",
       "Statuses": "Estados",
       "NoStatus": "Nenhum estado.",
       "RemoveBad": "Destino",
@@ -257,7 +255,9 @@
       "NoneYet": "Nada ainda.",
       "Connections": "Conexões",
       "Unions": "Uniões",
-      "BioHint": "Clique no lápis para escrever a biografia."
+      "BioHint": "Clique no lápis para escrever a biografia.",
+      "HateBox": "Ódio {value}: a caixa enche a cada ponto, até 10.",
+      "FatigueBox": "Fadiga {value}: o PV máximo cai {value}. A caixa mostra quanto do PV máximo a Fadiga tirou."
     }
   }
 }

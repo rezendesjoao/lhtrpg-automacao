@@ -17,15 +17,15 @@
 			<div class="data-value"><h2>{{lh.hp.max}}</h2></div>
 		</div>
 	</div>
-	<div class="lhpf-hpbar" data-state="{{lh.hp.state}}"><i style="width: {{lh.hp.pct}}%"></i></div>
+	<div class="lhpf-hpbar" data-tooltip="{{lh.hp.value}} / {{lh.hp.max}}"><i style="width: {{lh.hp.pct}}%"></i></div>
 	<div class="hp-small">
-		<label class="counter{{#if lh.hateRank}} rank-{{lh.hateRank}}{{/if}}"{{#if lh.hateRank}} data-tooltip="{{lh.hateRankLabel}}"{{/if}}>
+		<label class="gauge hate{{#if lh.hateRank}} rank-{{lh.hateRank}}{{/if}}" style="--fill: {{lh.hate.fill}}%" data-tooltip="{{lh.hate.tooltip}}">
 			<span class="sidebar_label">{{localize 'LHAUTO.Sheet.Hate'}}{{#if lh.hateRank}} <i class="fa-solid {{#if (eq lh.hateRank 'top')}}fa-crown{{else}}fa-angles-down{{/if}}"></i>{{/if}}</span>
-			<input type="text" name="system.infos.hate" value="{{source.infos.hate}}" placeholder="0" data-dtype="Number" maxlength="3"{{#if modified.hate}} class="has-effect" data-tooltip="{{modified.hate.tooltip}}"{{/if}}>
+			<span class="box"><span class="fill"></span><input type="text" name="system.infos.hate" value="{{source.infos.hate}}" placeholder="0" data-dtype="Number" maxlength="3"{{#if modified.hate}} class="has-effect"{{/if}}></span>
 		</label>
-		<label class="counter" data-tooltip="{{localize 'LHAUTO.Sheet.FatigueHint'}}">
+		<label class="gauge fatigue" style="--fill: {{lh.fatigue.fill}}%" data-tooltip="{{lh.fatigue.tooltip}}">
 			<span class="sidebar_label">{{localize 'LHAUTO.Sheet.Fatigue'}}</span>
-			<input type="text" name="system.infos.fatigue" value="{{source.infos.fatigue}}" placeholder="0" data-dtype="Number" maxlength="3"{{#if modified.fatigue}} class="has-effect" data-tooltip="{{modified.fatigue.tooltip}}"{{/if}}>
+			<span class="box"><span class="fill"></span><input type="text" name="system.infos.fatigue" value="{{source.infos.fatigue}}" placeholder="0" data-dtype="Number" maxlength="3"{{#if modified.fatigue}} class="has-effect"{{/if}}></span>
 		</label>
 	</div>
 </div>

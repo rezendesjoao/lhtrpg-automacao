@@ -1,4 +1,5 @@
-{{!-- CHARACTER: portrait, race / class / subclass / guild, tags, power and attributes. --}}
+{{!-- CHARACTER: square portrait (the token art fits whole), race / class / subclass and tags beside it,
+     connections, unions and attributes. --}}
 <section class="tab major character" data-group="primary" data-tab="character">
 	<div class="tab-content">
 		<div class="subsection details">
@@ -21,16 +22,11 @@
 					<span class="details-label">{{localize 'LHTRPG.Placeholder.SubClass'}}</span>
 					<h3>{{> "systems/lhtrpg/templates/actor/parts/actor-option.html" type="subclass" option=characterOptions.subclass placeholder=(localize 'LHTRPG.Placeholder.SubClass')}}</h3>
 				</div>
-				<div class="detail">
-					<span class="details-label">{{localize 'LHTRPG.Label.Guild'}}</span>
-					<h3><input class="guild" type="text" name="system.social.guild" value="{{source.social.guild}}" placeholder="—"></h3>
+				<div class="detail tagbox">
+					<span class="details-label">{{localize 'LHTRPG.Label.Tags'}}</span>
+					{{> "systems/lhtrpg/templates/parts/tag-input.html"}}
 				</div>
 			</div>
-		</div>
-
-		<div class="subsection lhpf-tagbox">
-			<header><span>{{localize 'LHTRPG.Label.Tags'}}</span></header>
-			{{> "systems/lhtrpg/templates/parts/tag-input.html"}}
 		</div>
 
 		<div class="subsection lhpf-social">
@@ -42,7 +38,7 @@
 				</header>
 				<ul class="tags">
 					{{#each group.items as |item|}}
-					<li class="tag tag_alt item" data-item-id="{{item._id}}"><a data-action="item-edit" data-tooltip="{{#if item.lhTags.length}}{{#each item.lhTags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}{{else}}{{item.name}}{{/if}}">{{item.name}}</a></li>
+					<li class="tag tag_alt item" data-item-id="{{item._id}}"><a data-action="item-edit" data-tooltip="{{#if item.lhTags.length}}{{#each item.lhTags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}{{else}}{{item.name}}{{/if}}">{{item.name}}</a>{{#if @root.editable}}<a class="remove" data-action="lhauto-delete" data-tooltip="LHTRPG.ButtonLabel.Delete"><i class="fa-solid fa-xmark"></i></a>{{/if}}</li>
 					{{else}}
 					<li class="none">{{localize 'LHAUTO.Sheet.NoneYet'}}</li>
 					{{/each}}

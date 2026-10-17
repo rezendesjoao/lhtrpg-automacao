@@ -236,43 +236,82 @@
   font: 400 24px/1 var(--pf-serif);
 }
 .lhpf .lhpf-hpbar {
-  height: 4px;
-  margin: 8px 4px 0;
+  position: relative;
+  height: 11px;
+  margin: 9px 2px 0;
   overflow: hidden;
-  border-radius: 2px;
-  background: rgba(0, 0, 0, 0.35);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--pf-tertiary-darker);
+  border-radius: 6px;
+  background: linear-gradient(180deg, #1c0b0b, #2e1212);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.7), 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 .lhpf .lhpf-hpbar i {
   display: block;
   height: 100%;
-  background: linear-gradient(90deg, var(--pf-tertiary-darker), var(--pf-tertiary));
+  border-radius: 5px 0 0 5px;
+  background: linear-gradient(180deg, #ea6a52 0%, #c42e22 45%, #8e1717 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 1px 0 2px rgba(0, 0, 0, 0.4);
   transition: width 0.4s ease;
 }
-.lhpf .lhpf-hpbar[data-state="warn"] i { background: linear-gradient(90deg, #a8701e, #e0a93c); }
-.lhpf .lhpf-hpbar[data-state="low"] i,
-.lhpf .lhpf-hpbar[data-state="down"] i { background: linear-gradient(90deg, #7a1d1d, #c2412d); }
+
+/* Hate (orange) and Fatigue (blue): square boxes that fill up from the bottom */
 .lhpf .hp-small {
   display: flex;
   justify-content: space-evenly;
-  margin: 8px 0 0;
+  margin: 10px 0 0;
 }
-.lhpf .hp-small .counter {
+.lhpf .hp-small .gauge {
+  --box: #e8650a;
+  --box-light: #ff9a3c;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
 }
-.lhpf .hp-small .counter input {
-  width: 4ch;
-  font-size: 20px;
+.lhpf .hp-small .gauge.fatigue {
+  --box: #2b6cb8;
+  --box-light: #5d9de4;
 }
-.lhpf .hp-small .counter.rank-top .sidebar_label,
-.lhpf .hp-small .counter.rank-top input {
+.lhpf .hp-small .gauge .sidebar_label i {
+  font-size: 9px;
+}
+.lhpf .hp-small .gauge.rank-top .sidebar_label {
   color: #ffd27a;
 }
-.lhpf .hp-small .counter .sidebar_label i {
-  font-size: 9px;
+.lhpf .hp-small .box {
+  position: relative;
+  display: flex;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  border: 2px solid var(--box);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.38);
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(0, 0, 0, 0.35), 0 0 6px color-mix(in srgb, var(--box) 35%, transparent);
+}
+.lhpf .hp-small .box .fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--fill, 0%);
+  background: linear-gradient(180deg, var(--box-light), var(--box));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  opacity: 0.9;
+  transition: height 0.4s ease;
+}
+.lhpf .lhpf-sidebar .hp-small .box input[type="text"] {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  font-size: 22px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+}
+.lhpf .lhpf-sidebar .hp-small .box input[type="text"]:focus {
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: none;
 }
 
 /* Defenses */
@@ -733,12 +772,6 @@
   font: italic 13px/1.3 var(--pf-body);
   list-style: none;
 }
-.lhpf .lhpf-hint {
-  margin: 4px 2px 0;
-  color: var(--pf-text-soft);
-  font: italic 12px/1.3 var(--pf-body);
-  text-align: right;
-}
 
 /* Sub-navigation (light bar with flourishes) */
 .lhpf nav.sub-nav {
@@ -849,8 +882,8 @@
 }
 .lhpf .subsection.details {
   display: grid;
-  grid-template-columns: 120px minmax(0, 1fr);
-  gap: 0 12px;
+  grid-template-columns: 256px minmax(0, 1fr);
+  gap: 0 14px;
   align-items: start;
   margin: 4px 0 4px;
   padding-bottom: 14px;
@@ -858,23 +891,25 @@
 }
 .lhpf .details .image-container {
   position: relative;
+  width: 256px;
+  height: 256px;
 }
 .lhpf .details .actor-image {
   display: block;
-  width: 120px;
-  height: 150px;
+  width: 256px;
+  height: 256px;
   border: none;
   border-radius: 0;
   background: #2a2a24;
   box-shadow: 0 0 0 1px #918c88, 0 0 0 2px #e1d8cf, 0 0 0 3px #a98f39, inset 0 0 8px rgba(0, 0, 0, 0.5), 0 0 8px rgba(0, 0, 0, 0.8);
   object-fit: cover;
-  object-position: top;
+  object-position: center;
   cursor: pointer;
 }
 .lhpf .details .abcd {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px 10px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
   align-content: start;
 }
 .lhpf .details .detail {
@@ -882,6 +917,9 @@
   flex-direction: column;
   gap: 3px;
   min-width: 0;
+}
+.lhpf .details .detail.tagbox .lh-tag-input {
+  margin-top: 2px;
 }
 .lhpf .details-label {
   color: var(--pf-text-soft);
@@ -953,21 +991,6 @@
   background: var(--pf-primary-dark);
   box-shadow: 0 0 0 1px #918c88, 0 0 0 2px #e1d8cf, 0 0 0 3px #a98f39, 0 0 4px rgba(0, 0, 0, 0.6);
   object-fit: contain;
-}
-.lhpf .details input.guild {
-  width: 100%;
-  height: 28px;
-  margin: 0;
-  padding: 0;
-  border: none;
-  background: transparent;
-  box-shadow: none;
-  color: var(--pf-text);
-  font: 700 14px/1 var(--pf-body);
-}
-.lhpf .details input.guild:focus {
-  outline: none;
-  box-shadow: inset 0 -1px 0 var(--pf-primary);
 }
 
 /* Tags (system tag input) */
@@ -1072,8 +1095,18 @@
   padding: 3px 6px;
   font-size: 10px;
 }
+.lhpf .lhpf-social .tags .tag {
+  gap: 6px;
+}
 .lhpf .lhpf-social .tags .tag a:hover {
   color: var(--pf-tertiary-light);
+}
+.lhpf .lhpf-social .tags .tag .remove {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 9px;
+}
+.lhpf .lhpf-social .tags .tag .remove:hover {
+  color: #fff;
 }
 .lhpf .lhpf-social .tags .none {
   color: var(--pf-text-soft);
@@ -1179,9 +1212,6 @@
   font: 400 10px/1 var(--pf-sans);
   letter-spacing: 0.05em;
   text-transform: uppercase;
-}
-.lhpf .proficiencies-list.combat > li:last-child:nth-child(odd) {
-  grid-column: span 2;
 }
 
 /* --------------------------------------------------------------------------
