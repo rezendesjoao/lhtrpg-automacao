@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.5 — 2026-10-17
+
+- Ficha de pergaminho: retrato pela metade, 128×128 (continua quadrado, a arte do token cabe inteira), com Raça,
+  Classe e Subclasse ao lado; as tags voltam para baixo.
+
 ## 0.5.4 — 2026-10-17
 
 Ajustes na ficha de pergaminho:

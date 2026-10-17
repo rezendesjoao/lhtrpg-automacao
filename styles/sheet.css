@@ -882,7 +882,7 @@
 }
 .lhpf .subsection.details {
   display: grid;
-  grid-template-columns: 256px minmax(0, 1fr);
+  grid-template-columns: 128px minmax(0, 1fr);
   gap: 0 14px;
   align-items: start;
   margin: 4px 0 4px;
@@ -891,13 +891,13 @@
 }
 .lhpf .details .image-container {
   position: relative;
-  width: 256px;
-  height: 256px;
+  width: 128px;
+  height: 128px;
 }
 .lhpf .details .actor-image {
   display: block;
-  width: 256px;
-  height: 256px;
+  width: 128px;
+  height: 128px;
   border: none;
   border-radius: 0;
   background: #2a2a24;
@@ -908,8 +908,8 @@
 }
 .lhpf .details .abcd {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 10px;
   align-content: start;
 }
 .lhpf .details .detail {
@@ -917,9 +917,6 @@
   flex-direction: column;
   gap: 3px;
   min-width: 0;
-}
-.lhpf .details .detail.tagbox .lh-tag-input {
-  margin-top: 2px;
 }
 .lhpf .details-label {
   color: var(--pf-text-soft);

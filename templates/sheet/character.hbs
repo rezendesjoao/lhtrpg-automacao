@@ -1,4 +1,4 @@
-{{!-- CHARACTER: square portrait (the token art fits whole), race / class / subclass and tags beside it,
+{{!-- CHARACTER: square portrait (the token art fits whole) with race / class / subclass beside it, tags,
      connections, unions and attributes. --}}
 <section class="tab major character" data-group="primary" data-tab="character">
 	<div class="tab-content">
@@ -22,11 +22,12 @@
 					<span class="details-label">{{localize 'LHTRPG.Placeholder.SubClass'}}</span>
 					<h3>{{> "systems/lhtrpg/templates/actor/parts/actor-option.html" type="subclass" option=characterOptions.subclass placeholder=(localize 'LHTRPG.Placeholder.SubClass')}}</h3>
 				</div>
-				<div class="detail tagbox">
-					<span class="details-label">{{localize 'LHTRPG.Label.Tags'}}</span>
-					{{> "systems/lhtrpg/templates/parts/tag-input.html"}}
-				</div>
 			</div>
+		</div>
+
+		<div class="subsection lhpf-tagbox">
+			<header><span>{{localize 'LHTRPG.Label.Tags'}}</span></header>
+			{{> "systems/lhtrpg/templates/parts/tag-input.html"}}
 		</div>
 
 		<div class="subsection lhpf-social">

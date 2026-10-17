@@ -22,8 +22,8 @@ Ela usa toda a lógica da ficha do sistema (equipar, rolar, tíquetes, efeitos, 
   clique; e os estados ativos, com o botão de remover um Estado Negativo gastando Destino.
 - **Cabeçalho:** nome, Destino em estrelas (clique soma 1, botão direito tira 1) e o NP num brasão, com o botão
   de subir de NP.
-- **Personagem:** retrato quadrado de 256×256 (a arte do token cabe inteira) com Raça, Classe (com o emblema),
-  Subclasse e as tags ao lado; Conexões e Uniões como etiquetas, que se abrem com um clique e se excluem pelo ×
+- **Personagem:** retrato quadrado de 128×128 (a arte do token cabe inteira) com Raça, Classe (com o emblema) e
+  Subclasse ao lado; as tags; Conexões e Uniões como etiquetas, que se abrem com um clique e se excluem pelo ×
   (com confirmação); e os quatro atributos em molduras, com o botão de distribuir pontos.
 - **Testes:** os oito testes de atributo e os três de combate em molduras, cada um com o modificador e os dados.
   Clique para rolar (pede o modificador).
