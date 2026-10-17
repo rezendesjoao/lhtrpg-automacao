@@ -49,6 +49,10 @@
       "fate": {
         "Name": "Botões de Destino",
         "Hint": "Gastam 1 Destino para: +1D no Teste de uma habilidade, rerrolar o acerto, a esquiva ou um teste comum, e remover um Estado Negativo (estrela ao lado do Destino na ficha)."
+      },
+      "content": {
+        "Name": "Completar os dados dos compêndios",
+        "Hint": "Habilidades, itens e monstros tirados dos compêndios do sistema recebem o que só existia no texto: dano dos ataques de monstro, dano e cura de habilidades, estados que as habilidades causam, bônus fixos dos itens, estados de início de cena e a Fadiga que a comida remove. Só completa o que falta; nada editado à mão é trocado."
       }
     },
     "Use": {
@@ -143,7 +147,16 @@
       "NoTokens": "Selecione os tokens primeiro.",
       "Done": "{what}: {n} personagem(ns).",
       "Scene": "Cena encerrada",
-      "Scenario": "Cenário encerrado"
+      "Scenario": "Cenário encerrado",
+      "FillIntro": "Completa os dados do que já está no mundo (itens, personagens, monstros e tokens): dano, estados, bônus e comida. Monstros feitos à mão têm o dano dos ataques lido do texto.",
+      "FillWorld": "Completar os dados do mundo",
+      "FillNothing": "Nada para completar: o mundo já tem os dados.",
+      "FillConfirm": "Vai completar {documents} habilidades e itens: {damage} com dano, {effects} com efeitos e {flags} com dados de cena ou comida. Só o que falta é preenchido. Continuar?",
+      "FillYes": "Completar",
+      "FillDone": "Dados completados: {documents} habilidades e itens ({damage} com dano, {effects} com efeitos, {flags} com dados de cena ou comida)."
+    },
+    "Content": {
+      "Fed": "Fadiga −{amount}: {names}"
     }
   }
 }

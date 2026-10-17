@@ -12,7 +12,8 @@
  * [Fatigue: Max HP − 1]; an Incapacitated enemy dies.
  */
 import { L, MODULE_ID, setting } from "./settings.mjs";
-import { actorName, escape, postSummary, toInt } from "./util.mjs";
+import { actorName, confirm, escape, postSummary, toInt } from "./util.mjs";
+import { fillWorld } from "./content.mjs";
 
 /** Bad Statuses with a checkbox, with a Rating, and with a list of Ratings; Combat Statuses. */
 const FLAG_STATUSES = ["staggered", "dazed", "rigor", "confused", "afflicted", "overconfident"];
@@ -117,7 +118,8 @@ class ToolsApp extends foundry.applications.api.ApplicationV2 {
     actions: {
       sceneSelected: ToolsApp.#sceneSelected,
       scenarioSelected: ToolsApp.#scenarioSelected,
-      scenarioAll: ToolsApp.#scenarioAll
+      scenarioAll: ToolsApp.#scenarioAll,
+      fillWorld: ToolsApp.#fillWorld
     }
   };
 
@@ -130,7 +132,10 @@ class ToolsApp extends foundry.applications.api.ApplicationV2 {
       <p>${escape(L("Tools.Intro"))}</p>
       ${button("sceneSelected", "fa-solid fa-film", "Tools.SceneSelected")}
       ${button("scenarioSelected", "fa-solid fa-book", "Tools.ScenarioSelected")}
-      ${button("scenarioAll", "fa-solid fa-book-open", "Tools.ScenarioAll")}`;
+      ${button("scenarioAll", "fa-solid fa-book-open", "Tools.ScenarioAll")}
+      <hr>
+      <p>${escape(L("Tools.FillIntro"))}</p>
+      ${button("fillWorld", "fa-solid fa-wand-magic-sparkles", "Tools.FillWorld")}`;
     return div;
   }
 
@@ -154,6 +159,21 @@ class ToolsApp extends foundry.applications.api.ApplicationV2 {
 
   static async #scenarioAll() {
     return ToolsApp.#run(game.actors.filter(a => a.type === "character"), true);
+  }
+
+  /** Fill the data the world's skills, items and monsters lack (see content.mjs). */
+  static async #fillWorld() {
+    const counts = await fillWorld({ dryRun: true });
+    if (!counts.documents) return ui.notifications.info(L("Tools.FillNothing"));
+    const ok = await confirm({
+      title: L("Tools.FillWorld"),
+      content: `<p>${escape(L("Tools.FillConfirm", counts))}</p>`,
+      yes: L("Tools.FillYes"),
+      no: L("Use.Cancel")
+    });
+    if (!ok) return;
+    const done = await fillWorld();
+    ui.notifications.info(L("Tools.FillDone", done));
   }
 }
 

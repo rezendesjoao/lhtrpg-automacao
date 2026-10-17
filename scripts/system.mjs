@@ -12,4 +12,5 @@ export { evaluateFormula, formulaData } from "../../../systems/lhtrpg/module/hel
 export { parseSkillField } from "../../../systems/lhtrpg/module/helpers/skill-fields.mjs";
 export { isLocalChange, isPrimaryGM } from "../../../systems/lhtrpg/module/helpers/clients.mjs";
 export { hateRank } from "../../../systems/lhtrpg/module/helpers/effect-conditions.mjs";
-export { request } from "../../../systems/lhtrpg/module/piles/pile-socket.mjs";
+export { canonicalTag } from "../../../systems/lhtrpg/module/helpers/tag-catalog.mjs";
+export { registerHandler, request } from "../../../systems/lhtrpg/module/piles/pile-socket.mjs";

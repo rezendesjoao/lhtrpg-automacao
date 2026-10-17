@@ -4,8 +4,8 @@ Módulo de extensão para o sistema **Log Horizon TRPG** (`lhtrpg` 2.1.x, Foundr
 com muitos jogadores e vários combates ao mesmo tempo. Ele completa a automação que o sistema já tem: não
 substitui fichas nem cartões, só acrescenta o que faltava e corrige o que quebrava em mesa grande.
 
-Esta é a **Fase 1 — núcleo do combate**. As próximas fases (conteúdo dos compêndios, mesa por texto, cena e
-sessão, regras de construção) estão listadas no fim.
+Já tem a **Fase 1 — núcleo do combate** e a **Fase 2 — conteúdo dos compêndios**. As próximas fases (mesa por
+texto, cena e sessão, regras de construção) estão listadas no fim.
 
 ## O que ele faz
 
@@ -66,11 +66,34 @@ Cada botão gasta 1 Destino do personagem e fica marcado no cartão.
 - **Remover um Estado Negativo:** estrela ao lado do Destino na ficha. Com Aflito, os estados que ele protege
   só saem depois dele.
 
+### Conteúdo dos compêndios
+Muita coisa dos compêndios do sistema só existia no texto. O módulo completa os dados que faltam.
+- **Ataques de monstro.** 81 habilidades do bestiário (todos os ataques que causam dano) ganham o Dano.
+  - O cartão de monstro passa a ter **Dano**.
+  - O dano passa pela Defesa, Anulação, Barreira e dano de Ódio dos personagens, como os ataques dos
+    jogadores.
+  - Monstros feitos à mão também são lidos do texto, em português ou inglês: "[20+2D] de dano físico",
+    "Causa [[/gmr 2d6 + 12]] de dano físico ao alvo", "37+2D physical damage"…
+- **Habilidades de classe sem dano ou cura**, como Racha-Elmo, Nebulosa de Relâmpagos, Flecha de Labareda,
+  Vento Gélido, Espinho do Picanço, Saya (Flecha), «Cura», Ressurreição e Prece de Cura. Somam 20.
+- **Estados das habilidades.** "O alvo sofre [Cambaleante]", "[Deterioração: 6]", "[Fraqueza (Físico): …]":
+  21 habilidades de classe e 15 de monstros ganham o efeito, que vai pelo botão **Aplicar efeitos**.
+- **Bônus fixos dos itens.** 36 itens, como Manopla (+14 de Poder de Ataque), Cristal de Mana (+14 de Poder
+  Mágico), Espada de Selamento: Yozakura (+6 de Recuperação), óculos e brincos (+1/+2 em perícias).
+- **Estados de início de cena.** 43 itens dão o estado quando o combate começa, se estiverem equipados:
+  broches, cintos, brincos, medalhões e talismãs de Anulação, e outros.
+- **Comida.** 32 pratos tiram Fadiga de quem come: de quem usa, ou dos personagens marcados nos pratos para
+  o grupo.
+
+Só o que falta é preenchido. O que o Mestre editou à mão nunca é trocado.
+
 ### Ferramentas do Mestre
 Ficam em **Configurações → Configurar Configurações → Log Horizon TRPG — Automação → Ferramentas do Mestre**.
 - Encerrar a cena dos tokens selecionados.
 - Encerrar o cenário dos tokens selecionados.
 - Encerrar o cenário de todos os personagens.
+- **Completar os dados do mundo.** Aplica o "Conteúdo dos compêndios" ao que já existe no mundo: itens,
+  personagens, monstros e tokens. Mostra quantos documentos vai mudar antes de mexer.
 
 ## Configurações
 
@@ -89,6 +112,7 @@ Todas são do mundo (só o Mestre muda) e valem na hora, sem recarregar.
 | Aventureiros mortos revivem no fim da cena | ligado |
 | Correções nos cartões de ataque e dano | ligado |
 | Botões de Destino | ligado |
+| Completar os dados dos compêndios | ligado |
 
 "Limites de uso" e "Momento e economia de ações" têm três modos: **desligado**, **avisar** (pergunta se é
 para usar mesmo assim) e **bloquear** (o jogador não consegue; o Mestre pode forçar).
@@ -121,6 +145,8 @@ api.rollCheck(item, useMessage);  // Teste de uma habilidade, ligado ao cartão 
 api.rollDamage(item, attackMsg);  // Dano contra um cartão de ataque específico
 api.spendFate(actor);             // gasta 1 Destino
 api.removeBadStatus(actor);       // diálogo de remover Estado Negativo com Destino
+api.fillWorld({ dryRun: true });  // conta (ou completa) os dados que faltam no mundo
+api.parseMonsterDamage(html);     // lê o dano de um ataque de monstro escrito em texto
 ```
 
 ## Limites conhecidos
@@ -133,6 +159,14 @@ api.removeBadStatus(actor);       // diálogo de remover Estado Negativo com Des
 - **Custos de grupo** ("(Party)", "(Allies)") não aparecem em nenhuma habilidade do compêndio. Se algum
   aparecer, o usuário paga o próprio e os aliados pagam à mão.
 - **Dano rolado pela ficha**, fora do cartão da habilidade, ainda usa a busca do próprio sistema.
+- **Conteúdo que ainda é só texto:**
+  - os poderes "[Momento] … 1×/cena" de 92 itens;
+  - "conta como tendo «Habilidade» com NH+N" (14 itens);
+  - estados com condição ("(Menor): o alvo sofre…", "Resultado 17+…");
+  - venenos de Fadiga;
+  - danos que dependem do escudo, como Golpe de Escudo e Escudo Sagrado.
+- **Os estados das habilidades** entram pelo botão **Aplicar efeitos**, depois do acerto. Aplicar sozinho no
+  acerto é a Fase 3.
 - **Erro do core 14.367 no console.** Com combates simultâneos, aparece
   `Cannot use 'in' operator to search for 'turn'`. Ele vem do rastreador de combate do Foundry, não do módulo,
   e é inofensivo: só afeta a rolagem automática da lista.
@@ -151,6 +185,29 @@ Foundry 14.367, `lhtrpg` 2.1.0 e `lhtrpg-pt-br` 1.0.0. Cenários testados num mu
 - Atordoado terminando no fim do turno; Incapacitado com PV 0 e perdendo a vez.
 - Fim de cena com recuperação, morte do inimigo e revive com Fadiga.
 - Ferramentas do Mestre.
+- Fase 2:
+  - Monstros importados do bestiário com dano e estados.
+  - Ataque de monstro contra PJ, passando pela esquiva, Defesa, dano de Ódio e Deterioração aplicada.
+  - Habilidades de classe tiradas do compêndio com dano, cura e estado.
+  - Bônus de item (Manopla +14) e Anulação de início de cena (Broche).
+  - Comida tirando Fadiga.
+  - "Completar os dados do mundo" em monstros antigos, num monstro feito à mão em português, num item
+    achado pelo nome e em tokens não vinculados.
+- A leitura do dano dos 75 ataques do bestiário dá o mesmo resultado no texto em inglês e no texto traduzido
+  pelo `lhtrpg-pt-br`.
+
+## Dados dos compêndios
+
+O arquivo `scripts/content/patches.mjs` é gerado a partir das fontes do sistema `lhtrpg` (`src/packs`). Depois
+de uma atualização do sistema, gere de novo com o clone do sistema ao lado desta pasta:
+
+```bash
+node tools/build-patches.mjs ../LHTTRPG
+```
+
+O script lê o texto em inglês dos compêndios (`tools/text-rules.mjs`, `scripts/content/monster-damage.mjs`) e
+usa as tabelas revisadas à mão dentro dele: dano das habilidades e exceções. Ele imprime as listas para
+revisão.
 
 ## Publicar uma nova versão
 
@@ -172,8 +229,6 @@ DeadlyPoisonK; este módulo só acrescenta automação a ele. O código é distr
 
 ## Próximas fases
 
-2. **Conteúdo:** conversor dos ataques de monstro (texto → Teste/Dano), ataques e curas de classe sem dados,
-   efeitos dos itens mágicos.
 3. **Mesa por texto:** alvos sem precisar do mapa, esquiva e aplicação automáticas pelo Mestre, janela de
    reações, comandos de chat, permissões dos botões.
 4. **Cena e sessão:** Pós-Jogo, +1 Destino por fase, Tíquetes de Registro funcionais, loja.

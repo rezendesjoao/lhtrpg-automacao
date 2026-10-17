@@ -49,6 +49,10 @@
       "fate": {
         "Name": "Fate buttons",
         "Hint": "Spend 1 Fate to: +1D to a skill's Check, reroll a Hit, Dodge or plain check, and remove a Bad Status (star next to Fate on the sheet)."
+      },
+      "content": {
+        "Name": "Fill in the compendium data",
+        "Hint": "Skills, items and monsters taken from the system compendiums get what only existed as text: monster attack damage, skill damage and healing, statuses skills give, items' constant bonuses, start-of-scene statuses and the Fatigue food removes. Only what is missing is filled; nothing edited by hand is replaced."
       }
     },
     "Use": {
@@ -143,7 +147,16 @@
       "NoTokens": "Select the tokens first.",
       "Done": "{what}: {n} character(s).",
       "Scene": "Scene ended",
-      "Scenario": "Scenario ended"
+      "Scenario": "Scenario ended",
+      "FillIntro": "Fills the data of what is already in the world (items, characters, monsters and tokens): damage, statuses, bonuses and food. Homebrew monsters get their attack damage read from their text.",
+      "FillWorld": "Fill in the world's data",
+      "FillNothing": "Nothing to fill: the world already has the data.",
+      "FillConfirm": "This fills {documents} skills and items: {damage} with damage, {effects} with effects and {flags} with scene or food data. Only what is missing is filled. Go on?",
+      "FillYes": "Fill in",
+      "FillDone": "Data filled in: {documents} skills and items ({damage} with damage, {effects} with effects, {flags} with scene or food data)."
+    },
+    "Content": {
+      "Fed": "Fatigue −{amount}: {names}"
     }
   }
 }

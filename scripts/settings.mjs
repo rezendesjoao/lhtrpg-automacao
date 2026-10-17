@@ -42,6 +42,7 @@ export function registerSettings() {
   toggle("revive");
   toggle("cards");
   toggle("fate");
+  toggle("content");
 }
 
 /** A setting's value (null before the settings exist). */

@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.2.0 — 2026-10-17
+
+Fase 2: o conteúdo dos compêndios. O que só existia no texto vira dado.
+
+- Ataques de monstro: 81 habilidades do bestiário ganham o Dano. Monstros feitos à mão têm o dano lido do
+  texto, em português ou inglês.
+- 20 habilidades de classe ganham dano ou cura, como Racha-Elmo, Nebulosa de Relâmpagos, «Cura» e
+  Ressurreição.
+- Estados das habilidades: 21 de classe e 15 de monstros ganham o efeito ("o alvo sofre [Cambaleante]",
+  "[Deterioração: 6]"…).
+- Itens: 36 com bônus fixos, 43 com estados de início de cena (Anulação dos broches, cintos e talismãs) e 32
+  pratos que tiram Fadiga.
+- Tudo entra sozinho ao tirar algo dos compêndios. A nova ferramenta do Mestre **Completar os dados do
+  mundo** cuida do que já existe. Nada editado à mão é trocado.
+- Nova configuração: Completar os dados dos compêndios.
+
 ## 0.1.0 — 2026-10-17
 
 Primeira versão: Fase 1, o núcleo do combate.
