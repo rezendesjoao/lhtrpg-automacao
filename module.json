@@ -1,0 +1,60 @@
+{
+  "id": "lhtrpg-automacao",
+  "title": "Log Horizon TRPG — Automação",
+  "description": "Automação extra para o sistema Log Horizon TRPG, feita para mesas com muitos jogadores e combates simultâneos: custos de Ódio e Destino, limites de uso, Momento e economia de ações, Topo e Abaixo no Ódio por combate, Regeneração e Deterioração no Encerramento, estados que acabam no fim do Processo Principal, Incapacitado e fim de cena automáticos, botões de Destino e correções nos cartões de ataque e dano.",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "rezendesjoao",
+      "url": "https://github.com/rezendesjoao"
+    }
+  ],
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14.367"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "lhtrpg",
+        "type": "system",
+        "manifest": "https://github.com/DeadlyPoisonK/LHTTRPG/releases/latest/download/system.json",
+        "compatibility": {
+          "minimum": "2.1.0"
+        }
+      }
+    ],
+    "recommends": [
+      {
+        "id": "lhtrpg-pt-br",
+        "type": "module",
+        "reason": "Tradução do sistema Log Horizon TRPG para o português do Brasil."
+      }
+    ]
+  },
+  "esmodules": [
+    "scripts/main.mjs"
+  ],
+  "styles": [
+    "styles/automacao.css"
+  ],
+  "languages": [
+    {
+      "lang": "pt-BR",
+      "name": "Português (Brasil)",
+      "path": "lang/pt-BR.json"
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "url": "https://github.com/rezendesjoao/lhtrpg-automacao",
+  "manifest": "https://github.com/rezendesjoao/lhtrpg-automacao/releases/latest/download/module.json",
+  "download": "https://github.com/rezendesjoao/lhtrpg-automacao/releases/download/v0.1.0/lhtrpg-automacao.zip",
+  "bugs": "https://github.com/rezendesjoao/lhtrpg-automacao/issues",
+  "readme": "https://github.com/rezendesjoao/lhtrpg-automacao/blob/main/README.md",
+  "changelog": "https://github.com/rezendesjoao/lhtrpg-automacao/blob/main/CHANGELOG.md",
+  "license": "https://github.com/rezendesjoao/lhtrpg-automacao/blob/main/LICENSE.txt"
+}

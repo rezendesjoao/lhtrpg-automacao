@@ -1,0 +1,9 @@
+# Release build (attached to GitHub Releases, not committed)
+dist/
+
+# OS / editor
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/

@@ -1,0 +1,149 @@
+{
+  "LHAUTO": {
+    "Settings": {
+      "Mode": {
+        "off": "Desligado",
+        "warn": "Avisar e pedir confirmação",
+        "block": "Bloquear (o Mestre pode forçar)"
+      },
+      "costs": {
+        "Name": "Cobrar custos de Ódio e Destino",
+        "Hint": "Ao usar uma habilidade, soma o custo de Ódio (já com os descontos dos efeitos) e desconta o Destino. O Ódio só é cobrado em combate iniciado; o Destino, sempre. O cartão mostra o que foi pago e tem um botão para desfazer."
+      },
+      "limits": {
+        "Name": "Limites de uso",
+        "Hint": "Conta os usos das habilidades com limite (1/Cena, NH/Cenário, 1/Rodada…) por personagem. A cena termina quando o combate é encerrado ou pela ferramenta do Mestre; o cenário, só pela ferramenta."
+      },
+      "actions": {
+        "Name": "Momento e economia de ações",
+        "Hint": "Em combate, confere se a habilidade é usada na hora certa (Ação Maior, Menor, de Movimento e Instantânea no seu Processo Principal, Abertura na Abertura, Encerramento no Encerramento) e se a ação do Processo Principal já foi gasta."
+      },
+      "hatePerCombat": {
+        "Name": "Topo e Abaixo no Ódio por combate",
+        "Hint": "Marca [Topo de Ódio] e [Abaixo no Ódio] nos personagens de cada combate. Assim o +2 na esquiva e o dano de Ódio funcionam com vários combates ao mesmo tempo, e todos veem nos tokens quem está no Topo."
+      },
+      "cleanup": {
+        "Name": "Regeneração e Deterioração no Encerramento",
+        "Hint": "No Processo de Encerramento de cada rodada, cura a Regeneração e depois aplica a Deterioração (que passa pela Barreira). Posta um resumo no chat."
+      },
+      "endOfProcess": {
+        "Name": "Atordoado e Cambaleante acabam no fim do Processo Principal",
+        "Hint": "Pela regra, esses estados acabam quando termina o Processo Principal de quem os recebeu, a menos que esteja Aflito."
+      },
+      "incapacitated": {
+        "Name": "Incapacitado automático",
+        "Hint": "PV 0 (ou PV máximo 0 pela Fadiga) deixa o personagem Incapacitado, e quem fica Incapacitado vai a 0 PV. Incapacitados, Mortos e Ausentes passam a vez: vão direto para Pós-Ação."
+      },
+      "endOfScene": {
+        "Name": "Fim de cena ao encerrar o combate",
+        "Hint": "Ao encerrar um combate iniciado: os Aventureiros Incapacitados voltam com PV cheio, os inimigos Incapacitados morrem, e acabam os Estados Negativos e de Combate. Fadiga e Fraqueza continuam."
+      },
+      "revive": {
+        "Name": "Aventureiros mortos revivem no fim da cena",
+        "Hint": "Pela regra, um Aventureiro Morto revive no fim da cena com 1 PV e [Fadiga: PV máximo − 1]."
+      },
+      "cards": {
+        "Name": "Correções nos cartões de ataque e dano",
+        "Hint": "O dano fica ligado ao ataque certo, e o cartão de ataque ganha um botão de dano. O Aplicar não vale para quem ainda vai esquivar ou já esquivou, e pede confirmação antes de aplicar de novo. Cartões privados ficam visíveis aos donos dos alvos."
+      },
+      "fate": {
+        "Name": "Botões de Destino",
+        "Hint": "Gastam 1 Destino para: +1D no Teste de uma habilidade, rerrolar o acerto, a esquiva ou um teste comum, e remover um Estado Negativo (estrela ao lado do Destino na ficha)."
+      }
+    },
+    "Use": {
+      "ConfirmTitle": "Usar {name}?",
+      "ConfirmIntro": "Atenção:",
+      "ConfirmQuestion": "Usar mesmo assim?",
+      "UseAnyway": "Usar mesmo assim",
+      "Cancel": "Cancelar",
+      "Blocked": "{name} não pode ser usada agora. {reasons}",
+      "OutsideProcess": "Não é o seu Processo Principal.",
+      "OnlySetup": "Habilidades de Abertura só no Processo de Abertura.",
+      "OnlyCleanup": "Habilidades de Encerramento só no Processo de Encerramento.",
+      "OnlyBriefing": "Habilidades de Briefing só antes de o combate começar.",
+      "OnlyOutOfCombat": "Esta habilidade é usada fora de combate.",
+      "ActionSpent": {
+        "major": "A Ação Maior deste Processo Principal já foi usada.",
+        "minor": "A Ação Menor deste Processo Principal já foi usada.",
+        "move": "A Ação de Movimento deste Processo Principal já foi usada."
+      },
+      "LimitReached": "Limite atingido: {uses}/{max} {per}.",
+      "Per": {
+        "Scene": "por cena",
+        "Scenario": "por cenário",
+        "Round": "por rodada"
+      },
+      "NoFate": "Destino insuficiente: precisa de {need}, tem {have}.",
+      "Paid": {
+        "Hate": "Ódio +{n} (agora {total})",
+        "Fate": "Destino −{n} (resta {total})"
+      },
+      "Action": {
+        "major": "Ação Maior",
+        "minor": "Ação Menor",
+        "move": "Ação de Movimento"
+      },
+      "Uses": "Uso {n}/{max} {per}",
+      "Group": "Custo de grupo ({group}): os aliados pagam à parte",
+      "Forced": "Usada apesar dos avisos",
+      "Undo": "Desfazer uso",
+      "UndoHint": "Devolve o Ódio, o Destino, o uso e a ação. Os efeitos que a habilidade aplicou não são removidos.",
+      "Undone": "Uso desfeito."
+    },
+    "Cards": {
+      "RollDamage": "Rolar dano",
+      "PendingDodge": "{name} ainda não rolou a Esquiva: role no cartão de ataque antes de aplicar.",
+      "Dodged": "{name} esquivou desse ataque.",
+      "AgainTitle": "Aplicar de novo?",
+      "AlreadyApplied": "{name} já recebeu este dano ({result}). Aplicar de novo?",
+      "ApplyAgain": "Aplicar de novo"
+    },
+    "Fate": {
+      "ExtraDie": "Destino",
+      "ExtraDieButton": "+1D",
+      "ExtraDieHint": "Rola o Teste com +1D, gastando 1 Destino.",
+      "RerollHit": "Rerrolar o acerto (1 Destino)",
+      "RerollDodge": "Rerrolar a esquiva (1 Destino)",
+      "Reroll": "Rerrolar (1 Destino)",
+      "Rerolled": "rerrolado com Destino",
+      "WasRerolled": "Rerrolado com Destino.",
+      "HitRerolled": "Acerto rerrolado com Destino ({n}×)",
+      "None": "{name} não tem Destino.",
+      "UseHint": "Gastar 1 Destino para remover um Estado Negativo.",
+      "RemoveTitle": "Remover Estado Negativo",
+      "RemoveIntro": "Gaste 1 Destino para remover um Estado Negativo de {name} (Destino: {fate}).",
+      "AfflictedNote": "Aflito: Cambaleante, Atordoado, Confuso e Presunçoso só saem depois do Aflito.",
+      "NoBadStatus": "{name} não tem Estado Negativo para remover.",
+      "Remove": "Remover",
+      "Removed": "{name} gastou 1 Destino e removeu {status}. (Destino: {fate})"
+    },
+    "Round": {
+      "CleanupTitle": "Encerramento — Rodada {round}",
+      "Regen": "Regeneração +{n}",
+      "Decay": "Deterioração −{n}",
+      "Barrier": "(a Barreira absorveu {n})",
+      "Line": "{name}: {parts} → {hp}/{max} PV"
+    },
+    "Scene": {
+      "Title": "Fim de cena",
+      "Recovered": "{name} se recupera com PV cheio.",
+      "Revived": "{name} revive com 1 PV e Fadiga {fatigue}.",
+      "Died": "{name} morre."
+    },
+    "Tools": {
+      "Name": "Ferramentas do Mestre",
+      "Label": "Abrir",
+      "Hint": "Encerrar a cena ou o cenário de personagens (zera os limites de uso por cena e por cenário).",
+      "Title": "Log Horizon — Ferramentas do Mestre",
+      "Intro": "Os limites de uso por cena e por cenário contam por personagem. Encerrar um combate já encerra a cena de quem lutou; aqui você encerra as cenas fora de combate e os cenários.",
+      "SceneSelected": "Encerrar a cena dos tokens selecionados",
+      "ScenarioSelected": "Encerrar o cenário dos tokens selecionados",
+      "ScenarioAll": "Encerrar o cenário de todos os personagens",
+      "NoTokens": "Selecione os tokens primeiro.",
+      "Done": "{what}: {n} personagem(ns).",
+      "Scene": "Cena encerrada",
+      "Scenario": "Cenário encerrado"
+    }
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "LHAUTO": {
+    "Settings": {
+      "Mode": {
+        "off": "Off",
+        "warn": "Warn and ask to confirm",
+        "block": "Block (the GM can force it)"
+      },
+      "costs": {
+        "Name": "Pay Hate and Fate costs",
+        "Hint": "Using a skill adds its Hate cost (with the discounts of effects) and spends its Fate. Hate is only paid in a started combat; Fate always. The card shows what was paid and has an Undo button."
+      },
+      "limits": {
+        "Name": "Usage limits",
+        "Hint": "Counts the uses of skills with a limit (1/Scene, SR/Scenario, 1/Round…) per character. A scene ends when the combat ends or with the GM tool; a scenario only with the GM tool."
+      },
+      "actions": {
+        "Name": "Timing and action economy",
+        "Hint": "In combat, checks that a skill is used at the right time (Major, Minor, Move and Instant in your own Main Process, Setup in the Setup Process, Cleanup in the Cleanup Process) and that the Main Process action wasn't spent yet."
+      },
+      "hatePerCombat": {
+        "Name": "Hate Top and Hate Under per combat",
+        "Hint": "Puts [Hate Top] and [Hate Under] on the characters of every combat, so the +2 to Dodge and Hate Damage work with several combats at once, and everyone sees on the tokens who is Hate Top."
+      },
+      "cleanup": {
+        "Name": "Regen and Decay in the Cleanup Process",
+        "Hint": "In the Cleanup Process of every round, Regen heals, then Decay deals damage (through Barrier). A summary is posted in the chat."
+      },
+      "endOfProcess": {
+        "Name": "Dazed and Staggered end with the Main Process",
+        "Hint": "By the rules, these statuses end when the affected character's Main Process ends, unless it is Afflicted."
+      },
+      "incapacitated": {
+        "Name": "Automatic Incapacitated",
+        "Hint": "0 HP (or 0 Max HP from Fatigue) makes a character Incapacitated, and an Incapacitated character drops to 0 HP. Incapacitated, Dead and Absent combatants skip their turn (straight to Post-Action)."
+      },
+      "endOfScene": {
+        "Name": "End of scene when the combat ends",
+        "Hint": "When a started combat ends: Incapacitated Adventurers get back up with full HP, Incapacitated enemies die, and Bad and Combat Statuses end. Fatigue and Weakness stay."
+      },
+      "revive": {
+        "Name": "Dead Adventurers revive at the end of the scene",
+        "Hint": "By the rules, a Dead Adventurer revives at the end of the scene with 1 HP and [Fatigue: Max HP − 1]."
+      },
+      "cards": {
+        "Name": "Attack and damage card fixes",
+        "Hint": "Damage is tied to the right attack, and the attack card gets a damage button. Apply doesn't work on a target that still has to dodge or that dodged, and asks before applying again. Private cards are shown to the owners of the targets."
+      },
+      "fate": {
+        "Name": "Fate buttons",
+        "Hint": "Spend 1 Fate to: +1D to a skill's Check, reroll a Hit, Dodge or plain check, and remove a Bad Status (star next to Fate on the sheet)."
+      }
+    },
+    "Use": {
+      "ConfirmTitle": "Use {name}?",
+      "ConfirmIntro": "Careful:",
+      "ConfirmQuestion": "Use it anyway?",
+      "UseAnyway": "Use anyway",
+      "Cancel": "Cancel",
+      "Blocked": "{name} can't be used now. {reasons}",
+      "OutsideProcess": "It isn't your Main Process.",
+      "OnlySetup": "Setup skills only in the Setup Process.",
+      "OnlyCleanup": "Cleanup skills only in the Cleanup Process.",
+      "OnlyBriefing": "Briefing skills only before the combat starts.",
+      "OnlyOutOfCombat": "This skill is used outside combat.",
+      "ActionSpent": {
+        "major": "The Major Action of this Main Process was already used.",
+        "minor": "The Minor Action of this Main Process was already used.",
+        "move": "The Move Action of this Main Process was already used."
+      },
+      "LimitReached": "Limit reached: {uses}/{max} {per}.",
+      "Per": {
+        "Scene": "per scene",
+        "Scenario": "per scenario",
+        "Round": "per round"
+      },
+      "NoFate": "Not enough Fate: needs {need}, has {have}.",
+      "Paid": {
+        "Hate": "Hate +{n} (now {total})",
+        "Fate": "Fate −{n} ({total} left)"
+      },
+      "Action": {
+        "major": "Major Action",
+        "minor": "Minor Action",
+        "move": "Move Action"
+      },
+      "Uses": "Use {n}/{max} {per}",
+      "Group": "Group cost ({group}): the allies pay separately",
+      "Forced": "Used despite the warnings",
+      "Undo": "Undo use",
+      "UndoHint": "Gives back the Hate, the Fate, the use and the action. Effects the skill applied are not removed.",
+      "Undone": "Use undone."
+    },
+    "Cards": {
+      "RollDamage": "Roll damage",
+      "PendingDodge": "{name} hasn't rolled the Dodge yet: roll it on the attack card before applying.",
+      "Dodged": "{name} dodged this attack.",
+      "AgainTitle": "Apply again?",
+      "AlreadyApplied": "{name} already took this damage ({result}). Apply again?",
+      "ApplyAgain": "Apply again"
+    },
+    "Fate": {
+      "ExtraDie": "Fate",
+      "ExtraDieButton": "+1D",
+      "ExtraDieHint": "Roll the Check with +1D, spending 1 Fate.",
+      "RerollHit": "Reroll the hit (1 Fate)",
+      "RerollDodge": "Reroll the dodge (1 Fate)",
+      "Reroll": "Reroll (1 Fate)",
+      "Rerolled": "rerolled with Fate",
+      "WasRerolled": "Rerolled with Fate.",
+      "HitRerolled": "Hit rerolled with Fate ({n}×)",
+      "None": "{name} has no Fate.",
+      "UseHint": "Spend 1 Fate to remove a Bad Status.",
+      "RemoveTitle": "Remove a Bad Status",
+      "RemoveIntro": "Spend 1 Fate to remove one Bad Status of {name} (Fate: {fate}).",
+      "AfflictedNote": "Afflicted: Staggered, Dazed, Confused and Overconfident can only go after Afflicted.",
+      "NoBadStatus": "{name} has no Bad Status to remove.",
+      "Remove": "Remove",
+      "Removed": "{name} spent 1 Fate and removed {status}. (Fate: {fate})"
+    },
+    "Round": {
+      "CleanupTitle": "Cleanup — Round {round}",
+      "Regen": "Regen +{n}",
+      "Decay": "Decay −{n}",
+      "Barrier": "(Barrier absorbed {n})",
+      "Line": "{name}: {parts} → {hp}/{max} HP"
+    },
+    "Scene": {
+      "Title": "End of scene",
+      "Recovered": "{name} gets back up with full HP.",
+      "Revived": "{name} revives with 1 HP and Fatigue {fatigue}.",
+      "Died": "{name} dies."
+    },
+    "Tools": {
+      "Name": "GM tools",
+      "Label": "Open",
+      "Hint": "End the scene or the scenario of characters (resets the per-scene and per-scenario usage limits).",
+      "Title": "Log Horizon — GM tools",
+      "Intro": "Per-scene and per-scenario usage limits count per character. Ending a combat already ends the scene of those who fought; here you end scenes outside combat, and scenarios.",
+      "SceneSelected": "End the scene of the selected tokens",
+      "ScenarioSelected": "End the scenario of the selected tokens",
+      "ScenarioAll": "End the scenario of every character",
+      "NoTokens": "Select the tokens first.",
+      "Done": "{what}: {n} character(s).",
+      "Scene": "Scene ended",
+      "Scenario": "Scenario ended"
+    }
+  }
+}
