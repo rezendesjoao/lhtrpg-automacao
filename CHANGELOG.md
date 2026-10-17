@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.3 — 2026-10-17
+
+- Ficha de pergaminho, aba Inventário: o boneco. Uma figura humana desenhada a pena no centro, com os sete
+  espaços em volta, cada um ligado à parte do corpo que representa (acessórios na cabeça, no pescoço e nos
+  ombros, armadura no peito, bolsa no quadril, armas nas mãos). A linha fica cheia com o ponto dourado quando o
+  espaço está ocupado, e se destaca ao passar o mouse ou arrastar um item para o espaço. Os botões de cada item
+  equipado aparecem por cima do cartão ao passar o mouse.
+- A janela da ficha não fica mais estreita que 750px (o tamanho do boneco).
+
 ## 0.5.2 — 2026-10-17
 
 - Ficha de pergaminho: sai o título "Log Horizon" do topo do estandarte; o estandarte começa direto nos Pontos

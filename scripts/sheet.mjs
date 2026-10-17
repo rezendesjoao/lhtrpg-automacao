@@ -50,6 +50,32 @@ const ATTRIBUTES = [
 const COMBAT_CHECKS = ["accuracy", "evasion", "resistance"];
 const ITEM_TYPES = ["weapon", "armor", "shield", "accessory", "bag", "usable", "gear"];
 
+/**
+ * Paper doll of the inventory tab (templates/sheet/inventory.hbs): a 480×300 stage with the figure in the
+ * middle 160px, the slot cards (160×44) in the side columns, and a line from each card to the body part it
+ * stands for: accessories on the head, the neck and the shoulders, armor on the chest, the bag on the hip,
+ * the weapons in the hands.
+ */
+const DOLL = {
+  acc0: { side: "left", top: 6, point: [228, 30] },
+  acc1: { side: "left", top: 62, point: [239, 51] },
+  acc2: { side: "left", top: 118, point: [205, 70] },
+  main: { side: "left", top: 180, point: [193.5, 166] },
+  armor: { side: "right", top: 72, point: [255, 102] },
+  bag: { side: "right", top: 126, point: [261, 147] },
+  off: { side: "right", top: 180, point: [286.5, 166] }
+};
+const CARD = { width: 160, height: 44, elbow: 12 };
+
+/** Where a doll slot's card sits and the polyline from the card to its body point. */
+function dollPlace(pos) {
+  const { side, top, point: [x, y] } = DOLL[pos];
+  const cy = top + (CARD.height / 2);
+  const edge = (side === "left") ? CARD.width : 480 - CARD.width;
+  const knee = (side === "left") ? edge + CARD.elbow : edge - CARD.elbow;
+  return { side, top, x, y, line: `${edge},${cy} ${knee},${cy} ${x},${y}` };
+}
+
 /** "athletics" -> "Athletics" (the key the system's roll-check action localizes) */
 const checkName = key => key.charAt(0).toUpperCase() + key.slice(1);
 const signed = n => (n >= 0 ? `+${n}` : `${n}`);
@@ -222,14 +248,14 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
     // Inventory: equipment slots, carried items, space, gold
     const eq = context.items.equipped, hands = context.hands;
     lh.slots = [
-      { type: "hand", hand: "main", index: 0, icon: "weapon", label: "LHTRPG.Hands.Main", item: hands.main, swap: hands.canSwap },
-      { type: "hand", hand: "off", index: 0, icon: "shield", label: "LHTRPG.Hands.Off", item: hands.off, locked: hands.locked },
-      { type: "armor", index: 0, icon: "armor", label: "TYPES.Item.armor", item: eq.armors[0] },
-      { type: "bag", index: 0, icon: "bag", label: "TYPES.Item.bag", item: eq.bags[0] },
-      { type: "accessory", index: 0, icon: "accessory", label: "TYPES.Item.accessory", item: eq.accessories[0] },
-      { type: "accessory", index: 1, icon: "accessory", label: "TYPES.Item.accessory", item: eq.accessories[1] },
-      { type: "accessory", index: 2, icon: "accessory", label: "TYPES.Item.accessory", item: eq.accessories[2] }
-    ];
+      { pos: "main", type: "hand", hand: "main", index: 0, icon: "weapon", label: "LHTRPG.Hands.Main", item: hands.main, swap: hands.canSwap },
+      { pos: "off", type: "hand", hand: "off", index: 0, icon: "shield", label: "LHTRPG.Hands.Off", item: hands.off, locked: hands.locked },
+      { pos: "armor", type: "armor", index: 0, icon: "armor", label: "TYPES.Item.armor", item: eq.armors[0] },
+      { pos: "bag", type: "bag", index: 0, icon: "bag", label: "TYPES.Item.bag", item: eq.bags[0] },
+      { pos: "acc0", type: "accessory", index: 0, icon: "accessory", label: "TYPES.Item.accessory", item: eq.accessories[0] },
+      { pos: "acc1", type: "accessory", index: 1, icon: "accessory", label: "TYPES.Item.accessory", item: eq.accessories[1] },
+      { pos: "acc2", type: "accessory", index: 2, icon: "accessory", label: "TYPES.Item.accessory", item: eq.accessories[2] }
+    ].map(slot => ({ ...slot, doll: dollPlace(slot.pos), filled: !!(slot.item || slot.locked) }));
     const items = context.items;
     const space = toInt(system.inventory?.space), maxSpace = toInt(system.inventory?.maxSpace);
     lh.carried = [].concat(items.weapons, items.armors, items.shields, items.accessories, items.bags, items.usables, items.gear)

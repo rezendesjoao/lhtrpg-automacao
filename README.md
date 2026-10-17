@@ -28,9 +28,11 @@ Ela usa toda a lógica da ficha do sistema (equipar, rolar, tíquetes, efeitos, 
 - **Habilidades:** Básicas, Gerais e de Combate, agrupadas pelo Momento (Ação Maior, Menor, Movimento,
   Instantânea, Reações, Abertura, Encerramento, Constantes…), com NH, custo e limite. Clique na imagem para usar
   e no nome para abrir os detalhes ali mesmo; o botão Procurar abre o navegador de habilidades.
-- **Inventário:** a riqueza com receber e gastar ouro (registrado no chat) e dar ouro; os sete espaços
-  equipados (mão principal, mão secundária, armadura, bolsa e três acessórios), para onde se arrasta o item; a
-  lista do que se carrega, os tíquetes e a barra de espaço da bolsa.
+- **Inventário:** a riqueza com receber e gastar ouro (registrado no chat) e dar ouro; o boneco: uma figura
+  humana desenhada a pena, com os sete espaços em volta, cada um ligado por uma linha à parte do corpo que
+  representa (acessórios na cabeça, no pescoço e nos ombros, armadura no peito, bolsa no quadril, armas nas
+  mãos). A linha fica cheia e o ponto dourado quando o espaço está ocupado, e se destaca ao passar o mouse ou ao
+  arrastar um item para o espaço. Depois vêm a lista do que se carrega, os tíquetes e a barra de espaço da bolsa.
 - **Efeitos e estados:** os efeitos temporários, passivos e inativos com fonte e duração, e o quadro de estados.
 - **Biografia:** o texto, as Conexões e as Uniões.
 
@@ -232,7 +234,8 @@ Foundry 14.367, `lhtrpg` 2.1.0 e `lhtrpg-pt-br` 1.0.0. Cenários testados num mu
 - A leitura do dano dos 75 ataques do bestiário dá o mesmo resultado no texto em inglês e no texto traduzido
   pelo `lhtrpg-pt-br`.
 - Ficha de pergaminho: todas as abas; Destino pelas estrelas, Barreira, Ódio e PV editados no estandarte;
-  rolagem de teste; receber e gastar ouro com o registro no chat; equipar e desequipar; criar conexão; detalhes
+  rolagem de teste; receber e gastar ouro com o registro no chat; equipar e desequipar, inclusive arrastando
+  para os espaços do boneco; criar conexão; detalhes
   de habilidade abertos e mantidos entre atualizações; usar habilidade pela imagem (com os avisos de ação);
   nenhum erro no console. No chat, o cartão de habilidade com o uso registrado, o Teste e o botão de Destino.
 

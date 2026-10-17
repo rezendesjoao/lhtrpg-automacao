@@ -30,7 +30,7 @@
   --pf-sans: "Signika", "Roboto", sans-serif;
   --pf-condensed: "Modesto Condensed", "LHA Eczar", serif;
   --pf-frame-elegant: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='33' height='33'%3E%3Cg fill='none' stroke='%23231f20' stroke-opacity='.3'%3E%3Cpath d='M.5.5h32v32H.5z'/%3E%3Cpath d='M3.5 10V3.5H10M23 3.5h6.5V10M29.5 23v6.5H23M10 29.5H3.5V23'/%3E%3C/g%3E%3C/svg%3E");
-  min-width: 660px;
+  min-width: 750px; /* the paper doll of the inventory is 480px wide */
   min-height: 560px;
 }
 
@@ -1527,42 +1527,138 @@
   color: #fff;
 }
 
-/* Equipment slots */
-.lhpf .lhpf-slots {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px 8px;
-  margin: 0 0 12px;
+/* Equipment: the paper doll (figure in the middle, slot cards around it, a line to each body part) */
+.lhpf .lhpf-doll {
+  position: relative;
+  width: 480px;
+  height: 300px;
+  margin: 0 auto 14px;
+}
+.lhpf .lhpf-doll-art {
+  position: absolute;
+  inset: 0;
+  width: 480px;
+  height: 300px;
+  overflow: visible;
+  pointer-events: none;
+}
+.lhpf .lhpf-doll-art .halo circle {
+  fill: none;
+  stroke: rgba(138, 109, 31, 0.26);
+  stroke-width: 1;
+}
+.lhpf .lhpf-doll-art .halo circle.inner {
+  stroke-width: 0.6;
+}
+.lhpf .lhpf-doll-art .figure .body {
+  fill: url(#lhpf-doll-skin);
+  stroke: #3e3a2c;
+  stroke-width: 1.25;
+  stroke-linejoin: round;
+}
+.lhpf .lhpf-doll-art .figure .details {
+  fill: none;
+  stroke: rgba(62, 58, 44, 0.42);
+  stroke-width: 0.8;
+  stroke-linecap: round;
+}
+.lhpf .lhpf-doll-art .figure .ground {
+  fill: rgba(60, 50, 30, 0.16);
+}
+.lhpf .lhpf-doll-art .link polyline {
+  fill: none;
+  stroke: rgba(89, 85, 75, 0.55);
+  stroke-width: 1;
+  stroke-dasharray: 2.5 2.5;
+  transition: stroke 0.15s ease-out, stroke-width 0.15s ease-out;
+}
+.lhpf .lhpf-doll-art .link circle {
+  fill: #f4ecd8;
+  stroke: rgba(89, 85, 75, 0.75);
+  stroke-width: 1;
+  transition: r 0.15s ease-out, fill 0.15s ease-out;
+}
+.lhpf .lhpf-doll-art .link.filled polyline {
+  stroke: var(--pf-primary);
+  stroke-width: 1.1;
+  stroke-dasharray: none;
+}
+.lhpf .lhpf-doll-art .link.filled circle {
+  r: 3.4;
+  fill: #c9a94e;
+  stroke: var(--pf-primary);
+}
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="acc0"]:is(:hover, .drag-over)) .link[data-pos="acc0"],
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="acc1"]:is(:hover, .drag-over)) .link[data-pos="acc1"],
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="acc2"]:is(:hover, .drag-over)) .link[data-pos="acc2"],
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="main"]:is(:hover, .drag-over)) .link[data-pos="main"],
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="armor"]:is(:hover, .drag-over)) .link[data-pos="armor"],
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="bag"]:is(:hover, .drag-over)) .link[data-pos="bag"],
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="off"]:is(:hover, .drag-over)) .link[data-pos="off"] {
+  filter: drop-shadow(0 0 2px rgba(201, 169, 78, 0.6));
+}
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="acc0"]:is(:hover, .drag-over)) .link[data-pos="acc0"] polyline,
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="acc1"]:is(:hover, .drag-over)) .link[data-pos="acc1"] polyline,
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="acc2"]:is(:hover, .drag-over)) .link[data-pos="acc2"] polyline,
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="main"]:is(:hover, .drag-over)) .link[data-pos="main"] polyline,
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="armor"]:is(:hover, .drag-over)) .link[data-pos="armor"] polyline,
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="bag"]:is(:hover, .drag-over)) .link[data-pos="bag"] polyline,
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="off"]:is(:hover, .drag-over)) .link[data-pos="off"] polyline {
+  stroke: #a8862f;
+  stroke-width: 2;
+  stroke-dasharray: none;
+}
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="acc0"]:is(:hover, .drag-over)) .link[data-pos="acc0"] circle,
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="acc1"]:is(:hover, .drag-over)) .link[data-pos="acc1"] circle,
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="acc2"]:is(:hover, .drag-over)) .link[data-pos="acc2"] circle,
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="main"]:is(:hover, .drag-over)) .link[data-pos="main"] circle,
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="armor"]:is(:hover, .drag-over)) .link[data-pos="armor"] circle,
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="bag"]:is(:hover, .drag-over)) .link[data-pos="bag"] circle,
+.lhpf .lhpf-doll:has(.lhpf-slot[data-pos="off"]:is(:hover, .drag-over)) .link[data-pos="off"] circle {
+  r: 4.4;
+  fill: #e9d7a1;
+  stroke: #8a6d1f;
 }
 .lhpf .lhpf-slot {
-  position: relative;
+  position: absolute;
   display: flex;
   align-items: stretch;
-  min-height: 46px;
+  width: 160px;
+  height: 44px;
   border: 3px double transparent;
   border-image: var(--pf-frame-elegant) 11 / 14px repeat;
-  transition: background-color 0.15s ease-out;
+  background: rgba(248, 244, 236, 0.82);
+  transition: background-color 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+.lhpf .lhpf-slot.left {
+  left: 0;
+}
+.lhpf .lhpf-slot.right {
+  left: 320px;
+}
+.lhpf .lhpf-slot:hover {
+  background: rgba(255, 252, 244, 0.95);
 }
 .lhpf .lhpf-slot > .item,
 .lhpf .lhpf-slot > .empty-slot {
   display: flex;
   flex: 1;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   min-width: 0;
-  padding: 2px 6px;
+  padding: 0 4px;
 }
 .lhpf .lhpf-slot .item-image {
-  flex-basis: 32px;
-  width: 32px;
-  height: 32px;
+  flex-basis: 28px;
+  width: 28px;
+  height: 28px;
 }
 .lhpf .lhpf-slot .item-image.placeholder {
   background: rgba(28, 28, 28, 0.07);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.18), inset 0 0 4px rgba(0, 0, 0, 0.18);
 }
 .lhpf .lhpf-slot .item-image.placeholder img {
-  padding: 5px;
+  padding: 4px;
   filter: brightness(0);
   opacity: 0.32;
   object-fit: contain;
@@ -1583,7 +1679,7 @@
 .lhpf .lhpf-slot .name {
   overflow: hidden;
   color: var(--pf-text);
-  font: 500 14px/1.2 var(--pf-serif);
+  font: 500 13px/1.2 var(--pf-serif);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -1592,28 +1688,42 @@
 }
 .lhpf .lhpf-slot .name.empty {
   color: rgba(28, 28, 28, 0.38);
-  font: italic 400 13px/1.2 var(--pf-body);
+  font: italic 400 12px/1.2 var(--pf-body);
 }
+/* controls float above the card's top edge on hover, so the name keeps its width */
 .lhpf .lhpf-slot .item-controls {
+  position: absolute;
+  top: -12px;
+  right: 6px;
+  z-index: 2;
+  gap: 6px;
+  padding: 2px 6px;
+  border: 1px solid var(--pf-divider);
+  border-radius: 3px;
+  background: var(--pf-bg);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.15s ease-out;
 }
 .lhpf .lhpf-slot:hover .item-controls,
 .lhpf .lhpf-slot .item-controls:focus-within {
   opacity: 1;
+  pointer-events: auto;
 }
 .lhpf .lhpf-slot .hand-swap {
   color: var(--pf-primary);
 }
 .lhpf .lhpf-slot.drag-over {
-  background: rgba(201, 169, 78, 0.24);
+  background: rgba(233, 215, 161, 0.75);
+  box-shadow: 0 0 8px rgba(201, 169, 78, 0.6);
 }
 .lhpf .lhpf-slot.locked .item-image img {
   filter: grayscale(0.8) opacity(0.6);
 }
 .lhpf .lhpf-slot.locked .name {
   color: var(--pf-text-soft);
-  font-size: 13px;
+  font-size: 12px;
 }
 
 /* Carried items */
