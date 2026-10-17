@@ -611,7 +611,7 @@
 .lhpf nav.lhpf-nav {
   grid-area: nav;
   position: relative;
-  z-index: 1;
+  z-index: 3; /* the round icons stick out of the band: above the sub-navigation bars below */
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.1 — 2026-10-17
+
+- Ficha de pergaminho: nas abas com sub-barra (Habilidades, Efeitos e estados, Biografia), os ícones redondos
+  das abas ficavam cortados por baixo da sub-barra. Agora ficam por cima.
+
 ## 0.5.0 — 2026-10-17
 
 A ficha de pergaminho: uma ficha nova, do tamanho e com a organização da ficha de Pathfinder 2e.
