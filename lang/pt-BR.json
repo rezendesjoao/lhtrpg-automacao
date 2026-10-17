@@ -53,6 +53,14 @@
       "content": {
         "Name": "Completar os dados dos compêndios",
         "Hint": "Habilidades, itens e monstros tirados dos compêndios do sistema recebem o que só existia no texto: dano dos ataques de monstro, dano e cura de habilidades, estados que as habilidades causam, bônus fixos dos itens, estados de início de cena e a Fadiga que a comida remove. Só completa o que falta; nada editado à mão é trocado."
+      },
+      "sheetDefault": {
+        "Name": "Ficha Elder Tale como padrão",
+        "Hint": "Faz da ficha Elder Tale a ficha padrão dos personagens. Cada ficha ainda pode voltar à ficha do sistema pelo menu de configuração da janela. Pede recarregar."
+      },
+      "chatTheme": {
+        "Name": "Tema Elder Tale no chat",
+        "Hint": "Cartões de habilidade, ataque, dano e as rolagens com o visual Elder Tale, com o retrato de quem fala."
       }
     },
     "Use": {
@@ -157,6 +165,34 @@
     },
     "Content": {
       "Fed": "Fadiga −{amount}: {names}"
+    },
+    "Sheet": {
+      "Label": "Ficha Elder Tale (Automação)",
+      "Attr": {
+        "str": "FOR",
+        "dex": "DES",
+        "pow": "POD",
+        "int": "INT"
+      },
+      "Readout": {
+        "atk": "Ataque",
+        "mag": "Mágico",
+        "rec": "Recuperação",
+        "def": "Def. Física",
+        "mdef": "Def. Mágica",
+        "init": "Iniciativa",
+        "spd": "Velocidade"
+      },
+      "Hate": {
+        "top": "Topo de Ódio",
+        "under": "Abaixo no Ódio"
+      },
+      "FatigueHint": "Reduz o PV máximo",
+      "SpaceHint": "Espaços de inventário usados",
+      "GoldAdd": "Receber ouro",
+      "GoldSpend": "Gastar ouro",
+      "GoldGained": "{name} recebeu {amount} G (total: {total} G).",
+      "GoldSpent": "{name} gastou {amount} G (total: {total} G)."
     }
   }
 }

@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.3.0 — 2026-10-17
+
+A ficha e o chat no visual Elder Tale.
+
+- **Ficha Elder Tale**: nova ficha de personagem (padrão; a do sistema continua disponível na
+  configuração da janela). Janela de vidro escuro com luz ciano, retrato hexagonal, emblema da classe,
+  barras de PV e Ódio, estrelas de Destino, chips dos estados ativos, leitura de Ataque/Mágico/
+  Recuperação/Defesas/Iniciativa, atributos em hexágonos com as perícias roláveis ao lado, radar dos
+  atributos, habilidades em cartões coloridos pelo Momento com os pontos de NH, efeitos e estados
+  reorganizados, boneco de equipamento com os sete espaços ligados ao corpo, grade de inventário com
+  barra de capacidade e a bolsa de moedas com pilhas por casa decimal e botões de receber/gastar (com
+  registro no chat).
+- **Tema do chat**: cartões de habilidade, ataque, dano, aplicação, fases e os do módulo no mesmo
+  visual, retrato de quem fala, dados como faces (6 em ouro, 1 em vermelho), total em destaque,
+  acerto/erro/pendente com cores e o crítico brilhando.
+- Fontes Cinzel e Source Sans 3 (OFL) incluídas.
+- Com o `lhtrpg-pt-br` ativo, os cartões de habilidade da ficha mostram Momento, Alvo, Alcance, Custo
+  e Limite em português.
+- Novas configurações: Ficha Elder Tale como padrão; Tema Elder Tale no chat.
+
 ## 0.2.0 — 2026-10-17
 
 Fase 2: o conteúdo dos compêndios. O que só existia no texto vira dado.

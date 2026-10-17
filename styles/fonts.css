@@ -1,0 +1,21 @@
+/* Fonts of the Elder Tale theme (SIL Open Font License, see fonts/OFL-*.txt) */
+@font-face {
+  font-family: "ET Cinzel";
+  src: url("../fonts/Cinzel-VF.ttf") format("truetype");
+  font-weight: 400 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ET Sans";
+  src: url("../fonts/SourceSans3-VF.ttf") format("truetype");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ET Sans";
+  src: url("../fonts/SourceSans3-Italic-VF.ttf") format("truetype");
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+}

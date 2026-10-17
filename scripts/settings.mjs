@@ -43,6 +43,16 @@ export function registerSettings() {
   toggle("cards");
   toggle("fate");
   toggle("content");
+  game.settings.register(MODULE_ID, "sheetDefault", {
+    name: "LHAUTO.Settings.sheetDefault.Name",
+    hint: "LHAUTO.Settings.sheetDefault.Hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    requiresReload: true
+  });
+  toggle("chatTheme");
 }
 
 /** A setting's value (null before the settings exist). */

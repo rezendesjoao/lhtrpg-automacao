@@ -1,8 +1,8 @@
 {
   "id": "lhtrpg-automacao",
   "title": "Log Horizon TRPG — Automação",
-  "description": "Automação extra para o sistema Log Horizon TRPG, feita para mesas com muitos jogadores e combates simultâneos: custos de Ódio e Destino, limites de uso, Momento e economia de ações, Topo e Abaixo no Ódio por combate, Regeneração e Deterioração no Encerramento, Incapacitado e fim de cena automáticos, botões de Destino, correções nos cartões de ataque e dano, e os dados que os compêndios só tinham em texto: dano dos ataques de monstro, dano e estados das habilidades, bônus e estados dos itens e comida contra Fadiga.",
-  "version": "0.2.0",
+  "description": "Automação extra e o visual Elder Tale para o sistema Log Horizon TRPG, feitos para mesas com muitos jogadores e combates simultâneos: ficha de personagem nova (boneco de equipamento, bolsa de moedas, radar de atributos, cartões de habilidade), tema do chat, custos de Ódio e Destino, limites de uso, economia de ações, Ódio por combate, Encerramento, Incapacitado e fim de cena automáticos, botões de Destino, correções nos cartões de ataque e dano, e os dados que os compêndios só tinham em texto.",
+  "version": "0.3.0",
   "authors": [
     {
       "name": "rezendesjoao",
@@ -36,7 +36,10 @@
     "scripts/main.mjs"
   ],
   "styles": [
-    "styles/automacao.css"
+    "styles/fonts.css",
+    "styles/automacao.css",
+    "styles/sheet.css",
+    "styles/chat.css"
   ],
   "languages": [
     {
@@ -52,7 +55,7 @@
   ],
   "url": "https://github.com/rezendesjoao/lhtrpg-automacao",
   "manifest": "https://github.com/rezendesjoao/lhtrpg-automacao/releases/latest/download/module.json",
-  "download": "https://github.com/rezendesjoao/lhtrpg-automacao/releases/download/v0.2.0/lhtrpg-automacao.zip",
+  "download": "https://github.com/rezendesjoao/lhtrpg-automacao/releases/download/v0.3.0/lhtrpg-automacao.zip",
   "bugs": "https://github.com/rezendesjoao/lhtrpg-automacao/issues",
   "readme": "https://github.com/rezendesjoao/lhtrpg-automacao/blob/main/README.md",
   "changelog": "https://github.com/rezendesjoao/lhtrpg-automacao/blob/main/CHANGELOG.md",

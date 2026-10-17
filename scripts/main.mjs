@@ -22,6 +22,8 @@ import { registerFate, removeBadStatus, spendFate } from "./fate.mjs";
 import { endScene, registerScenes } from "./scenes.mjs";
 import { fillWorld, registerContent } from "./content.mjs";
 import { parseMonsterDamage } from "./content/monster-damage.mjs";
+import { ElderTaleSheet, registerSheet } from "./sheet.mjs";
+import { registerChat } from "./chat.mjs";
 
 Hooks.once("init", () => {
   if (game.system.id !== "lhtrpg") return;
@@ -33,9 +35,12 @@ Hooks.once("init", () => {
   registerCards();
   registerFate();
   registerContent();
+  registerSheet();
+  registerChat();
 
   // For macros and other modules.
   game.modules.get(MODULE_ID).api = {
+    ElderTaleSheet,
     endScene,
     endScenario: actors => endScene(actors, { scenario: true }),
     fillWorld,

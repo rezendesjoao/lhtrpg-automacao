@@ -1,0 +1,453 @@
+{{!-- Elder Tale character sheet (lhtrpg-automacao). Keeps every selector and data-action the system's
+     sheet logic relies on (see scripts/sheet.mjs); the look is in styles/sheet.css. --}}
+
+{{#*inline "etSlot"}}
+<div class="equip-slot et-slot et-slot--{{pos}}{{#if item}} filled{{/if}}{{#if locked}} locked{{/if}}" data-slot-type="{{type}}" data-slot-index="{{index}}"{{#if hand}} data-hand="{{hand}}"{{/if}}>
+	{{#if swap}}<a class="hand-swap et-slot-swap" data-action="hand-swap" data-tooltip="LHTRPG.Hands.Swap"><i class="fa-solid fa-right-left"></i></a>{{/if}}
+	{{#if item}}
+	<div class="item equipped draggable et-slot-item" data-item-id="{{item._id}}">
+		<a class="item-control item-edit et-slot-img" data-action="item-edit" data-tooltip="{{item.name}}"><img src="{{item.img}}" alt=""></a>
+		{{#if item.system.linkedSkillUuid}}<a class="item-control linked-skill-throw-badge et-slot-badge" data-action="linked-skill-throw" data-tooltip="LHTRPG.Item.Label.ThrowToChat"><i class="fa-solid fa-comment-dots"></i></a>{{/if}}
+		<div class="et-slot-controls">
+			<a class="item-control" data-action="item-equip" data-tooltip="LHTRPG.Label.Equip"><i class="fa-solid fa-shirt"></i></a>
+			<a class="item-control" data-action="item-give" data-tooltip="LHTRPG.Piles.GiveTo"><i class="fa-solid fa-hand-holding"></i></a>
+			<a class="item-control" data-action="item-delete" data-tooltip="LHTRPG.ButtonLabel.Delete"><i class="fa-solid fa-trash"></i></a>
+		</div>
+	</div>
+	{{else if locked}}
+	<div class="empty-slot locked-slot et-slot-empty" data-tooltip="{{localize 'LHTRPG.Hands.Locked' weapon=locked.name}}"><img src="{{locked.img}}" alt=""><i class="fa-solid fa-lock"></i></div>
+	{{else}}
+	<div class="empty-slot et-slot-empty"><img src="systems/lhtrpg/assets/ui/items_icons/{{icon}}.svg" alt=""></div>
+	{{/if}}
+	<span class="slot-label et-slot-label">{{localize label}}</span>
+	{{#if item}}<span class="et-slot-name" title="{{item.name}}">{{item.name}}</span>{{/if}}
+</div>
+{{/inline}}
+
+{{#*inline "etCheck"}}
+<a class="et-check{{#if big}} et-check--big{{/if}} rollableSkill" data-action="roll-check" data-name="{{name}}" data-dice="{{dice}}" data-bonus="{{total}}" data-tooltip="{{localize 'LHTRPG.ButtonLabel.Roll'}}">
+	<span class="et-check-label">{{label}}</span>
+	<span class="et-check-value"><b>{{total}}</b><i>+{{dice}}D</i></span>
+</a>
+{{/inline}}
+
+<div class="et-sheet" data-hp-state="{{et.hp.state}}">
+
+	{{!-- ============================ HEADER ============================ --}}
+	<header class="et-header">
+		<div class="et-portrait">
+			<div class="et-portrait-ring"></div>
+			<img class="et-portrait-img" src="{{actor.img}}" data-action="editImage" data-edit="img" alt="{{actor.name}}">
+		</div>
+
+		<div class="et-identity">
+			<div class="et-name-row">
+				<input class="et-name" name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'LHTRPG.Placeholder.Name'}}">
+				<div class="et-rank">
+					<span class="et-rank-label">NP</span>
+					<input class="et-rank-input{{#if modified.crank}} has-effect{{/if}}" type="text" name="system.infos.crank" value="{{source.infos.crank}}" data-dtype="Number" maxlength="3"{{#if modified.crank}} data-tooltip="{{modified.crank.tooltip}}"{{/if}}>
+					{{#if editable}}<button type="button" class="et-rank-up" data-action="rank-up" data-tooltip="LHTRPG.RankUp.Tooltip"><i class="fa-solid fa-angles-up"></i></button>{{/if}}
+				</div>
+			</div>
+			<div class="et-fields">
+				<div class="et-field">
+					<span class="et-field-label">{{localize 'LHTRPG.Label.Race'}}</span>
+					{{> "systems/lhtrpg/templates/actor/parts/actor-option.html" type="race" option=characterOptions.race placeholder=(localize 'LHTRPG.Placeholder.Race')}}
+				</div>
+				<div class="et-field">
+					<span class="et-field-label">{{localize 'LHTRPG.Placeholder.Class'}}</span>
+					{{> "systems/lhtrpg/templates/actor/parts/actor-option.html" type="class" option=characterOptions.class placeholder=(localize 'LHTRPG.Placeholder.Class')}}
+				</div>
+				<div class="et-field">
+					<span class="et-field-label">{{localize 'LHTRPG.Placeholder.SubClass'}}</span>
+					{{> "systems/lhtrpg/templates/actor/parts/actor-option.html" type="subclass" option=characterOptions.subclass placeholder=(localize 'LHTRPG.Placeholder.SubClass')}}
+				</div>
+				<div class="et-field et-field--guild">
+					<span class="et-field-label">{{localize 'LHTRPG.Label.Guild'}}</span>
+					<input class="et-guild" type="text" name="system.social.guild" value="{{source.social.guild}}" placeholder="—">
+				</div>
+			</div>
+			{{#if et.statuses.length}}
+			<div class="et-status-chips">
+				{{#each et.statuses}}<span class="et-chip et-chip--{{id}}" data-tooltip="{{label}}"><img src="{{img}}" alt=""><span>{{label}}</span></span>{{/each}}
+			</div>
+			{{/if}}
+		</div>
+
+		<div class="et-emblem" data-action="class-img" data-tooltip="{{characterOptions.class.name}}">
+			<img src="{{classImg}}" alt="">
+		</div>
+	</header>
+
+	{{!-- ============================ VITALS ============================ --}}
+	<section class="et-vitals">
+		<div class="et-vital et-vital--hp" style="--pct: {{et.hp.pct}}%">
+			<div class="et-vital-head">
+				<span class="et-vital-label">{{localize 'LHTRPG.Label.HP'}}</span>
+				<span class="et-vital-values">
+					<input class="et-vital-input{{#if modified.hpValue}} has-effect{{/if}}" type="text" name="system.health.value" value="{{source.health.value}}" data-dtype="Number" maxlength="3"{{#if modified.hpValue}} data-tooltip="{{modified.hpValue.tooltip}}"{{/if}}>
+					<span class="et-vital-sep">/</span>
+					<span class="et-vital-max">{{system.health.max}}</span>
+				</span>
+			</div>
+			<div class="et-bar"><div class="et-bar-fill"></div><div class="et-bar-segments"></div></div>
+		</div>
+
+		<div class="et-vital et-vital--fate fate">
+			<div class="et-vital-head">
+				<h4 class="et-vital-label">{{localize 'LHTRPG.Label.Fate'}}</h4>
+				<span class="et-vital-values">
+					<input class="et-vital-input{{#if modified.fateValue}} has-effect{{/if}}" type="text" name="system.fate.value" value="{{source.fate.value}}" data-dtype="Number" maxlength="2"{{#if modified.fateValue}} data-tooltip="{{modified.fateValue.tooltip}}"{{/if}}>
+					<span class="et-vital-sep">/</span>
+					<span class="et-vital-max">{{system.fate.max}}</span>
+				</span>
+			</div>
+			<div class="et-pips">{{#each et.fate.pips}}<span class="et-pip{{#if this}} on{{/if}}"><i class="fa-solid fa-star"></i></span>{{/each}}</div>
+		</div>
+
+		<div class="et-vital et-vital--hate{{#if et.hate.rank}} et-hate--{{et.hate.rank}}{{/if}}" style="--pct: {{et.hate.pct}}%">
+			<div class="et-vital-head">
+				<span class="et-vital-label">{{localize 'LHTRPG.Label.Hate'}}</span>
+				<span class="et-vital-values">
+					<input class="et-vital-input{{#if modified.hate}} has-effect{{/if}}" type="text" name="system.infos.hate" value="{{source.infos.hate}}" data-dtype="Number" maxlength="3"{{#if modified.hate}} data-tooltip="{{modified.hate.tooltip}}"{{/if}}>
+				</span>
+			</div>
+			<div class="et-bar et-bar--hate"><div class="et-bar-fill"></div></div>
+			{{#if et.hate.rank}}<span class="et-hate-rank">{{et.hate.rankLabel}}</span>{{/if}}
+		</div>
+
+		<div class="et-vital et-vital--fatigue">
+			<div class="et-vital-head">
+				<span class="et-vital-label">{{localize 'LHTRPG.Label.Fatigue'}}</span>
+				<span class="et-vital-values">
+					<input class="et-vital-input{{#if modified.fatigue}} has-effect{{/if}}" type="text" name="system.infos.fatigue" value="{{source.infos.fatigue}}" data-dtype="Number" maxlength="3"{{#if modified.fatigue}} data-tooltip="{{modified.fatigue.tooltip}}"{{/if}}>
+				</span>
+			</div>
+			<div class="et-vital-hint">{{localize 'LHAUTO.Sheet.FatigueHint'}}</div>
+		</div>
+	</section>
+
+	{{!-- ============================ BODY ============================ --}}
+	<div class="et-body">
+		<nav class="et-rail tabs" data-group="primary">
+			<a class="et-rail-tab" data-action="tab" data-group="primary" data-tab="stats" data-tooltip="{{localize 'LHTRPG.Stats.Label'}}"><i class="fa-solid fa-chart-simple"></i><span>{{localize 'LHTRPG.Stats.Label'}}</span></a>
+			<a class="et-rail-tab" data-action="tab" data-group="primary" data-tab="skills" data-tooltip="{{localize 'LHTRPG.Monster.Skills'}}"><i class="fa-solid fa-wand-sparkles"></i><span>{{localize 'LHTRPG.Monster.Skills'}}</span></a>
+			<a class="et-rail-tab" data-action="tab" data-group="primary" data-tab="items" data-tooltip="{{localize 'LHTRPG.Label.Items'}}"><i class="fa-solid fa-shield-halved"></i><span>{{localize 'LHTRPG.Label.Items'}}</span></a>
+			<a class="et-rail-tab" data-action="tab" data-group="primary" data-tab="bio" data-tooltip="{{localize 'LHTRPG.Biography.Title'}}"><i class="fa-solid fa-book-open"></i><span>{{localize 'LHTRPG.Biography.Label'}}</span></a>
+		</nav>
+
+		<main class="et-main">
+
+			{{!-- ---------- STATS ---------- --}}
+			<section class="tab et-tab" data-group="primary" data-tab="stats">
+				<nav class="et-subtabs tabs" data-group="stats">
+					<a data-action="tab" data-group="stats" data-tab="stats">{{localize 'LHTRPG.Stats.Label'}}</a>
+					<a data-action="tab" data-group="stats" data-tab="effects">{{localize 'LHTRPG.Effect.Label'}}</a>
+					<a data-action="tab" data-group="stats" data-tab="status">{{localize 'LHTRPG.Status.Label'}}</a>
+				</nav>
+
+				<div class="tab et-subtab" data-group="stats" data-tab="stats">
+					<div class="et-readouts">
+						<div class="et-readout et-readout--atk" data-tooltip="{{localize 'LHTRPG.Tooltip.AttackPower'}}"><img src="systems/lhtrpg/assets/ui/attack.svg" alt=""><b>{{system.battle-status.power.attack.total}}</b><span>{{localize 'LHAUTO.Sheet.Readout.atk'}}</span></div>
+						<div class="et-readout et-readout--mag" data-tooltip="{{localize 'LHTRPG.Tooltip.MagicPower'}}"><img src="systems/lhtrpg/assets/ui/magic.svg" alt=""><b>{{system.battle-status.power.magic.total}}</b><span>{{localize 'LHAUTO.Sheet.Readout.mag'}}</span></div>
+						<div class="et-readout et-readout--rec" data-tooltip="{{localize 'LHTRPG.Tooltip.RestorationPower'}}"><img src="systems/lhtrpg/assets/ui/resto.svg" alt=""><b>{{system.battle-status.power.restoration.total}}</b><span>{{localize 'LHAUTO.Sheet.Readout.rec'}}</span></div>
+						<div class="et-readout-gap"></div>
+						<div class="et-readout et-readout--def" data-tooltip="{{localize 'LHTRPG.Tooltip.PhysDefense'}}"><img src="systems/lhtrpg/assets/ui/phys-def.svg" alt=""><b>{{system.battle-status.defense.phys.total}}</b><span>{{localize 'LHAUTO.Sheet.Readout.def'}}</span></div>
+						<div class="et-readout et-readout--mdef" data-tooltip="{{localize 'LHTRPG.Tooltip.MagicDefense'}}"><img src="systems/lhtrpg/assets/ui/magic-def.svg" alt=""><b>{{system.battle-status.defense.magic.total}}</b><span>{{localize 'LHAUTO.Sheet.Readout.mdef'}}</span></div>
+						<div class="et-readout-gap"></div>
+						<div class="et-readout et-readout--init" data-tooltip="{{localize 'LHTRPG.Tooltip.Initiative'}}"><img src="systems/lhtrpg/assets/ui/initiative.svg" alt=""><b>{{system.battle-status.initiative.total}}</b><span>{{localize 'LHAUTO.Sheet.Readout.init'}}</span></div>
+						<div class="et-readout et-readout--spd" data-tooltip="{{localize 'LHTRPG.Tooltip.Speed'}}"><img src="systems/lhtrpg/assets/ui/speed.svg" alt=""><b>{{system.battle-status.speed.total}}</b><span>{{localize 'LHAUTO.Sheet.Readout.spd'}}</span></div>
+					</div>
+
+					<div class="et-stats-grid">
+						<div class="et-attrs">
+							{{#each et.attrs}}
+							<div class="et-attr et-attr--{{key}}">
+								<div class="et-hex">
+									<span class="et-attr-label">{{label}}</span>
+									<b class="et-attr-mod">{{mod}}</b>
+									<span class="et-attr-base">{{base}}</span>
+								</div>
+								<div class="et-attr-checks">
+									{{#each checks}}{{> etCheck name=name label=label dice=dice total=total}}{{/each}}
+								</div>
+							</div>
+							{{/each}}
+						</div>
+
+						<aside class="et-radar-panel">
+							<svg class="et-radar" viewBox="-14 -2 188 166" aria-hidden="true">
+								<g class="et-radar-grid">
+									<polygon points="80,16 144,80 80,144 16,80"></polygon>
+									<polygon points="80,38 122,80 80,122 38,80"></polygon>
+									<polygon points="80,60 100,80 80,100 60,80"></polygon>
+									<line x1="80" y1="16" x2="80" y2="144"></line>
+									<line x1="16" y1="80" x2="144" y2="80"></line>
+								</g>
+								<polygon class="et-radar-shape" points="{{et.radar.points}}"></polygon>
+								{{#each et.radar.dots}}<circle class="et-radar-dot" cx="{{x}}" cy="{{y}}" r="3"></circle>{{/each}}
+								<text x="80" y="9" text-anchor="middle">{{et.radar.labels.str}}</text>
+								<text x="158" y="84" text-anchor="middle">{{et.radar.labels.dex}}</text>
+								<text x="80" y="158" text-anchor="middle">{{et.radar.labels.pow}}</text>
+								<text x="2" y="84" text-anchor="middle">{{et.radar.labels.int}}</text>
+							</svg>
+							<div class="et-combat-checks">
+								{{#each et.combatChecks}}{{> etCheck name=name label=label dice=dice total=total big=true}}{{/each}}
+							</div>
+						</aside>
+					</div>
+				</div>
+
+				<div class="tab et-subtab" data-group="stats" data-tab="effects">
+					<ol class="items-list et-effects">
+						{{#each effects as |section sid|}}
+						{{#unless section.hidden}}
+						<li class="items-header et-effects-header et-effects-header--{{section.type}}" data-effect-type="{{section.type}}">
+							<h3>{{localize section.label}}</h3>
+							<span class="et-effects-count">{{section.effects.length}}</span>
+							{{#if @root.editable}}<a class="effect-control et-effects-add" data-action="create" data-tooltip="LHTRPG.EffectCreate"><i class="fa-solid fa-plus"></i></a>{{/if}}
+						</li>
+						{{#each section.effects as |effect|}}
+						<li class="item effect et-effect et-effect--{{section.type}} draggable" data-effect-id="{{effect.id}}" data-effect-uuid="{{effect.uuid}}">
+							<img class="et-effect-img" src="{{effect.img}}" alt="">
+							<div class="et-effect-text">
+								<h4 class="et-effect-name">{{effect.name}}</h4>
+								{{#with (lhEffectSummary effect) as |summary|}}<div class="et-effect-summary" title="{{lhEffectSummary effect plain=true}}">{{summary}}</div>{{/with}}
+								{{#if effect.unmetCondition}}<div class="et-effect-unmet"><i class="fa-solid fa-ban"></i> {{lhConditionLabel effect.unmetCondition}}</div>{{/if}}
+							</div>
+							<div class="et-effect-meta">
+								<span class="et-effect-source" title="{{etSource effect.sourceName}}">{{etSource effect.sourceName}}</span>
+								<span class="et-effect-duration">{{lhEffectDuration effect}}</span>
+							</div>
+							<div class="et-effect-controls">
+								<a class="effect-control" data-action="toggle" data-tooltip="LHTRPG.EffectToggle"><i class="fa-solid {{#if effect.disabled}}fa-toggle-off{{else}}fa-toggle-on{{/if}}"></i></a>
+								<a class="effect-control" data-action="edit" data-tooltip="LHTRPG.EffectEdit"><i class="fa-solid fa-pen-to-square"></i></a>
+								<a class="effect-control" data-action="delete" data-tooltip="LHTRPG.EffectDelete"><i class="fa-solid fa-trash"></i></a>
+							</div>
+						</li>
+						{{/each}}
+						{{/unless}}
+						{{/each}}
+					</ol>
+				</div>
+
+				<div class="tab et-subtab" data-group="stats" data-tab="status">
+					{{> "systems/lhtrpg/templates/actor/parts/actor-status-panel.html"}}
+					<div class="et-tags-block">
+						<h4 class="et-block-title">{{localize 'LHTRPG.Label.Tags'}}</h4>
+						{{> "systems/lhtrpg/templates/parts/tag-input.html"}}
+					</div>
+				</div>
+			</section>
+
+			{{!-- ---------- SKILLS ---------- --}}
+			<section class="tab et-tab" data-group="primary" data-tab="skills">
+				<nav class="et-subtabs tabs" data-group="skills">
+					<a data-action="tab" data-group="skills" data-tab="basic">{{localize 'LHTRPG.Skill.Type.Basic'}}</a>
+					<a data-action="tab" data-group="skills" data-tab="general">{{localize 'LHTRPG.Skill.Type.General'}}{{#if skillBrowse.General.pending}}<span class="et-pending">{{skillBrowse.General.pending}}</span>{{/if}}</a>
+					<a data-action="tab" data-group="skills" data-tab="combat">{{localize 'LHTRPG.Skill.Type.Combat'}}{{#if skillBrowse.Combat.pending}}<span class="et-pending">{{skillBrowse.Combat.pending}}</span>{{/if}}</a>
+				</nav>
+				{{#each et.skillTabs as |tab|}}
+				<div class="tab et-subtab" data-group="skills" data-tab="{{tab.id}}">
+					<div class="et-skills">
+						{{#each tab.skills as |item|}}
+						<div class="item skill-tile draggable et-skill et-skill--{{item.et.timing.cls}}" data-item-id="{{item._id}}">
+							<a class="item-control item-throw et-skill-img" data-action="item-throw" data-tooltip="{{localize 'LHTRPG.Item.Label.ThrowToChat'}}"><img src="{{item.img}}" alt=""></a>
+							<div class="et-skill-text">
+								<span class="et-skill-name" title="{{item.name}}">{{item.name}}</span>
+								<span class="et-skill-timing">{{item.et.timing.label}}</span>
+								{{#if item.et.rank.max}}<span class="et-skill-rank" data-tooltip="{{localize 'LHTRPG.Skill.Label.SR'}} {{item.system.skillRank.value}}/{{item.system.skillRank.max}}">{{#each item.et.rank.pips}}<i class="{{#if this}}on{{/if}}"></i>{{/each}}</span>{{/if}}
+								<span class="et-skill-meta">
+									{{#if item.et.cost}}<em>{{item.et.cost}}</em>{{/if}}
+									{{#if item.et.limit}}<em>{{item.et.limit}}</em>{{/if}}
+									{{#if item.et.target}}<em>{{item.et.target}}</em>{{/if}}
+									{{#if item.et.range}}<em>{{item.et.range}}</em>{{/if}}
+								</span>
+							</div>
+							<div class="et-skill-controls">
+								<a class="item-control" data-action="item-edit" data-tooltip="LHTRPG.ButtonLabel.Edit"><i class="fa-solid fa-pen-to-square"></i></a>
+								<a class="item-control" data-action="item-delete" data-tooltip="LHTRPG.ButtonLabel.Delete"><i class="fa-solid fa-trash"></i></a>
+							</div>
+						</div>
+						{{/each}}
+						{{#if tab.browse}}
+						<a class="item skill-tile et-skill et-skill--browse{{#if tab.browse.pending}} pending{{/if}}" data-action="skill-browse" data-subtype="{{tab.subtype}}" data-tooltip="{{localize 'LHTRPG.SkillBrowser.Open'}}">
+							<span class="et-skill-browse-icon"><i class="fa-solid fa-book-open-reader"></i>{{#if tab.browse.pending}}<b class="et-pending">{{tab.browse.pending}}</b>{{/if}}</span>
+							<span class="et-skill-browse-label">{{localize 'LHTRPG.SkillBrowser.Browse'}}</span>
+						</a>
+						{{/if}}
+					</div>
+				</div>
+				{{/each}}
+			</section>
+
+			{{!-- ---------- ITEMS ---------- --}}
+			<section class="tab et-tab" data-group="primary" data-tab="items">
+				<nav class="et-subtabs tabs" data-group="items">
+					<a data-action="tab" data-group="items" data-tab="equipment">{{localize 'LHTRPG.Label.Equipment'}}</a>
+					<a data-action="tab" data-group="items" data-tab="tickets">{{localize 'LHTRPG.Label.Tickets'}}</a>
+				</nav>
+
+				<div class="tab et-subtab" data-group="items" data-tab="equipment">
+					<div class="et-items">
+						<div class="et-doll">
+							<svg class="et-doll-svg" viewBox="0 0 400 456" aria-hidden="true">
+								<defs>
+									<linearGradient id="et-body-fill" x1="0" y1="0" x2="0" y2="1">
+										<stop offset="0" stop-color="#62e4ff" stop-opacity="0.26"></stop>
+										<stop offset="1" stop-color="#1c6f8a" stop-opacity="0.08"></stop>
+									</linearGradient>
+									<filter id="et-glow" x="-30%" y="-30%" width="160%" height="160%">
+										<feGaussianBlur stdDeviation="3" result="b"></feGaussianBlur>
+										<feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+									</filter>
+								</defs>
+								<g class="et-doll-body" filter="url(#et-glow)">
+									<ellipse cx="200" cy="62" rx="24" ry="28"></ellipse>
+									<rect x="191" y="86" width="18" height="12" rx="4"></rect>
+									<path d="M200 94 C214 94 232 102 248 112 C262 122 266 170 266 222 L250 226 C248 190 246 168 240 156 L240 232 C240 262 236 290 232 312 L230 362 L206 362 L202 302 L198 302 L194 362 L170 362 L168 312 C164 290 160 262 160 232 L160 156 C154 168 152 190 150 226 L134 222 C134 170 138 122 152 112 C168 102 186 94 200 94 Z"></path>
+								</g>
+								<g class="et-doll-scan"><line x1="120" y1="0" x2="280" y2="0"></line></g>
+								<g class="et-links">
+									<g class="et-link et-link--main{{#if hands.main}} filled{{/if}}"><polyline points="106,94 128,94 138,224"></polyline><circle cx="138" cy="224" r="5"></circle><circle class="ring" cx="138" cy="224" r="10"></circle></g>
+									<g class="et-link et-link--acc0{{#if items.equipped.accessories.[0]}} filled{{/if}}"><polyline points="106,224 128,224 180,56"></polyline><circle cx="180" cy="56" r="5"></circle><circle class="ring" cx="180" cy="56" r="10"></circle></g>
+									<g class="et-link et-link--acc2{{#if items.equipped.accessories.[2]}} filled{{/if}}"><polyline points="106,354 128,354 176,332"></polyline><circle cx="176" cy="332" r="5"></circle><circle class="ring" cx="176" cy="332" r="10"></circle></g>
+									<g class="et-link et-link--off{{#if hands.off}} filled{{/if}}{{#if hands.locked}} filled{{/if}}"><polyline points="294,94 272,94 262,224"></polyline><circle cx="262" cy="224" r="5"></circle><circle class="ring" cx="262" cy="224" r="10"></circle></g>
+									<g class="et-link et-link--armor{{#if items.equipped.armors.[0]}} filled{{/if}}"><polyline points="294,224 272,224 200,150"></polyline><circle cx="200" cy="150" r="5"></circle><circle class="ring" cx="200" cy="150" r="10"></circle></g>
+									<g class="et-link et-link--acc1{{#if items.equipped.accessories.[1]}} filled{{/if}}"><polyline points="294,354 272,354 232,212"></polyline><circle cx="232" cy="212" r="5"></circle><circle class="ring" cx="232" cy="212" r="10"></circle></g>
+									<g class="et-link et-link--bag{{#if items.equipped.bags.[0]}} filled{{/if}}"><polyline points="200,356 200,344 214,240"></polyline><circle cx="214" cy="240" r="5"></circle><circle class="ring" cx="214" cy="240" r="10"></circle></g>
+								</g>
+							</svg>
+							{{> etSlot pos="main" type="hand" hand="main" index=0 icon="weapon" label="LHTRPG.Hands.Main" item=hands.main swap=hands.canSwap}}
+							{{> etSlot pos="acc0" type="accessory" index=0 icon="accessory" label="TYPES.Item.accessory" item=items.equipped.accessories.[0]}}
+							{{> etSlot pos="acc2" type="accessory" index=2 icon="accessory" label="TYPES.Item.accessory" item=items.equipped.accessories.[2]}}
+							{{> etSlot pos="off" type="hand" hand="off" index=0 icon="shield" label="LHTRPG.Hands.Off" item=hands.off locked=hands.locked}}
+							{{> etSlot pos="armor" type="armor" index=0 icon="armor" label="TYPES.Item.armor" item=items.equipped.armors.[0]}}
+							{{> etSlot pos="acc1" type="accessory" index=1 icon="accessory" label="TYPES.Item.accessory" item=items.equipped.accessories.[1]}}
+							{{> etSlot pos="bag" type="bag" index=0 icon="bag" label="TYPES.Item.bag" item=items.equipped.bags.[0]}}
+						</div>
+
+						<div class="et-inventory">
+							<div class="et-inventory-head">
+								<span class="et-block-title">{{localize 'LHTRPG.Label.Items'}}</span>
+								<div class="et-space" data-tooltip="{{localize 'LHAUTO.Sheet.SpaceHint'}}" style="--pct: {{et.space.pct}}%">
+									<span class="et-space-text"><b>{{system.inventory.space}}</b>/{{system.inventory.maxSpace}}</span>
+									<div class="et-bar et-bar--space"><div class="et-bar-fill"></div></div>
+								</div>
+								{{#if editable}}
+								<div class="addItem et-add">
+									<a class="et-add-btn" data-action="add-item-menu" data-tooltip="{{localize 'LHTRPG.Add'}}"><i class="fa-solid fa-plus"></i></a>
+									<div class="dropdown-content et-add-menu">
+										{{#each et.itemTypes}}<a class="item-control item-create" data-action="item-create" data-type="{{type}}"><img src="systems/lhtrpg/assets/ui/items_icons/{{type}}.svg" alt=""><span>{{label}}</span></a>{{/each}}
+									</div>
+								</div>
+								{{/if}}
+							</div>
+
+							<ol class="inventory-list et-inv-grid">
+								{{#each inventorySlots as |item|}}
+								{{#if item}}
+								<li class="item draggable et-inv-item" data-item-id="{{item._id}}" data-type="{{item.type}}">
+									<a class="item-control item-edit et-inv-img" data-action="item-edit" data-tooltip="{{item.name}}"><img src="{{item.img}}" alt=""></a>
+									<span class="et-inv-type"><img src="systems/lhtrpg/assets/ui/items_icons/{{item.type}}.svg" alt=""></span>
+									{{#if item.system.linkedSkillUuid}}<a class="item-control linked-skill-throw-badge et-inv-badge" data-action="linked-skill-throw" data-tooltip="LHTRPG.Item.Label.ThrowToChat"><i class="fa-solid fa-comment-dots"></i></a>{{/if}}
+									<div class="et-inv-controls">
+										{{#if item.usable}}<a class="item-control" data-action="item-use" data-tooltip="LHTRPG.Item.Use.Button"><i class="fa-solid fa-flask"></i></a>{{/if}}
+										{{#if item.equippable}}<a class="item-control" data-action="item-equip" data-tooltip="LHTRPG.Label.Equip"><i class="fa-solid fa-shirt"></i></a>{{/if}}
+										<a class="item-control" data-action="item-give" data-tooltip="LHTRPG.Piles.GiveTo"><i class="fa-solid fa-hand-holding"></i></a>
+										<a class="item-control" data-action="item-delete" data-tooltip="LHTRPG.ButtonLabel.Delete"><i class="fa-solid fa-trash"></i></a>
+									</div>
+									<span class="et-inv-name" title="{{item.name}}">{{item.name}}</span>
+								</li>
+								{{else}}
+								<li class="empty-slot et-inv-empty"></li>
+								{{/if}}
+								{{/each}}
+							</ol>
+
+							<div class="et-purse">
+								<div class="et-coin" aria-hidden="true">
+									<svg viewBox="0 0 64 64">
+										<defs>
+											<radialGradient id="et-coin-g" cx="35%" cy="30%" r="75%">
+												<stop offset="0" stop-color="#fff2b8"></stop><stop offset="0.45" stop-color="#f5c451"></stop><stop offset="1" stop-color="#9a6a12"></stop>
+											</radialGradient>
+										</defs>
+										<circle cx="32" cy="32" r="30" fill="url(#et-coin-g)"></circle>
+										<circle cx="32" cy="32" r="24" fill="none" stroke="#7a5210" stroke-width="1.5" stroke-dasharray="3 2"></circle>
+										<path d="M40 24 a11 11 0 1 0 0 16 l-6 0 l0 -5 l11 0 l0 11 a16 16 0 1 1 0 -22 z" fill="#7a5210"></path>
+									</svg>
+								</div>
+								<div class="et-purse-main">
+									<div class="et-purse-amount">
+										<input class="gold-input et-gold-input" type="text" name="system.inventory.gold" value="{{source.inventory.gold}}" data-dtype="Number" maxlength="8" inputmode="numeric">
+										<span class="et-purse-unit">G</span>
+									</div>
+									<div class="et-stacks" data-tooltip="{{et.gold.pretty}} G">
+										{{#each et.gold.stacks}}
+										<div class="et-stack{{#unless count}} empty{{/unless}}" data-tooltip="{{count}} × {{label}} G">
+											<div class="et-stack-coins">{{#each coins}}<i></i>{{/each}}</div>
+											<span class="et-stack-label">{{label}}</span>
+										</div>
+										{{/each}}
+									</div>
+								</div>
+								{{#if editable}}
+								<div class="et-purse-actions">
+									<a class="et-purse-btn et-gold-adjust" data-sign="1" data-tooltip="{{localize 'LHAUTO.Sheet.GoldAdd'}}"><i class="fa-solid fa-plus"></i></a>
+									<a class="et-purse-btn et-gold-adjust" data-sign="-1" data-tooltip="{{localize 'LHAUTO.Sheet.GoldSpend'}}"><i class="fa-solid fa-minus"></i></a>
+									<a class="et-purse-btn gold-give" data-action="gold-give" data-tooltip="LHTRPG.Piles.GiveGoldTitle"><i class="fa-solid fa-hand-holding-dollar"></i></a>
+								</div>
+								<form class="et-gold-pop" hidden>
+									<span class="et-gold-pop-sign">+</span>
+									<input type="number" min="1" step="1" placeholder="0" inputmode="numeric">
+									<button type="submit"><i class="fa-solid fa-check"></i></button>
+								</form>
+								{{/if}}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab et-subtab" data-group="items" data-tab="tickets">
+					<div class="ticket-slots-grid et-tickets">
+						{{> "systems/lhtrpg/templates/actor/parts/inventory/inventory-ticket-ranked-slot.html" subtype="Treasure" typeLabel="LHTRPG.Ticket.Type.Treasure" icon="icons/sundries/flags/banner-pink.webp" items=tickets.treasure total=tickets.treasureTotal rank=system.infos.crank}}
+						{{> "systems/lhtrpg/templates/actor/parts/inventory/inventory-ticket-slot.html" subtype="Fate" typeLabel="LHTRPG.Ticket.Type.Fate" icon="icons/sundries/flags/banner-green.webp" item=tickets.fate.[0]}}
+						{{> "systems/lhtrpg/templates/actor/parts/inventory/inventory-ticket-slot.html" subtype="Connection" typeLabel="LHTRPG.Ticket.Type.Connection" icon="icons/sundries/flags/banner-purple.webp" item=tickets.connection.[0]}}
+						{{> "systems/lhtrpg/templates/actor/parts/inventory/inventory-ticket-slot.html" subtype="Reset" typeLabel="LHTRPG.Ticket.Type.Reset" icon="icons/sundries/flags/banner-blue.webp" item=tickets.reset.[0]}}
+					</div>
+				</div>
+			</section>
+
+			{{!-- ---------- BIO ---------- --}}
+			<section class="tab et-tab" data-group="primary" data-tab="bio">
+				<nav class="et-subtabs tabs" data-group="bio">
+					<a data-action="tab" data-group="bio" data-tab="bio">{{localize 'LHTRPG.Biography.Title'}}</a>
+					<a data-action="tab" data-group="bio" data-tab="connections">{{localize 'LHTRPG.Connection.Label'}}</a>
+					<a data-action="tab" data-group="bio" data-tab="unions">{{localize 'LHTRPG.Union.Label'}}</a>
+				</nav>
+				<div class="tab et-subtab" data-group="bio" data-tab="bio">
+					<prose-mirror class="et-bio" name="system.biography" value="{{source.biography}}" toggled {{#unless editable}}disabled{{/unless}}>{{{enrichments.biography}}}</prose-mirror>
+				</div>
+				{{#each et.socialTabs as |tab|}}
+				<div class="tab et-subtab" data-group="bio" data-tab="{{tab.id}}">
+					<div class="et-social">
+						{{#each tab.items as |item|}}
+						<div class="item draggable et-card" data-item-id="{{item._id}}">
+							<img class="et-card-img" src="{{item.img}}" alt="">
+							<a class="item-control item-edit et-card-name" data-action="item-edit">{{item.name}}</a>
+							{{#if item.et.tags.length}}<div class="et-card-tags">{{#each item.et.tags}}<span>{{this}}</span>{{/each}}</div>{{/if}}
+							<a class="item-control et-card-delete" data-action="item-delete" data-tooltip="LHTRPG.ButtonLabel.Delete"><i class="fa-solid fa-trash"></i></a>
+						</div>
+						{{/each}}
+						{{#if @root.editable}}
+						<a class="et-card et-card--add item-control item-create" data-action="item-create" data-type="{{tab.type}}"><i class="fa-solid fa-plus"></i><span>{{localize 'LHTRPG.Add'}}</span></a>
+						{{/if}}
+					</div>
+				</div>
+				{{/each}}
+			</section>
+
+		</main>
+	</div>
+</div>

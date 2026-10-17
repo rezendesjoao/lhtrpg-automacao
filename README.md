@@ -4,8 +4,41 @@ Módulo de extensão para o sistema **Log Horizon TRPG** (`lhtrpg` 2.1.x, Foundr
 com muitos jogadores e vários combates ao mesmo tempo. Ele completa a automação que o sistema já tem: não
 substitui fichas nem cartões, só acrescenta o que faltava e corrige o que quebrava em mesa grande.
 
-Já tem a **Fase 1 — núcleo do combate** e a **Fase 2 — conteúdo dos compêndios**. As próximas fases (mesa por
-texto, cena e sessão, regras de construção) estão listadas no fim.
+Já tem a **Fase 1 — núcleo do combate**, a **Fase 2 — conteúdo dos compêndios** e o **visual Elder Tale** da
+ficha e do chat. As próximas fases (mesa por texto, cena e sessão, regras de construção) estão listadas no fim.
+
+## A ficha Elder Tale
+
+Uma ficha de personagem nova, no visual das janelas do jogo em Log Horizon: vidro escuro, luz ciano, linhas
+finas e hexágonos. Ela usa toda a lógica da ficha do sistema (equipar, rolar, tíquetes, efeitos, navegador de
+habilidades), só muda a forma e acrescenta leitura.
+
+- **Cabeçalho:** retrato hexagonal, nome, NP com o botão de subir, raça, classe, subclasse e guilda, chips dos
+  estados ativos e o emblema da classe.
+- **Vitais:** barra de PV com dez segmentos (verde, âmbar e vermelho conforme o que resta), Destino em
+  estrelas (a estrela ao lado remove um Estado Negativo com Destino), barra de Ódio com a marca de Topo ou
+  Abaixo no Ódio, e a Fadiga.
+- **Atributos:** leitura de Ataque, Mágico, Recuperação, Defesas, Iniciativa e Velocidade; os quatro
+  atributos em hexágonos (valor grande, base pequena) com as perícias roláveis ao lado; o radar dos atributos;
+  Precisão, Esquiva e Resistência em destaque.
+- **Habilidades:** cartões coloridos pelo Momento (Maior, Menor, Movimento, Abertura, reações…), com os pontos
+  de NH, custo, limite, alvo e alcance. Clique na imagem para mandar ao chat.
+- **Equipamento:** o boneco com os sete espaços — mão principal, mão secundária, armadura, três acessórios e
+  bolsa — ligados ao corpo por linhas que acendem quando o espaço está ocupado. Arraste um item para o espaço
+  para equipar, ou de volta para a grade para tirar.
+- **Bolsa de moedas:** o ouro em números grandes, as pilhas de moedas por casa decimal (milhares, centenas,
+  dezenas, unidades) e os botões de receber e gastar, que registram a mudança no chat, além do dar ouro.
+- **Efeitos, estados, tíquetes, bio, conexões e uniões** reorganizados no mesmo visual.
+
+A ficha vira o padrão dos personagens ao ativar o módulo. Qualquer ficha pode voltar à do sistema pelo menu de
+configuração da janela (o ícone de ficha no cabeçalho). Monstros e itens continuam com as fichas do sistema.
+
+## O chat Elder Tale
+
+Os cartões de habilidade, ataque, dano, aplicação, fases e os do próprio módulo ganham o mesmo visual: retrato de
+quem fala no cabeçalho, dados como faces (o 6 em ouro, o 1 em vermelho), o total em destaque, acerto, erro e
+pendente com cores, o crítico brilhando, e os botões de Destino em dourado. Os cartões de habilidade ficam
+coloridos pelo Momento, como na ficha.
 
 ## O que ele faz
 
@@ -113,6 +146,8 @@ Todas são do mundo (só o Mestre muda) e valem na hora, sem recarregar.
 | Correções nos cartões de ataque e dano | ligado |
 | Botões de Destino | ligado |
 | Completar os dados dos compêndios | ligado |
+| Ficha Elder Tale como padrão | ligado |
+| Tema Elder Tale no chat | ligado |
 
 "Limites de uso" e "Momento e economia de ações" têm três modos: **desligado**, **avisar** (pergunta se é
 para usar mesmo assim) e **bloquear** (o jogador não consegue; o Mestre pode forçar).

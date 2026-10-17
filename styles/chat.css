@@ -1,0 +1,505 @@
+/* ==========================================================================
+   Elder Tale chat theme — lhtrpg-automacao
+   Applies to messages marked `et-msg` by scripts/chat.mjs (Log Horizon cards and rolls).
+   ========================================================================== */
+
+.chat-message.et-msg {
+  --et-cyan: #62e4ff;
+  --et-cyan-dim: #2fa9c6;
+  --et-teal: #2bd4b4;
+  --et-gold: #f5c451;
+  --et-rose: #ff5a7a;
+  --et-green: #5cf2a2;
+  --et-amber: #ffb547;
+  --et-violet: #b48cff;
+  --et-text: #e8f6fb;
+  --et-muted: #8fb3c4;
+  --et-faint: #5d7f91;
+  --et-line: rgba(98, 228, 255, 0.22);
+  --et-line-strong: rgba(98, 228, 255, 0.55);
+  --et-font: "ET Sans", "Signika", sans-serif;
+  --et-display: "ET Cinzel", "Cinzel", serif;
+  --et-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  position: relative;
+  margin: 6px 4px;
+  padding: 0;
+  border: 1px solid var(--et-line);
+  border-radius: 12px;
+  background:
+    radial-gradient(420px 140px at 0% 0%, rgba(98, 228, 255, 0.12), transparent 70%),
+    linear-gradient(160deg, #0f2030, #0a1420);
+  color: var(--et-text);
+  font-family: var(--et-font);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  animation: et-msg-in 0.3s var(--et-ease);
+}
+.chat-message.et-msg::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--et-cyan), var(--et-teal));
+  box-shadow: 0 0 10px rgba(98, 228, 255, 0.6);
+}
+.chat-message.et-msg.whisper { background: linear-gradient(160deg, #1a1730, #0d0b1a); }
+.chat-message.et-msg.whisper::before { background: linear-gradient(180deg, var(--et-violet), #6b4fd6); }
+.chat-message.et-msg.blind::before { background: linear-gradient(180deg, var(--et-faint), #2a3b47); }
+
+.chat-message.et-msg .message-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px 6px 12px;
+  border-bottom: 1px solid var(--et-line);
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--et-muted);
+  font-size: 11px;
+}
+.chat-message.et-msg .message-header .message-sender {
+  font-family: var(--et-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #fff;
+  flex: 1;
+  margin: 0;
+}
+.chat-message.et-msg .message-header .message-metadata { color: var(--et-faint); font-size: 10px; }
+.chat-message.et-msg .message-header .message-metadata a { color: var(--et-faint); }
+.chat-message.et-msg .message-header .message-metadata a:hover { color: var(--et-rose); }
+.chat-message.et-msg .message-header .flavor-text,
+.chat-message.et-msg .message-header .whisper-to {
+  flex-basis: 100%;
+  font-size: 11px;
+  color: var(--et-cyan);
+  font-style: italic;
+}
+.chat-message.et-msg .message-header > * { flex: 0 0 auto; }
+.chat-message.et-msg .message-header .message-sender { flex: 1 1 auto; }
+.chat-message.et-msg .et-msg-portrait {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border: none;
+  clip-path: polygon(50% 0, 94% 25%, 94% 75%, 50% 100%, 6% 75%, 6% 25%);
+  filter: drop-shadow(0 0 6px rgba(98, 228, 255, 0.4));
+}
+.chat-message.et-msg .message-content {
+  padding: 8px 10px 10px;
+  font-size: 12.5px;
+}
+
+/* --------------------------------------------------------------------------
+   Cards (system + module), base
+   -------------------------------------------------------------------------- */
+.et-msg .lhtrpg.chat-card {
+  font-family: var(--et-font);
+  font-size: 12.5px;
+  color: var(--et-text);
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+.et-msg .lhtrpg.chat-card .chat-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 0 8px;
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--et-line);
+}
+.et-msg .lhtrpg.chat-card .chat-card-img {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 0 1px var(--et-line-strong), 0 0 14px rgba(98, 228, 255, 0.25);
+}
+.et-msg .lhtrpg.chat-card .chat-card-title { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.et-msg .lhtrpg.chat-card .chat-card-title h3 {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: var(--et-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 0 12px rgba(98, 228, 255, 0.35);
+  line-height: 1.15;
+}
+.et-msg .lhtrpg.chat-card .chat-card-type {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--et-cyan);
+}
+.et-msg .lhtrpg.chat-card .chat-card-weapon { font-size: 11px; color: var(--et-muted); }
+
+.et-msg .lhtrpg.chat-card .chat-card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 0 0 8px; }
+.et-msg .lhtrpg.chat-card .chat-card-tags .tag,
+.et-msg .lhtrpg.chat-card .chat-card-tags .lh-tag {
+  padding: 1px 7px;
+  border-radius: 5px;
+  border: 1px solid rgba(43, 212, 180, 0.45);
+  background: rgba(43, 212, 180, 0.12);
+  color: #d4fff6;
+  font-size: 10.5px;
+}
+
+.et-msg .lhtrpg.chat-card .chat-card-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0 0 8px;
+}
+.et-msg .lhtrpg.chat-card .chat-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 56px;
+  padding: 3px 8px;
+  border: 1px solid var(--et-line);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.25);
+}
+.et-msg .lhtrpg.chat-card .chat-stat-label {
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--et-faint);
+}
+.et-msg .lhtrpg.chat-card .chat-stat-value {
+  font-family: var(--et-display);
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+.et-msg .lhtrpg.chat-card .lh-modified { color: var(--et-violet); }
+.et-msg .lhtrpg.chat-card .lh-skill-notes {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 6px 8px;
+  border-left: 2px solid var(--et-violet);
+  background: rgba(180, 140, 255, 0.08);
+  font-size: 11.5px;
+}
+.et-msg .lhtrpg.chat-card .lh-note-source { color: var(--et-faint); }
+
+/* buttons */
+.et-msg .lhtrpg.chat-card .chat-card-rolls { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+.et-msg .lhtrpg.chat-card button,
+.et-msg .lhauto-card button {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0 10px;
+  height: 28px;
+  line-height: 26px;
+  border-radius: 8px;
+  border: 1px solid var(--et-line-strong);
+  background: linear-gradient(180deg, rgba(98, 228, 255, 0.18), rgba(98, 228, 255, 0.05));
+  color: #fff;
+  font-family: var(--et-font);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-shadow: none;
+  transition: all 0.18s var(--et-ease);
+}
+.et-msg .lhtrpg.chat-card button:hover:not(:disabled),
+.et-msg .lhauto-card button:hover:not(:disabled) {
+  background: linear-gradient(180deg, var(--et-cyan), #2fb6d8);
+  color: #06202b;
+  box-shadow: 0 0 14px rgba(98, 228, 255, 0.55);
+  transform: translateY(-1px);
+}
+.et-msg .lhtrpg.chat-card button:disabled,
+.et-msg .lhauto-card button:disabled { opacity: 0.45; cursor: default; }
+.et-msg .lhtrpg.chat-card button i { margin-right: 4px; }
+.et-msg .lhtrpg.chat-card .chat-card-rolls .lhauto-fate-die { flex: 0 0 auto; }
+.et-msg .lhtrpg.chat-card button.lhauto-fate,
+.et-msg .lhtrpg.chat-card button.lhauto-fate-die {
+  border-color: rgba(245, 196, 81, 0.55);
+  background: linear-gradient(180deg, rgba(245, 196, 81, 0.2), rgba(245, 196, 81, 0.05));
+  color: #fff2c2;
+}
+.et-msg .lhtrpg.chat-card button.lhauto-fate:hover:not(:disabled),
+.et-msg .lhtrpg.chat-card button.lhauto-fate-die:hover:not(:disabled) {
+  background: linear-gradient(180deg, var(--et-gold), #d9a53a);
+  color: #2a1d00;
+  box-shadow: 0 0 14px rgba(245, 196, 81, 0.6);
+}
+.et-msg .lhtrpg.chat-card button.lhauto-fate i,
+.et-msg .lhtrpg.chat-card button.lhauto-fate-die i { color: inherit; }
+.et-msg .lhtrpg.chat-card button.lhauto-attack-damage { width: 100%; margin-top: 6px; }
+
+.et-msg .lhtrpg.chat-card .chat-card-description {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--et-line);
+  font-size: 12px;
+  color: var(--et-muted);
+  line-height: 1.4;
+}
+.et-msg .lhtrpg.chat-card .chat-card-description p { margin: 0 0 4px; }
+.et-msg .item-use-note, .et-msg .item-use-applied, .et-msg .skill-card-applied {
+  margin: 0 0 8px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  background: rgba(92, 242, 162, 0.1);
+  border: 1px solid rgba(92, 242, 162, 0.35);
+  color: #d8ffe9;
+}
+.et-msg .item-use-note { background: rgba(255, 181, 71, 0.1); border-color: rgba(255, 181, 71, 0.4); color: #ffe9c2; }
+
+/* timing colour of a skill card (data-timing from chat.mjs) */
+.et-msg .skill-chat-card[data-timing] .chat-card-img { box-shadow: 0 0 0 1px var(--accent, var(--et-line-strong)), 0 0 14px color-mix(in srgb, var(--accent, var(--et-cyan)) 40%, transparent); }
+.et-msg .skill-chat-card[data-timing] .chat-card-type { color: var(--accent, var(--et-cyan)); }
+.et-msg .skill-chat-card[data-timing="major"] { --accent: #ff6b8a; }
+.et-msg .skill-chat-card[data-timing="minor"] { --accent: var(--et-amber); }
+.et-msg .skill-chat-card[data-timing="move"] { --accent: var(--et-green); }
+.et-msg .skill-chat-card[data-timing="instant"] { --accent: #ffe27a; }
+.et-msg .skill-chat-card[data-timing="setup"] { --accent: var(--et-cyan); }
+.et-msg .skill-chat-card[data-timing="cleanup"] { --accent: var(--et-violet); }
+.et-msg .skill-chat-card[data-timing="reaction"] { --accent: #c28bff; }
+.et-msg .skill-chat-card[data-timing="constant"] { --accent: #9bb6c4; }
+
+/* --------------------------------------------------------------------------
+   Dice
+   -------------------------------------------------------------------------- */
+.et-msg .dice-roll { margin: 0 0 6px; }
+.et-msg .dice-roll .dice-flavor { font-size: 11px; color: var(--et-cyan); font-style: italic; margin-bottom: 4px; }
+.et-msg .dice-roll .dice-result { position: relative; }
+.et-msg .dice-roll .dice-formula {
+  margin: 0 0 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--et-line);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--et-muted);
+  font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-size: 11px;
+  text-align: center;
+  box-shadow: none;
+}
+.et-msg .dice-roll .dice-total {
+  margin: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--et-line-strong);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(98, 228, 255, 0.16), rgba(98, 228, 255, 0.03));
+  color: #fff;
+  font-family: var(--et-display);
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  text-shadow: 0 0 16px rgba(98, 228, 255, 0.55);
+  box-shadow: inset 0 0 18px rgba(98, 228, 255, 0.08);
+}
+.et-msg .dice-roll .dice-tooltip { margin: 4px 0; }
+.et-msg .dice-tooltip .part-header {
+  font-size: 11px;
+  color: var(--et-muted);
+  border-bottom: none;
+}
+.et-msg .dice-tooltip .part-total { color: #fff; font-weight: 700; }
+.et-msg .dice-tooltip .dice-rolls { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0; }
+.et-msg .dice-tooltip .roll.die {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: linear-gradient(160deg, #1b3447, #0b1a27);
+  border: 1px solid var(--et-line-strong);
+  color: #fff;
+  font-family: var(--et-display);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  animation: et-die-in 0.35s var(--et-ease) backwards;
+}
+.et-msg .dice-tooltip .roll.die:nth-child(2) { animation-delay: 0.06s; }
+.et-msg .dice-tooltip .roll.die:nth-child(3) { animation-delay: 0.12s; }
+.et-msg .dice-tooltip .roll.die:nth-child(4) { animation-delay: 0.18s; }
+.et-msg .dice-tooltip .roll.die:nth-child(5) { animation-delay: 0.24s; }
+.et-msg .dice-tooltip .roll.die.et-die--max { border-color: var(--et-gold); color: var(--et-gold); box-shadow: 0 0 10px rgba(245, 196, 81, 0.6); }
+.et-msg .dice-tooltip .roll.die.et-die--min { border-color: var(--et-rose); color: var(--et-rose); }
+.et-msg .dice-tooltip .roll.die.discarded { opacity: 0.35; }
+
+/* --------------------------------------------------------------------------
+   Attack and damage cards
+   -------------------------------------------------------------------------- */
+.et-msg .lh-combat-card .lh-outcome {
+  margin: 4px 0 6px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-align: center;
+  font-family: var(--et-display);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.et-msg .lh-combat-card .lh-outcome.critical {
+  color: #2a1d00;
+  background: linear-gradient(90deg, #ffe9a6, var(--et-gold), #ffe9a6);
+  background-size: 200% 100%;
+  box-shadow: 0 0 18px rgba(245, 196, 81, 0.7);
+  animation: et-shine 1.6s linear infinite;
+}
+.et-msg .lh-combat-card .lh-outcome.fumble {
+  color: #fff;
+  background: linear-gradient(90deg, #7a1d31, var(--et-rose));
+  box-shadow: 0 0 14px rgba(255, 90, 122, 0.5);
+}
+.et-msg .lh-card-bonuses {
+  margin: 0 0 6px;
+  font-size: 11px;
+  color: var(--et-teal);
+}
+.et-msg .lh-combat-card .lh-targets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.et-msg .lh-combat-card .lh-target {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 6px;
+  border: 1px solid var(--et-line);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.22);
+}
+.et-msg .lh-combat-card .lh-target-line { display: flex; align-items: center; gap: 6px; flex: 1 1 100%; }
+.et-msg .lh-combat-card .lh-target-img {
+  width: 28px;
+  height: 28px;
+  object-fit: cover;
+  border: none;
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--et-line-strong);
+}
+.et-msg .lh-combat-card .lh-target-name { flex: 1; min-width: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.et-msg .lh-combat-card .lh-distance { font-size: 10px; color: var(--et-faint); }
+.et-msg .lh-combat-card .lh-dodge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 7px;
+  border-radius: 6px;
+  border: 1px solid var(--et-line);
+  font-family: var(--et-display);
+  font-weight: 700;
+  color: #fff;
+}
+.et-msg .lh-combat-card .lh-dodge .fa-star { color: var(--et-gold); }
+.et-msg .lh-combat-card .lh-dodge .fa-skull { color: var(--et-rose); }
+.et-msg .lh-combat-card .lh-result {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: var(--et-display);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.et-msg .lh-combat-card .lh-result.hit { background: rgba(255, 90, 122, 0.2); color: #ff9db1; border: 1px solid rgba(255, 90, 122, 0.55); }
+.et-msg .lh-combat-card .lh-result.miss { background: rgba(92, 242, 162, 0.14); color: var(--et-green); border: 1px solid rgba(92, 242, 162, 0.45); }
+.et-msg .lh-combat-card .lh-result.pending { background: rgba(255, 181, 71, 0.14); color: var(--et-amber); border: 1px solid rgba(255, 181, 71, 0.45); animation: et-breathe 1.6s ease-in-out infinite; }
+.et-msg .lh-combat-card .lh-badge {
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: rgba(255, 90, 122, 0.18);
+  border: 1px solid rgba(255, 90, 122, 0.5);
+  color: #ffb3c2;
+  font-size: 10px;
+}
+.et-msg .lh-combat-card .lh-applied { font-family: var(--et-display); color: var(--et-gold); font-weight: 700; }
+.et-msg .lh-combat-card button.lh-roll-dodge { flex: 0 0 auto; height: 24px; line-height: 22px; font-size: 11px; padding: 0 8px; }
+.et-msg .lh-combat-card .lh-apply-buttons {
+  flex: 1 1 100%;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 2fr 1fr;
+  gap: 4px;
+  margin-top: 3px;
+}
+.et-msg .lh-combat-card .lh-apply-buttons button { height: 24px; line-height: 22px; font-size: 11px; padding: 0 4px; }
+.et-msg .lh-combat-card button.lh-apply[data-mode="heal"] { border-color: rgba(92, 242, 162, 0.5); background: linear-gradient(180deg, rgba(92, 242, 162, 0.18), rgba(92, 242, 162, 0.04)); }
+.et-msg .lh-combat-card button.lh-apply[data-mode="heal"]:hover:not(:disabled) { background: var(--et-green); color: #04221a; box-shadow: 0 0 14px rgba(92, 242, 162, 0.6); }
+.et-msg .lh-combat-card button.lh-apply[data-mode="direct"] { border-color: rgba(255, 181, 71, 0.5); }
+.et-msg .lh-combat-card .lh-target.lh-selected { border-style: dashed; }
+.et-msg .lhauto-fate-dodge { flex: 0 0 auto; }
+.et-msg .lhauto-fate-mark, .et-msg .lhauto-fate-star { color: var(--et-gold); font-size: 11px; }
+
+/* applied / undo */
+.et-msg .lh-applied-card .lh-applied-title { font-size: 12.5px; margin-bottom: 4px; }
+.et-msg .lh-applied-card .lh-applied-lines {
+  margin: 0 0 6px;
+  padding: 6px 8px 6px 20px;
+  border-left: 2px solid var(--et-cyan-dim);
+  background: rgba(0, 0, 0, 0.22);
+  font-size: 11.5px;
+  color: var(--et-muted);
+}
+.et-msg .lh-applied-card .lh-applied-buttons { display: flex; gap: 6px; }
+.et-msg .lh-applied-card.undone { opacity: 0.6; }
+.et-msg .lh-undone, .et-msg .lhauto-undone { font-style: italic; color: var(--et-faint); font-size: 11px; }
+
+/* phase cards */
+.et-msg .lh-phase-card { padding: 2px 0; }
+.et-msg .lh-phase-card .chat-card-header { border-bottom: none; margin-bottom: 2px; padding-bottom: 2px; }
+.et-msg .lh-phase-card .chat-card-title h3 { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; }
+.et-msg .lh-phase-card p { margin: 0; font-size: 11.5px; color: var(--et-muted); }
+.et-msg .lh-phase-card.setup .chat-card-title h3 { color: var(--et-cyan); }
+.et-msg .lh-phase-card.cleanup .chat-card-title h3 { color: var(--et-violet); }
+.et-msg .lh-phase-card.standby p { color: var(--et-amber); }
+
+/* --------------------------------------------------------------------------
+   Module cards (use footer, summaries)
+   -------------------------------------------------------------------------- */
+.et-msg .lhauto-card { font-family: var(--et-font); font-size: 12.5px; }
+.et-msg .lhauto-card .chat-card-header { padding-bottom: 6px; margin-bottom: 6px; }
+.et-msg .lhauto-card ul { margin: 0; padding-left: 18px; color: var(--et-muted); }
+.et-msg .lhauto-card p { margin: 0; }
+.et-msg .lhauto-gold-card i { color: var(--et-gold); }
+.et-msg .lhauto-use {
+  margin-top: 8px;
+  padding: 6px 8px;
+  border-top: 1px dashed var(--et-line);
+  font-size: 11px;
+  color: var(--et-muted);
+}
+.et-msg .lhauto-use .lhauto-use-parts i { color: var(--et-cyan); }
+.et-msg .lhauto-use .lhauto-forced { color: var(--et-amber); }
+.et-msg .lhauto-use button.lhauto-undo { flex: 0 0 auto; height: 22px; line-height: 20px; font-size: 10.5px; margin-left: auto; }
+
+/* --------------------------------------------------------------------------
+   Motion
+   -------------------------------------------------------------------------- */
+@keyframes et-msg-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes et-die-in { from { transform: rotate(-90deg) scale(0.4); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes et-shine { from { background-position: 0 0; } to { background-position: 200% 0; } }
+@keyframes et-breathe { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+@media (prefers-reduced-motion: reduce) {
+  .chat-message.et-msg, .chat-message.et-msg * { animation: none !important; }
+}
