@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.2 — 2026-10-17
+
+- Ficha de pergaminho: sai o título "Log Horizon" do topo do estandarte; o estandarte começa direto nos Pontos
+  de Vida.
+
 ## 0.5.1 — 2026-10-17
 
 - Ficha de pergaminho: nas abas com sub-barra (Habilidades, Efeitos e estados, Biografia), os ícones redondos
