@@ -13,7 +13,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, "module.json"), "utf8"));
 const DIST = path.join(ROOT, "dist");
 const STAGE = path.join(DIST, manifest.id);
-const FILES = ["module.json", "README.md", "CHANGELOG.md", "LICENSE.txt", "lang", "scripts", "styles", "assets", "fonts"];
+const FILES = ["module.json", "README.md", "CHANGELOG.md", "LICENSE.txt", "lang", "scripts", "styles", "templates", "assets", "fonts"];
 
 // The download URL must point at this version's release.
 if (!manifest.download?.includes(`/v${manifest.version}/`)) {

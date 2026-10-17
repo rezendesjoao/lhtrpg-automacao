@@ -1,0 +1,70 @@
+{{!-- CHARACTER: portrait, race / class / subclass / guild, tags, power and attributes. --}}
+<section class="tab major character" data-group="primary" data-tab="character">
+	<div class="tab-content">
+		<div class="subsection details">
+			<div class="image-container">
+				<img class="actor-image" src="{{actor.img}}" alt="{{actor.name}}" data-action="editImage" data-edit="img">
+			</div>
+			<div class="abcd">
+				<div class="detail">
+					<span class="details-label">{{localize 'LHTRPG.Label.Race'}}</span>
+					<h3>{{> "systems/lhtrpg/templates/actor/parts/actor-option.html" type="race" option=characterOptions.race placeholder=(localize 'LHTRPG.Placeholder.Race')}}</h3>
+				</div>
+				<div class="detail class">
+					<span class="details-label">{{localize 'LHTRPG.Placeholder.Class'}}</span>
+					<h3>
+						{{> "systems/lhtrpg/templates/actor/parts/actor-option.html" type="class" option=characterOptions.class placeholder=(localize 'LHTRPG.Placeholder.Class')}}
+						<a class="emblem" data-action="class-img" data-tooltip="{{#if characterOptions.class}}{{characterOptions.class.name}}{{else}}{{localize 'LHTRPG.Placeholder.Class'}}{{/if}}"><img src="{{classImg}}" alt=""></a>
+					</h3>
+				</div>
+				<div class="detail">
+					<span class="details-label">{{localize 'LHTRPG.Placeholder.SubClass'}}</span>
+					<h3>{{> "systems/lhtrpg/templates/actor/parts/actor-option.html" type="subclass" option=characterOptions.subclass placeholder=(localize 'LHTRPG.Placeholder.SubClass')}}</h3>
+				</div>
+				<div class="detail">
+					<span class="details-label">{{localize 'LHTRPG.Label.Guild'}}</span>
+					<h3><input class="guild" type="text" name="system.social.guild" value="{{source.social.guild}}" placeholder="—"></h3>
+				</div>
+			</div>
+		</div>
+
+		<div class="subsection lhpf-tagbox">
+			<header><span>{{localize 'LHTRPG.Label.Tags'}}</span></header>
+			{{> "systems/lhtrpg/templates/parts/tag-input.html"}}
+		</div>
+
+		<div class="subsection lhpf-social">
+			{{#each lh.social as |group|}}
+			<div class="column">
+				<header>
+					<span>{{group.label}}</span>
+					{{#if @root.editable}}<button type="button" data-action="item-create" data-type="{{group.type}}"><i class="fa-solid fa-fw fa-plus"></i>{{localize 'LHTRPG.Add'}}</button>{{/if}}
+				</header>
+				<ul class="tags">
+					{{#each group.items as |item|}}
+					<li class="tag tag_alt item" data-item-id="{{item._id}}"><a data-action="item-edit" data-tooltip="{{#if item.lhTags.length}}{{#each item.lhTags}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}{{else}}{{item.name}}{{/if}}">{{item.name}}</a></li>
+					{{else}}
+					<li class="none">{{localize 'LHAUTO.Sheet.NoneYet'}}</li>
+					{{/each}}
+				</ul>
+			</div>
+			{{/each}}
+		</div>
+
+		<div class="subsection attributes">
+			<header>
+				<span>{{localize 'LHAUTO.Sheet.Attributes'}}</span>
+				{{#if editable}}<button type="button" data-action="lhauto-allocate"><i class="fa-solid fa-fw fa-pen-to-square"></i>{{localize 'LHAUTO.Sheet.Allocate'}}</button>{{/if}}
+			</header>
+			<ul>
+				{{#each lh.attributes}}
+				<li class="attribute" data-attribute="{{key}}">
+					<h2 class="abbreviation">{{abbr}}</h2>
+					<h3 class="modifier">{{mod}}</h3>
+					<div class="label">{{label}} · {{base}}</div>
+				</li>
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+</section>

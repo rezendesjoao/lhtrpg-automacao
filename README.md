@@ -4,31 +4,43 @@ Módulo de extensão para o sistema **Log Horizon TRPG** (`lhtrpg` 2.1.x, Foundr
 com muitos jogadores e vários combates ao mesmo tempo. Ele completa a automação que o sistema já tem: não
 substitui fichas nem cartões, só acrescenta o que faltava e corrige o que quebrava em mesa grande.
 
-Já tem a **Fase 1 — núcleo do combate**, a **Fase 2 — conteúdo dos compêndios** e o **tema pergaminho** da
-ficha e do chat. As próximas fases (mesa por texto, cena e sessão, regras de construção) estão listadas no fim.
+Já tem a **Fase 1 — núcleo do combate**, a **Fase 2 — conteúdo dos compêndios** e a **ficha de pergaminho**,
+com o chat no mesmo visual. As próximas fases (mesa por texto, cena e sessão, regras de construção) estão
+listadas no fim.
 
-## O tema pergaminho
+## A ficha de pergaminho
 
-A ficha de personagem continua a do sistema, com a moldura e o formato que só ela tem. O módulo recolore a
-arte da janela em pergaminho e no verde do sistema, com detalhes em dourado, e passa o texto para fontes
-serifadas (Cinzel nos títulos e números, Crimson Pro no corpo), no espírito das fichas de Pathfinder 2e. Nada
-muda de lugar; o que ele acrescenta são leituras que a ficha não tinha:
+Uma ficha de personagem nova, do tamanho e com a organização da ficha de Pathfinder 2e (750×750): um estandarte
+verde à esquerda com o que se usa em jogo, o nome numa faixa escura, ícones redondos para as abas e o conteúdo
+em pergaminho, com molduras finas e rótulos em versalete. Fontes Eczar e Gelasio, as mesmas da ficha de PF2e.
+Ela usa toda a lógica da ficha do sistema (equipar, rolar, tíquetes, efeitos, navegador de habilidades).
 
-- **Barra de PV** sob os números de PV: verde, âmbar e vermelho conforme o que resta.
-- **Destino em estrelas** sob os números de Destino. A estrela ao lado remove um Estado Negativo com Destino.
-- **O corpo atrás dos espaços de equipamento:** na aba de itens, os sete espaços — mão principal, mão
-  secundária, armadura, três acessórios e bolsa — ficam em volta de uma silhueta, ligados a ela por linhas que
-  acendem em dourado quando o espaço está ocupado. Equipar e tirar continuam por arrastar.
-- **Pilhas de moedas** ao lado do ouro: uma pilha por casa decimal (milhares, centenas, dezenas, unidades), e
-  o total formatado ao passar o mouse.
+- **Estandarte (barra lateral):** PV atual e máximo com a Barreira ao lado e uma barra do que resta; Ódio (com a
+  coroa quando está no Topo) e Fadiga; Defesa Física e Mágica em escudos, Iniciativa e Velocidade; Poder de
+  Ataque, Mágico e de Recuperação; Precisão, Esquiva e Resistência com o número de dados, roláveis com um
+  clique; e os estados ativos, com o botão de remover um Estado Negativo gastando Destino.
+- **Cabeçalho:** nome, Destino em estrelas (clique soma 1, botão direito tira 1) e o NP num brasão, com o botão
+  de subir de NP.
+- **Personagem:** retrato, Raça, Classe (com o emblema), Subclasse e Guilda; as tags; Conexões e Uniões como
+  etiquetas; e os quatro atributos em molduras, com o botão de distribuir pontos.
+- **Testes:** os oito testes de atributo e os três de combate em molduras, cada um com o modificador e os dados.
+  Clique para rolar.
+- **Habilidades:** Básicas, Gerais e de Combate, agrupadas pelo Momento (Ação Maior, Menor, Movimento,
+  Instantânea, Reações, Abertura, Encerramento, Constantes…), com NH, custo e limite. Clique na imagem para usar
+  e no nome para abrir os detalhes ali mesmo; o botão Procurar abre o navegador de habilidades.
+- **Inventário:** a riqueza com receber e gastar ouro (registrado no chat) e dar ouro; os sete espaços
+  equipados (mão principal, mão secundária, armadura, bolsa e três acessórios), para onde se arrasta o item; a
+  lista do que se carrega, os tíquetes e a barra de espaço da bolsa.
+- **Efeitos e estados:** os efeitos temporários, passivos e inativos com fonte e duração, e o quadro de estados.
+- **Biografia:** o texto, as Conexões e as Uniões.
+
+A ficha vira o padrão dos personagens ao ativar o módulo. Qualquer ficha pode voltar à do sistema pelo menu de
+configuração da janela (o ícone de ficha no cabeçalho). Monstros e itens continuam com as fichas do sistema.
 
 O chat recebe o mesmo pergaminho. Os cartões de habilidade, ataque, dano, aplicação, fases e os do próprio
 módulo ganham a faixa verde no cabeçalho com o retrato de quem fala, dados como faces (o 6 em ouro, o 1 em
 vermelho), o total em destaque, acerto, erro e pendente com cores, o crítico brilhando e os botões de Destino
 em dourado. Os cartões de habilidade levam a cor do seu Momento na linha do título.
-
-As duas partes têm configuração própria. Com o tema da ficha desligado, a ficha volta ao visual original do
-sistema (é preciso recarregar). Monstros e itens continuam com as fichas do sistema.
 
 ## O que ele faz
 
@@ -86,7 +98,7 @@ Cada botão gasta 1 Destino do personagem e fica marcado no cartão.
 - **+1D** ao lado do Teste da habilidade. O dado extra entra como bônus de rolagem e aparece no cartão.
 - **Rerrolar o acerto** (quem atacou) e **rerrolar a esquiva** (o dono do alvo) no cartão de ataque.
 - **Rerrolar** qualquer outra rolagem 2D6 de um personagem (testes da ficha, por exemplo).
-- **Remover um Estado Negativo:** estrela ao lado do Destino na ficha. Com Aflito, os estados que ele protege
+- **Remover um Estado Negativo:** botão Destino no quadro de Estados da ficha. Com Aflito, os estados que ele protege
   só saem depois dele.
 
 ### Conteúdo dos compêndios
@@ -120,8 +132,7 @@ Ficam em **Configurações → Configurar Configurações → Log Horizon TRPG �
 
 ## Configurações
 
-Todas são do mundo (só o Mestre muda) e valem na hora, sem recarregar; só o tema da ficha pede para
-recarregar.
+Todas são do mundo (só o Mestre muda) e valem na hora, sem recarregar.
 
 | Configuração | Padrão |
 |---|---|
@@ -137,7 +148,6 @@ recarregar.
 | Correções nos cartões de ataque e dano | ligado |
 | Botões de Destino | ligado |
 | Completar os dados dos compêndios | ligado |
-| Tema pergaminho da ficha | ligado |
 | Tema pergaminho no chat | ligado |
 
 "Limites de uso" e "Momento e economia de ações" têm três modos: **desligado**, **avisar** (pergunta se é
@@ -221,10 +231,10 @@ Foundry 14.367, `lhtrpg` 2.1.0 e `lhtrpg-pt-br` 1.0.0. Cenários testados num mu
     achado pelo nome e em tokens não vinculados.
 - A leitura do dano dos 75 ataques do bestiário dá o mesmo resultado no texto em inglês e no texto traduzido
   pelo `lhtrpg-pt-br`.
-- Tema pergaminho: a ficha em todas as abas (status, efeitos, estados, habilidades, equipamento, tíquetes,
-  bio), a barra de PV, as estrelas de Destino, o corpo com os espaços ocupados e vazios, as pilhas de moedas,
-  a janela de Ódio e Fadiga; no chat, o cartão de habilidade com o uso registrado, o Teste e o botão de
-  Destino.
+- Ficha de pergaminho: todas as abas; Destino pelas estrelas, Barreira, Ódio e PV editados no estandarte;
+  rolagem de teste; receber e gastar ouro com o registro no chat; equipar e desequipar; criar conexão; detalhes
+  de habilidade abertos e mantidos entre atualizações; usar habilidade pela imagem (com os avisos de ação);
+  nenhum erro no console. No chat, o cartão de habilidade com o uso registrado, o Teste e o botão de Destino.
 
 ## Dados dos compêndios
 
@@ -256,6 +266,10 @@ Log Horizon e Log Horizon TRPG (ログ・ホライズンTRPG) pertencem a Mamare
 fãs, não oficial e sem vínculo com os detentores dos direitos. O sistema para Foundry é de Kyane (Tenyryas) e
 DeadlyPoisonK; este módulo só acrescenta automação a ele. O código é distribuído sob a licença MIT
 ([LICENSE.txt](LICENSE.txt)); a licença não cobre o conteúdo de regras de Log Horizon TRPG.
+
+A organização e o estilo da ficha seguem a ficha do sistema Pathfinder Second Edition para Foundry; nenhuma arte
+dele é usada (as texturas são geradas por `tools/make-textures.py`). As fontes Eczar e Gelasio são distribuídas
+sob a SIL Open Font License ([fonts/OFL-eczar.txt](fonts/OFL-eczar.txt), [fonts/OFL-gelasio.txt](fonts/OFL-gelasio.txt)).
 
 ## Próximas fases
 

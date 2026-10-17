@@ -1,0 +1,53 @@
+{{!-- Parchment character sheet (lhtrpg-automacao), laid out like the Pathfinder 2e character sheet:
+     sidebar banner, header with the name, navigation band, tabs. Keeps every selector and data-action
+     the system's sheet logic relies on (see scripts/sheet.mjs); the look is in styles/sheet.css. --}}
+<div class="lhpf-sheet">
+
+	<aside class="lhpf-sidebar">
+		<div class="lhpf-logo">
+			<span class="lhpf-logo-text">Log Horizon</span>
+			<span class="lhpf-logo-rule"></span>
+		</div>
+		<div class="sidebar">
+			{{> "modules/lhtrpg-automacao/templates/sheet/sidebar.hbs"}}
+		</div>
+	</aside>
+
+	<header class="lhpf-header">
+		<div class="char-details">
+			<input class="char-name" name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'LHTRPG.Placeholder.Name'}}" spellcheck="false">
+			<div class="dots">
+				<span class="label">{{localize 'LHTRPG.Label.Fate'}}</span>
+				<a class="pips" data-action="lhauto-fate" data-tooltip="{{lh.fate.tooltip}}">
+					{{#each lh.fate.pips}}<i class="{{#if this}}fa-solid{{else}}fa-regular{{/if}} fa-star"></i>{{else}}<i class="fa-regular fa-star"></i>{{/each}}
+				</a>
+			</div>
+		</div>
+		<div class="char-level">
+			{{#if editable}}
+			<button type="button" class="rank-up" data-action="rank-up" data-tooltip="LHTRPG.RankUp.Tooltip"><i class="fa-solid fa-angles-up"></i></button>
+			{{/if}}
+			<div class="level" data-tooltip="{{localize 'LHAUTO.Sheet.CR'}}">
+				<svg class="badge" viewBox="0 0 40 43" aria-hidden="true"><path d="M20 1.5 37.5 6.5V21.5C37.5 31.5 29.5 38 20 41.5 10.5 38 2.5 31.5 2.5 21.5V6.5Z"></path></svg>
+				<label>{{localize 'LHAUTO.Sheet.CRShort'}}</label>
+				<input type="text" name="system.infos.crank" value="{{source.infos.crank}}" data-dtype="Number" maxlength="3"{{#if modified.crank}} class="has-effect" data-tooltip="{{modified.crank.tooltip}}"{{/if}}>
+			</div>
+		</div>
+	</header>
+
+	<nav class="lhpf-nav tabs" data-group="primary">
+		<span class="panel-title">{{lh.tabLabel}}</span>
+		{{#each lh.tabs}}
+		<a class="item" data-action="tab" data-group="primary" data-tab="{{id}}" data-tooltip="{{label}}" aria-label="{{label}}"><i class="{{icon}}"></i></a>
+		{{/each}}
+	</nav>
+
+	<section class="lhpf-body">
+		{{> "modules/lhtrpg-automacao/templates/sheet/character.hbs"}}
+		{{> "modules/lhtrpg-automacao/templates/sheet/checks.hbs"}}
+		{{> "modules/lhtrpg-automacao/templates/sheet/skills.hbs"}}
+		{{> "modules/lhtrpg-automacao/templates/sheet/inventory.hbs"}}
+		{{> "modules/lhtrpg-automacao/templates/sheet/effects.hbs"}}
+		{{> "modules/lhtrpg-automacao/templates/sheet/biography.hbs"}}
+	</section>
+</div>

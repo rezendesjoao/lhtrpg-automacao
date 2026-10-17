@@ -48,19 +48,15 @@
       },
       "fate": {
         "Name": "Botões de Destino",
-        "Hint": "Gastam 1 Destino para: +1D no Teste de uma habilidade, rerrolar o acerto, a esquiva ou um teste comum, e remover um Estado Negativo (estrela ao lado do Destino na ficha)."
+        "Hint": "Gastam 1 Destino para: +1D no Teste de uma habilidade, rerrolar o acerto, a esquiva ou um teste comum, e remover um Estado Negativo (botão Destino no quadro de Estados da ficha)."
       },
       "content": {
         "Name": "Completar os dados dos compêndios",
         "Hint": "Habilidades, itens e monstros tirados dos compêndios do sistema recebem o que só existia no texto: dano dos ataques de monstro, dano e cura de habilidades, estados que as habilidades causam, bônus fixos dos itens, estados de início de cena e a Fadiga que a comida remove. Só completa o que falta; nada editado à mão é trocado."
       },
       "chatTheme": {
-        "Name": "Tema Elder Tale no chat",
-        "Hint": "Cartões de habilidade, ataque, dano e as rolagens com o visual Elder Tale, com o retrato de quem fala."
-      },
-      "sheetTheme": {
-        "Name": "Tema pergaminho da ficha",
-        "Hint": "A ficha de personagem do sistema com o visual em pergaminho e verde: moldura recolorida, letras serifadas, barra de PV, estrelas de Destino, o boneco atrás dos espaços de equipamento e as pilhas de moedas. Pede recarregar."
+        "Name": "Tema pergaminho no chat",
+        "Hint": "Cartões de habilidade, ataque, dano e as rolagens em pergaminho, com o retrato de quem fala."
       }
     },
     "Use": {
@@ -167,9 +163,101 @@
       "Fed": "Fadiga −{amount}: {names}"
     },
     "Sheet": {
+      "Label": "Ficha de pergaminho (Automação)",
+      "Tab": {
+        "character": "Personagem",
+        "checks": "Testes",
+        "skills": "Habilidades",
+        "inventory": "Inventário",
+        "effects": "Efeitos e estados",
+        "biography": "Biografia"
+      },
+      "HitPoints": "Pontos de Vida",
+      "Max": "Máx.",
+      "BarrierHint": "Barreira: absorve o dano antes dos PV.",
+      "Hate": "Ódio",
+      "Fatigue": "Fadiga",
+      "FatigueHint": "A Fadiga reduz o PV máximo.",
+      "Defenses": "Defesas",
+      "PhysDef": "Física",
+      "MagicDef": "Mágica",
+      "Initiative": "Iniciativa",
+      "Speed": "Velocidade",
+      "CombatChecks": "Testes de combate",
+      "AbilityChecks": "Testes de atributo",
+      "ChecksHint": "Clique num teste para rolar (abre o modificador).",
+      "Statuses": "Estados",
+      "NoStatus": "Nenhum estado.",
+      "RemoveBad": "Destino",
+      "RemoveBadHint": "Gastar 1 Destino para remover um Estado Negativo.",
+      "FateHint": "Destino {value}/{max}. Clique: +1. Botão direito: −1.",
+      "CR": "Nível de Personagem (NP)",
+      "CRShort": "NP",
+      "Power": "Poder",
+      "Attack": "Ataque",
+      "Magic": "Mágico",
+      "Recovery": "Recuperação",
+      "Attributes": "Atributos",
+      "Allocate": "Distribuir",
+      "Attr": {
+        "str": {
+          "abbr": "FOR",
+          "name": "Força"
+        },
+        "dex": {
+          "abbr": "DES",
+          "name": "Destreza"
+        },
+        "pow": {
+          "abbr": "POD",
+          "name": "Poder"
+        },
+        "int": {
+          "abbr": "INT",
+          "name": "Inteligência"
+        }
+      },
+      "Timing": {
+        "major": "Ação Maior",
+        "minor": "Ação Menor",
+        "move": "Ação de Movimento",
+        "instant": "Ação Instantânea",
+        "reaction": "Reações",
+        "setup": "Abertura e Iniciativa",
+        "cleanup": "Encerramento",
+        "constant": "Constantes",
+        "downtime": "Fora de combate",
+        "other": "Outras"
+      },
+      "SkillCount": "{n} habilidade(s)",
+      "NoSkills": "Nenhuma habilidade deste tipo.",
+      "SR": "Nível de Habilidade (NH)",
+      "SRShort": "NH",
+      "Cost": "Custo",
+      "Limit": "Limite",
+      "Use": "Usar (enviar ao chat)",
+      "NoDescription": "Sem descrição.",
+      "Wealth": "Riqueza",
       "Gold": "{total} G",
+      "GoldAdd": "Receber ouro",
+      "GoldSpend": "Gastar ouro",
+      "GoldAmount": "Quantidade (G)",
       "GoldGained": "{name} recebeu {amount} G (total: {total} G).",
-      "GoldSpent": "{name} gastou {amount} G (total: {total} G)."
+      "GoldSpent": "{name} gastou {amount} G (total: {total} G).",
+      "Equipped": "Equipado",
+      "EquipHint": "arraste um item para um espaço",
+      "EmptySlot": "Vazio",
+      "Unequip": "Desequipar",
+      "Carried": "Carregando",
+      "EmptyBag": "Nada carregado.",
+      "OverSpace": "Além do espaço da bolsa.",
+      "Space": "Espaço",
+      "SpaceHint": "Espaço usado pelos itens carregados / espaço da bolsa.",
+      "NoEffects": "Nenhum efeito.",
+      "NoneYet": "Nada ainda.",
+      "Connections": "Conexões",
+      "Unions": "Uniões",
+      "BioHint": "Clique no lápis para escrever a biografia."
     }
   }
 }

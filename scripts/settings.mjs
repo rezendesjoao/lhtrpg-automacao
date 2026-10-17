@@ -43,15 +43,6 @@ export function registerSettings() {
   toggle("cards");
   toggle("fate");
   toggle("content");
-  game.settings.register(MODULE_ID, "sheetTheme", {
-    name: "LHAUTO.Settings.sheetTheme.Name",
-    hint: "LHAUTO.Settings.sheetTheme.Hint",
-    scope: "world",
-    config: true,
-    type: Boolean,
-    default: true,
-    requiresReload: true
-  });
   toggle("chatTheme");
 }
 

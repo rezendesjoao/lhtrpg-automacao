@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.5.0 — 2026-10-17
+
+A ficha de pergaminho: uma ficha nova, do tamanho e com a organização da ficha de Pathfinder 2e.
+
+- **Ficha de personagem nova** (padrão; a do sistema continua disponível na configuração da janela), 750×750:
+  estandarte verde à esquerda com PV, Barreira, Ódio, Fadiga, defesas em escudos, Iniciativa, Velocidade,
+  Poder, testes de combate roláveis e estados ativos; cabeçalho com o nome, Destino em estrelas e o NP num
+  brasão; abas Personagem, Testes, Habilidades, Inventário, Efeitos e estados, Biografia.
+- **Habilidades agrupadas pelo Momento**, com NH, custo e limite, e os detalhes abertos no próprio lugar.
+- **Inventário** com riqueza (receber, gastar e dar ouro), os sete espaços equipados, a lista do que se
+  carrega, tíquetes e a barra de espaço.
+- Texturas próprias (pergaminho, faixa e estandarte, geradas por `tools/make-textures.py`) e as fontes Eczar e
+  Gelasio (OFL) no lugar de Cinzel e Crimson Pro; o chat usa as mesmas fontes.
+- Sai o tema que recoloria a ficha do sistema (e a configuração "Tema pergaminho da ficha").
+- O botão de remover Estado Negativo com Destino fica no quadro de Estados da ficha.
+
 ## 0.4.0 — 2026-10-17
 
 O tema pergaminho no lugar da ficha Elder Tale.

@@ -8,5 +8,5 @@ Thumbs.db
 desktop.ini
 .vscode/
 
-# Art preview written by tools/recolor-art.py
-tools/_preview.png
+# Texture preview written by tools/make-textures.py
+tools/_textures.png

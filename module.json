@@ -1,8 +1,8 @@
 {
   "id": "lhtrpg-automacao",
   "title": "Log Horizon TRPG — Automação",
-  "description": "Automação extra e o tema pergaminho para o sistema Log Horizon TRPG, feitos para mesas com muitos jogadores e combates simultâneos: a ficha do sistema em pergaminho e verde (barra de PV, estrelas de Destino, o corpo atrás dos espaços de equipamento, pilhas de moedas), cartões do chat no mesmo visual, custos de Ódio e Destino, limites de uso, economia de ações, Ódio por combate, Encerramento, Incapacitado e fim de cena automáticos, botões de Destino, correções nos cartões de ataque e dano, e os dados que os compêndios só tinham em texto.",
-  "version": "0.4.0",
+  "description": "Automação extra e uma ficha de personagem em pergaminho para o sistema Log Horizon TRPG, feitas para mesas com muitos jogadores e combates simultâneos: ficha organizada como a de Pathfinder 2e (barra lateral com PV, Barreira, Ódio, Fadiga, defesas e testes de combate; abas de personagem, testes, habilidades por Momento, inventário, efeitos e biografia), cartões do chat no mesmo visual, custos de Ódio e Destino, limites de uso, economia de ações, Ódio por combate, Encerramento, Incapacitado e fim de cena automáticos, botões de Destino, correções nos cartões de ataque e dano, e os dados que os compêndios só tinham em texto.",
+  "version": "0.5.0",
   "authors": [
     {
       "name": "rezendesjoao",
@@ -38,7 +38,7 @@
   "styles": [
     "styles/fonts.css",
     "styles/automacao.css",
-    "styles/theme.css",
+    "styles/sheet.css",
     "styles/chat.css"
   ],
   "languages": [
@@ -55,7 +55,7 @@
   ],
   "url": "https://github.com/rezendesjoao/lhtrpg-automacao",
   "manifest": "https://github.com/rezendesjoao/lhtrpg-automacao/releases/latest/download/module.json",
-  "download": "https://github.com/rezendesjoao/lhtrpg-automacao/releases/download/v0.4.0/lhtrpg-automacao.zip",
+  "download": "https://github.com/rezendesjoao/lhtrpg-automacao/releases/download/v0.5.0/lhtrpg-automacao.zip",
   "bugs": "https://github.com/rezendesjoao/lhtrpg-automacao/issues",
   "readme": "https://github.com/rezendesjoao/lhtrpg-automacao/blob/main/README.md",
   "changelog": "https://github.com/rezendesjoao/lhtrpg-automacao/blob/main/CHANGELOG.md",

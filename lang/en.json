@@ -48,19 +48,15 @@
       },
       "fate": {
         "Name": "Fate buttons",
-        "Hint": "Spend 1 Fate to: +1D to a skill's Check, reroll a Hit, Dodge or plain check, and remove a Bad Status (star next to Fate on the sheet)."
+        "Hint": "Spend 1 Fate to: +1D on a skill's Check, reroll the hit, the dodge or a plain check, and remove a Bad Status (Fate button on the sheet's Statuses box)."
       },
       "content": {
         "Name": "Fill in the compendium data",
         "Hint": "Skills, items and monsters taken from the system compendiums get what only existed as text: monster attack damage, skill damage and healing, statuses skills give, items' constant bonuses, start-of-scene statuses and the Fatigue food removes. Only what is missing is filled; nothing edited by hand is replaced."
       },
       "chatTheme": {
-        "Name": "Elder Tale chat theme",
-        "Hint": "Skill, attack and damage cards and the rolls in the Elder Tale look, with the speaker's portrait."
-      },
-      "sheetTheme": {
-        "Name": "Parchment sheet theme",
-        "Hint": "The system's character sheet in the parchment and green look: recoloured frame, serif type, HP bar, Fate stars, the body behind the equipment slots and the coin piles. Needs a reload."
+        "Name": "Parchment chat theme",
+        "Hint": "Skill, attack and damage cards and the rolls on parchment, with the speaker's portrait."
       }
     },
     "Use": {
@@ -167,9 +163,101 @@
       "Fed": "Fatigue −{amount}: {names}"
     },
     "Sheet": {
+      "Label": "Parchment sheet (Automação)",
+      "Tab": {
+        "character": "Character",
+        "checks": "Checks",
+        "skills": "Skills",
+        "inventory": "Inventory",
+        "effects": "Effects & statuses",
+        "biography": "Biography"
+      },
+      "HitPoints": "Hit Points",
+      "Max": "Max",
+      "BarrierHint": "Barrier: absorbs damage before HP.",
+      "Hate": "Hate",
+      "Fatigue": "Fatigue",
+      "FatigueHint": "Fatigue lowers the maximum HP.",
+      "Defenses": "Defenses",
+      "PhysDef": "Physical",
+      "MagicDef": "Magic",
+      "Initiative": "Initiative",
+      "Speed": "Speed",
+      "CombatChecks": "Combat checks",
+      "AbilityChecks": "Ability checks",
+      "ChecksHint": "Click a check to roll it (asks for a modifier).",
+      "Statuses": "Statuses",
+      "NoStatus": "No status.",
+      "RemoveBad": "Fate",
+      "RemoveBadHint": "Spend 1 Fate to remove a Bad Status.",
+      "FateHint": "Fate {value}/{max}. Click: +1. Right click: −1.",
+      "CR": "Character Rank (CR)",
+      "CRShort": "CR",
+      "Power": "Power",
+      "Attack": "Attack",
+      "Magic": "Magic",
+      "Recovery": "Recovery",
+      "Attributes": "Attributes",
+      "Allocate": "Allocate",
+      "Attr": {
+        "str": {
+          "abbr": "STR",
+          "name": "Strength"
+        },
+        "dex": {
+          "abbr": "DEX",
+          "name": "Dexterity"
+        },
+        "pow": {
+          "abbr": "POW",
+          "name": "Power"
+        },
+        "int": {
+          "abbr": "INT",
+          "name": "Intelligence"
+        }
+      },
+      "Timing": {
+        "major": "Major Action",
+        "minor": "Minor Action",
+        "move": "Move Action",
+        "instant": "Instant Action",
+        "reaction": "Reactions",
+        "setup": "Setup & Initiative",
+        "cleanup": "Cleanup",
+        "constant": "Constant",
+        "downtime": "Out of combat",
+        "other": "Other"
+      },
+      "SkillCount": "{n} skill(s)",
+      "NoSkills": "No skills of this type.",
+      "SR": "Skill Rank (SR)",
+      "SRShort": "SR",
+      "Cost": "Cost",
+      "Limit": "Limit",
+      "Use": "Use (send to chat)",
+      "NoDescription": "No description.",
+      "Wealth": "Wealth",
       "Gold": "{total} G",
-      "GoldGained": "{name} gained {amount} G (total: {total} G).",
-      "GoldSpent": "{name} spent {amount} G (total: {total} G)."
+      "GoldAdd": "Receive gold",
+      "GoldSpend": "Spend gold",
+      "GoldAmount": "Amount (G)",
+      "GoldGained": "{name} received {amount} G (total: {total} G).",
+      "GoldSpent": "{name} spent {amount} G (total: {total} G).",
+      "Equipped": "Equipped",
+      "EquipHint": "drag an item onto a slot",
+      "EmptySlot": "Empty",
+      "Unequip": "Unequip",
+      "Carried": "Carried",
+      "EmptyBag": "Nothing carried.",
+      "OverSpace": "Beyond the bag's space.",
+      "Space": "Space",
+      "SpaceHint": "Space used by the carried items / space of the bag.",
+      "NoEffects": "No effects.",
+      "NoneYet": "Nothing yet.",
+      "Connections": "Connections",
+      "Unions": "Unions",
+      "BioHint": "Click the pencil to write the biography."
     }
   }
 }

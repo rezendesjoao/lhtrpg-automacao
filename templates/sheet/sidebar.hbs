@@ -1,0 +1,94 @@
+{{!-- Sidebar banner: what is used in play. --}}
+
+{{!-- HIT POINTS --}}
+<header><h2>{{localize 'LHAUTO.Sheet.HitPoints'}}</h2></header>
+<div class="hitpoints">
+	<div class="hp-big">
+		<div class="container barrier" data-tooltip="{{localize 'LHAUTO.Sheet.BarrierHint'}}">
+			<label class="sidebar_label">{{localize 'LHTRPG.StatusEffect.barrier'}}</label>
+			<div class="data-value"><input class="lhpf-barrier" type="text" value="{{lh.barrier}}" placeholder="0" maxlength="3" inputmode="numeric"{{#unless editable}} disabled{{/unless}}></div>
+		</div>
+		<div class="container current-hp">
+			<label class="sidebar_label">{{localize 'LHTRPG.Label.HP'}}</label>
+			<div class="data-value"><input type="text" name="system.health.value" value="{{source.health.value}}" placeholder="0" data-dtype="Number" maxlength="4"{{#if modified.hpValue}} class="has-effect" data-tooltip="{{modified.hpValue.tooltip}}"{{/if}}></div>
+		</div>
+		<div class="container max-hp">
+			<span class="sidebar_label">{{localize 'LHAUTO.Sheet.Max'}}</span>
+			<div class="data-value"><h2>{{lh.hp.max}}</h2></div>
+		</div>
+	</div>
+	<div class="lhpf-hpbar" data-state="{{lh.hp.state}}"><i style="width: {{lh.hp.pct}}%"></i></div>
+	<div class="hp-small">
+		<label class="counter{{#if lh.hateRank}} rank-{{lh.hateRank}}{{/if}}"{{#if lh.hateRank}} data-tooltip="{{lh.hateRankLabel}}"{{/if}}>
+			<span class="sidebar_label">{{localize 'LHAUTO.Sheet.Hate'}}{{#if lh.hateRank}} <i class="fa-solid {{#if (eq lh.hateRank 'top')}}fa-crown{{else}}fa-angles-down{{/if}}"></i>{{/if}}</span>
+			<input type="text" name="system.infos.hate" value="{{source.infos.hate}}" placeholder="0" data-dtype="Number" maxlength="3"{{#if modified.hate}} class="has-effect" data-tooltip="{{modified.hate.tooltip}}"{{/if}}>
+		</label>
+		<label class="counter" data-tooltip="{{localize 'LHAUTO.Sheet.FatigueHint'}}">
+			<span class="sidebar_label">{{localize 'LHAUTO.Sheet.Fatigue'}}</span>
+			<input type="text" name="system.infos.fatigue" value="{{source.infos.fatigue}}" placeholder="0" data-dtype="Number" maxlength="3"{{#if modified.fatigue}} class="has-effect" data-tooltip="{{modified.fatigue.tooltip}}"{{/if}}>
+		</label>
+	</div>
+</div>
+
+{{!-- DEFENSES --}}
+<header><h2>{{localize 'LHAUTO.Sheet.Defenses'}}</h2></header>
+<div class="lhpf-defenses">
+	<div class="shield phys" data-tooltip="{{localize 'LHTRPG.Tooltip.PhysDefense'}}">
+		<svg viewBox="0 0 64 72" aria-hidden="true"><path class="outer" d="M32 2 61 10V35C61 53 47 64 32 70 17 64 3 53 3 35V10Z"></path><path class="inner" d="M32 7 56 13.5V35C56 50 44.5 59.5 32 64.5 19.5 59.5 8 50 8 35V13.5Z"></path></svg>
+		<span class="value">{{lh.defense.phys}}</span>
+		<span class="sidebar_label">{{localize 'LHAUTO.Sheet.PhysDef'}}</span>
+	</div>
+	<div class="shield magic" data-tooltip="{{localize 'LHTRPG.Tooltip.MagicDefense'}}">
+		<svg viewBox="0 0 64 72" aria-hidden="true"><path class="outer" d="M32 2 61 10V35C61 53 47 64 32 70 17 64 3 53 3 35V10Z"></path><path class="inner" d="M32 7 56 13.5V35C56 50 44.5 59.5 32 64.5 19.5 59.5 8 50 8 35V13.5Z"></path></svg>
+		<span class="value">{{lh.defense.magic}}</span>
+		<span class="sidebar_label">{{localize 'LHAUTO.Sheet.MagicDef'}}</span>
+	</div>
+	<div class="stack">
+		<div class="mini" data-tooltip="{{localize 'LHTRPG.Tooltip.Initiative'}}">
+			<span class="sidebar_label">{{localize 'LHAUTO.Sheet.Initiative'}}</span>
+			<span class="value">{{lh.initiative}}</span>
+		</div>
+		<div class="mini" data-tooltip="{{localize 'LHTRPG.Tooltip.Speed'}}">
+			<span class="sidebar_label">{{localize 'LHAUTO.Sheet.Speed'}}</span>
+			<span class="value">{{lh.speed}}</span>
+		</div>
+	</div>
+</div>
+
+{{!-- POWER --}}
+<header><h2>{{localize 'LHAUTO.Sheet.Power'}}</h2></header>
+<ul class="saves power">
+	{{#each lh.power}}
+	<li data-tooltip="{{localize tooltip}}">
+		<h3 class="sidebar_label">{{label}}</h3>
+		<span class="value"><i class="{{icon}}"></i>{{value}}</span>
+	</li>
+	{{/each}}
+</ul>
+
+{{!-- COMBAT CHECKS (like saving throws) --}}
+<header><h2>{{localize 'LHAUTO.Sheet.CombatChecks'}}</h2></header>
+<ul class="saves">
+	{{#each lh.combatChecks}}
+	<li data-check="{{key}}">
+		<h3 class="sidebar_label">{{label}}</h3>
+		<span class="lhpf-dice" data-tier="{{tier}}">{{dice}}D</span>
+		<a class="save-roll" data-action="roll-check" data-name="{{name}}" data-dice="{{dice}}" data-bonus="{{total}}" data-tooltip="{{localize 'LHTRPG.ButtonLabel.Roll'}}: {{dice}}D{{mod}}">
+			<i class="fa-solid fa-dice-d6"></i><span class="modifier">{{mod}}</span>
+		</a>
+	</li>
+	{{/each}}
+</ul>
+
+{{!-- STATUSES --}}
+<header>
+	<h2>{{localize 'LHAUTO.Sheet.Statuses'}}</h2>
+	{{#if editable}}<button type="button" data-action="lhauto-remove-bad" data-tooltip="{{localize 'LHAUTO.Sheet.RemoveBadHint'}}"><i class="fa-solid fa-star"></i> {{localize 'LHAUTO.Sheet.RemoveBad'}}</button>{{/if}}
+</header>
+<ol class="tags lhpf-statuses">
+	{{#each lh.statuses}}
+	<li class="tag" data-status="{{id}}"><img src="{{img}}" alt="">{{label}}</li>
+	{{else}}
+	<li class="none">{{localize 'LHAUTO.Sheet.NoStatus'}}</li>
+	{{/each}}
+</ol>

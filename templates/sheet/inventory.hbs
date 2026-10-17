@@ -1,0 +1,110 @@
+{{!-- INVENTORY: wealth, equipment slots, carried items, tickets and the space used. --}}
+<section class="tab major inventory" data-group="primary" data-tab="inventory">
+	<div class="tab-content">
+		<ul class="currency">
+			<li class="label">{{localize 'LHAUTO.Sheet.Wealth'}}</li>
+			<li class="denomination gold">
+				<div class="currency-image"></div>
+				<input class="gold-input" type="text" name="system.inventory.gold" value="{{source.inventory.gold}}" placeholder="0" data-dtype="Number" maxlength="9" inputmode="numeric" data-tooltip="{{localize 'LHAUTO.Sheet.Gold' total=lh.gold}}">
+				<span class="unit">G</span>
+			</li>
+			{{#if editable}}
+			<li><button type="button" data-action="lhauto-gold" data-sign="1" data-tooltip="{{localize 'LHAUTO.Sheet.GoldAdd'}}"><i class="fa-solid fa-plus fa-fw"></i></button></li>
+			<li><button type="button" data-action="lhauto-gold" data-sign="-1" data-tooltip="{{localize 'LHAUTO.Sheet.GoldSpend'}}"><i class="fa-solid fa-minus fa-fw"></i></button></li>
+			<li><button type="button" class="gold-give" data-action="gold-give" data-tooltip="{{localize 'LHTRPG.Piles.GiveGoldTitle'}}"><i class="fa-solid fa-hand-holding-dollar fa-fw"></i></button></li>
+			{{/if}}
+		</ul>
+
+		<header class="lhpf-section">{{localize 'LHAUTO.Sheet.Equipped'}}<span class="hint">{{localize 'LHAUTO.Sheet.EquipHint'}}</span></header>
+		<div class="lhpf-slots">
+			{{#each lh.slots as |slot|}}
+			<div class="equip-slot lhpf-slot{{#if slot.item}} filled{{/if}}{{#if slot.locked}} locked{{/if}}" data-slot-type="{{slot.type}}" data-slot-index="{{slot.index}}"{{#if slot.hand}} data-hand="{{slot.hand}}"{{/if}}>
+				{{#if slot.item}}
+				<div class="item equipped draggable" data-item-id="{{slot.item._id}}">
+					<a class="item-image framed" data-action="item-edit" data-tooltip="{{slot.item.name}}"><img src="{{slot.item.img}}" alt=""></a>
+					<div class="text">
+						<span class="slot-label">{{localize slot.label}}</span>
+						<a class="name" data-action="item-edit">{{slot.item.name}}</a>
+					</div>
+					<div class="item-controls">
+						{{#if slot.swap}}<a class="hand-swap" data-action="hand-swap" data-tooltip="LHTRPG.Hands.Swap"><i class="fa-solid fa-fw fa-right-left"></i></a>{{/if}}
+						{{#if slot.item.system.linkedSkillUuid}}<a class="item-control" data-action="linked-skill-throw" data-tooltip="LHTRPG.Item.Label.ThrowToChat"><i class="fa-solid fa-fw fa-comment-dots"></i></a>{{/if}}
+						{{#if @root.editable}}
+						<a class="item-control" data-action="item-equip" data-tooltip="LHAUTO.Sheet.Unequip"><i class="fa-solid fa-fw fa-shirt"></i></a>
+						<a class="item-control" data-action="item-give" data-tooltip="LHTRPG.Piles.GiveTo"><i class="fa-solid fa-fw fa-hand-holding"></i></a>
+						<a class="item-control" data-action="item-delete" data-tooltip="LHTRPG.ButtonLabel.Delete"><i class="fa-solid fa-fw fa-trash"></i></a>
+						{{/if}}
+					</div>
+				</div>
+				{{else if slot.locked}}
+				<div class="empty-slot locked-slot" data-tooltip="{{localize 'LHTRPG.Hands.Locked' weapon=slot.locked.name}}">
+					<span class="item-image framed"><img src="{{slot.locked.img}}" alt=""></span>
+					<div class="text"><span class="slot-label">{{localize slot.label}}</span><span class="name"><i class="fa-solid fa-lock"></i> {{slot.locked.name}}</span></div>
+				</div>
+				{{else}}
+				<div class="empty-slot">
+					<span class="item-image framed placeholder"><img src="systems/lhtrpg/assets/ui/items_icons/{{slot.icon}}.svg" alt=""></span>
+					<div class="text"><span class="slot-label">{{localize slot.label}}</span><span class="name empty">{{localize 'LHAUTO.Sheet.EmptySlot'}}</span></div>
+				</div>
+				{{/if}}
+			</div>
+			{{/each}}
+		</div>
+
+		<section class="lhpf-carried">
+			<header>
+				<h3 class="item-name">{{localize 'LHAUTO.Sheet.Carried'}}</h3>
+				<span class="type">{{localize 'LHTRPG.Label.Type'}}</span>
+				{{#if editable}}
+				<div class="addItem item-controls">
+					<a data-action="add-item-menu" data-tooltip="{{localize 'LHTRPG.Add'}}"><i class="fa-solid fa-fw fa-plus"></i> {{localize 'LHTRPG.Add'}}</a>
+					<div class="dropdown-content">
+						{{#each lh.itemTypes}}<a class="item-control" data-action="item-create" data-type="{{type}}"><img src="systems/lhtrpg/assets/ui/items_icons/{{type}}.svg" alt="">{{label}}</a>{{/each}}
+					</div>
+				</div>
+				{{/if}}
+			</header>
+			<ol class="inventory-list items">
+				{{#each lh.carried as |item|}}
+				<li class="item draggable{{#if item.over}} over{{/if}}" data-item-id="{{item._id}}"{{#if item.over}} data-tooltip="{{localize 'LHAUTO.Sheet.OverSpace'}}"{{/if}}>
+					<div class="data">
+						<div class="item-name">
+							<a class="item-image framed" data-action="item-edit" data-tooltip="{{localize 'LHTRPG.ButtonLabel.Edit'}}"><img src="{{item.img}}" alt=""><i class="fa-solid fa-pen"></i></a>
+							<h4><a data-action="lhauto-summary">{{item.name}}</a></h4>
+						</div>
+						<span class="type">{{item.typeLabel}}</span>
+						<div class="item-controls">
+							{{#if item.usable}}<a class="item-control" data-action="item-use" data-tooltip="LHTRPG.Item.Use.Button"><i class="fa-solid fa-fw fa-flask"></i></a>{{/if}}
+							{{#if item.system.linkedSkillUuid}}<a class="item-control" data-action="linked-skill-throw" data-tooltip="LHTRPG.Item.Label.ThrowToChat"><i class="fa-solid fa-fw fa-comment-dots"></i></a>{{/if}}
+							{{#if @root.editable}}
+							{{#if item.equippable}}<a class="item-control" data-action="item-equip" data-tooltip="LHTRPG.Label.Equip"><i class="fa-solid fa-fw fa-shirt"></i></a>{{/if}}
+							<a class="item-control" data-action="item-give" data-tooltip="LHTRPG.Piles.GiveTo"><i class="fa-solid fa-fw fa-hand-holding"></i></a>
+							<a class="item-control" data-action="item-delete" data-tooltip="LHTRPG.ButtonLabel.Delete"><i class="fa-solid fa-fw fa-trash"></i></a>
+							{{/if}}
+						</div>
+					</div>
+					<div class="item-summary" hidden></div>
+				</li>
+				{{else}}
+				<li class="lhpf-empty">{{localize 'LHAUTO.Sheet.EmptyBag'}}</li>
+				{{/each}}
+			</ol>
+		</section>
+
+		<header class="lhpf-section">{{localize 'LHTRPG.Label.Tickets'}}</header>
+		<div class="ticket-slots-grid lhpf-tickets">
+			{{> "systems/lhtrpg/templates/actor/parts/inventory/inventory-ticket-ranked-slot.html" subtype="Treasure" typeLabel="LHTRPG.Ticket.Type.Treasure" icon="icons/sundries/flags/banner-pink.webp" items=tickets.treasure total=tickets.treasureTotal rank=system.infos.crank}}
+			{{> "systems/lhtrpg/templates/actor/parts/inventory/inventory-ticket-slot.html" subtype="Fate" typeLabel="LHTRPG.Ticket.Type.Fate" icon="icons/sundries/flags/banner-green.webp" item=tickets.fate.[0]}}
+			{{> "systems/lhtrpg/templates/actor/parts/inventory/inventory-ticket-slot.html" subtype="Connection" typeLabel="LHTRPG.Ticket.Type.Connection" icon="icons/sundries/flags/banner-purple.webp" item=tickets.connection.[0]}}
+			{{> "systems/lhtrpg/templates/actor/parts/inventory/inventory-ticket-slot.html" subtype="Reset" typeLabel="LHTRPG.Ticket.Type.Reset" icon="icons/sundries/flags/banner-blue.webp" item=tickets.reset.[0]}}
+		</div>
+	</div>
+
+	<footer class="inventory-bottom-summary">
+		<div class="encumbrance{{#if lh.space.over}} over-limit{{/if}}" data-tooltip="{{localize 'LHAUTO.Sheet.SpaceHint'}}">
+			<i class="fa-solid fa-sack"></i>
+			<span class="bar"><i style="width: {{lh.space.pct}}%"></i></span>
+			<span class="text">{{localize 'LHAUTO.Sheet.Space'}}: <b>{{lh.space.value}}</b> / {{lh.space.max}}</span>
+		</div>
+	</footer>
+</section>
