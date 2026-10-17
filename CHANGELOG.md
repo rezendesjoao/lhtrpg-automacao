@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.4.0 — 2026-10-17
+
+O tema pergaminho no lugar da ficha Elder Tale.
+
+- **A ficha volta a ser a do sistema**, com a moldura e o formato que só ela tem, agora em pergaminho e no
+  verde original, com detalhes em dourado e fontes serifadas (Cinzel e Crimson Pro), no espírito das fichas
+  de Pathfinder 2e. A arte da janela (moldura, janelas de Ódio e Fadiga, abas, botões, fundos dos itens) é
+  recolorida pelo módulo.
+- Do que a ficha Elder Tale acrescentava, ficou o que cabe no formato original: a barra de PV, as estrelas de
+  Destino, o corpo atrás dos espaços de equipamento (ligados por linhas que acendem quando ocupados) e as
+  pilhas de moedas por casa decimal ao lado do ouro.
+- Saíram com ela o radar dos atributos, os cartões de habilidade na ficha, a barra de Ódio, os chips dos
+  estados, a barra de capacidade do inventário e os botões de receber e gastar ouro.
+- O chat no mesmo pergaminho: faixa verde no cabeçalho, dados como faces, total em destaque, e a cor do
+  Momento na linha do título dos cartões de habilidade.
+- Fonte Crimson Pro (OFL) no lugar da Source Sans 3.
+- Configurações: **Tema pergaminho da ficha** (pede para recarregar) no lugar de "Ficha Elder Tale como
+  padrão"; **Tema pergaminho no chat** no lugar de "Tema Elder Tale no chat".
+
 ## 0.3.0 — 2026-10-17
 
 A ficha e o chat no visual Elder Tale.

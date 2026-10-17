@@ -43,9 +43,9 @@ export function registerSettings() {
   toggle("cards");
   toggle("fate");
   toggle("content");
-  game.settings.register(MODULE_ID, "sheetDefault", {
-    name: "LHAUTO.Settings.sheetDefault.Name",
-    hint: "LHAUTO.Settings.sheetDefault.Hint",
+  game.settings.register(MODULE_ID, "sheetTheme", {
+    name: "LHAUTO.Settings.sheetTheme.Name",
+    hint: "LHAUTO.Settings.sheetTheme.Hint",
     scope: "world",
     config: true,
     type: Boolean,

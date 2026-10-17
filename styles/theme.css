@@ -1,0 +1,813 @@
+/* ==========================================================================
+   Parchment theme of the Log Horizon TRPG character sheet — lhtrpg-automacao
+   The system's own layout and frame, in parchment and green: recoloured artwork, serif type,
+   and a few additions drawn by scripts/theme.mjs (HP bar, Fate stars, body behind the equipment
+   slots, coin piles). Applies when <body> has the class "lhauto-theme".
+   ========================================================================== */
+
+body.lhauto-theme {
+  --lh-parch: #efe3c3;
+  --lh-parch-2: #f6eedb;
+  --lh-parch-dark: #d8c89c;
+  --lh-cream: #f3ead2;
+  --lh-ink: #1d2a22;
+  --lh-muted: #5b6a5e;
+  --lh-green-deep: #16321f;
+  --lh-green: #1f5a3a;
+  --lh-green-mid: #3d8f61;
+  --lh-green-light: #8fcf9b;
+  --lh-gold: #c9a94e;
+  --lh-gold-dark: #8a6d1f;
+  --lh-red: #8c2f2f;
+  --lh-display: "ET Cinzel", "Cinzel", serif;
+  --lh-body: "ET Crimson", "Crimson Pro", "Noto Serif JP", serif;
+  --lh-line: rgba(22, 50, 31, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   Frame and window chrome
+   -------------------------------------------------------------------------- */
+body.lhauto-theme .lhtrpg.sheet.actor section.window-content {
+  background-image: url("../assets/ui/bg_charsheet.webp");
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.55));
+}
+body.lhauto-theme .lhtrpg.sheet.actor:has(.tab[data-tab="skills"].active) section.window-content,
+body.lhauto-theme .lhtrpg.sheet.actor:has(.tab[data-tab="items"].active) section.window-content,
+body.lhauto-theme .lhtrpg.sheet.actor:has(.tab[data-group="primary"][data-tab="stats"].active .tab[data-group="stats"][data-tab="status"].active) section.window-content {
+  background-image: url("../assets/ui/bg_charsheet_notitle.webp");
+}
+body.lhauto-theme .lhtrpg.sheet.actor .window-header .window-title {
+  color: var(--lh-green-deep);
+  font-family: var(--lh-display);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .window-header .header-control {
+  color: var(--lh-green-deep);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .window-header button[data-action="close"] {
+  background-image: url("../assets/ui/button_close.webp");
+}
+body.lhauto-theme .lhtrpg.sheet.actor .window-header button[data-action="close"]:hover {
+  filter: brightness(1.05) drop-shadow(0 0 4px var(--lh-gold));
+}
+body.lhauto-theme .lhtrpg.sheet.actor.minimized .window-header {
+  background-image: url("../assets/ui/info_window.webp");
+}
+body.lhauto-theme .lhtrpg.sheet.actor.minimized .window-title {
+  color: var(--lh-ink);
+}
+
+/* --------------------------------------------------------------------------
+   Type and fields
+   -------------------------------------------------------------------------- */
+body.lhauto-theme .lhtrpg.sheet.actor,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body,
+body.lhauto-theme .lhtrpg.sheet.actor .items-list .item,
+body.lhauto-theme .lhtrpg.sheet.actor .items-list .item .item-name,
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-list,
+body.lhauto-theme .lhtrpg.sheet.actor .items-list,
+body.lhauto-theme .lhtrpg.sheet.actor .tag-list {
+  font-family: var(--lh-body);
+  color: var(--lh-ink);
+}
+/* the system paints HP and Fate as gradient text (background-clip: text); back to plain ink */
+body.lhauto-theme .lhtrpg.sheet.actor :is(h1, h2, h3, h4) {
+  font-family: var(--lh-display) !important;
+  color: var(--lh-green-deep) !important;
+  text-shadow: none !important;
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor :is(input[type="text"], input[type="number"], textarea) {
+  font-family: var(--lh-display) !important;
+  color: var(--lh-ink) !important;
+  -webkit-text-fill-color: currentColor !important;
+  -webkit-background-clip: border-box !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--lh-line) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+body.lhauto-theme .lhtrpg.sheet.actor :is(input[type="text"], input[type="number"]):hover:not(:disabled) {
+  border-bottom-color: var(--lh-green-mid) !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor :is(input[type="text"], input[type="number"], textarea):focus {
+  background: rgba(201, 169, 78, 0.16) !important;
+  border-bottom-color: var(--lh-gold-dark) !important;
+  outline: none;
+}
+body.lhauto-theme .lhtrpg.sheet.actor input:disabled {
+  border-bottom-color: transparent !important;
+  color: var(--lh-green-deep) !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor input.has-effect {
+  color: var(--lh-gold-dark) !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor :is(input.guild-input, input.lh-status-tag, input.tag-entry-input) {
+  font-family: var(--lh-body) !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor ::placeholder {
+  color: var(--lh-muted);
+  opacity: 0.7;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .stat-effective {
+  color: var(--lh-gold-dark);
+  font-family: var(--lh-display);
+}
+body.lhauto-theme .lhtrpg.sheet.actor a {
+  color: var(--lh-green-deep);
+}
+body.lhauto-theme .lhtrpg.sheet.actor a:hover {
+  color: var(--lh-gold-dark);
+  text-shadow: none;
+}
+body.lhauto-theme .lhtrpg.sheet.actor span {
+  color: inherit;
+}
+
+/* The system's stat and item icons are light silhouettes: inked for the parchment. The status icons
+   keep their colours (a coloured square with a white glyph) */
+body.lhauto-theme .lhtrpg.sheet.actor .battle-status img,
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .empty-slot .slot-placeholder,
+body.lhauto-theme .lhtrpg.sheet.actor .addItem .dropdown-content img {
+  filter: brightness(0) saturate(100%) invert(16%) sepia(26%) saturate(1200%) hue-rotate(110deg) brightness(90%) !important;
+  opacity: 0.9;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lh-status-panel .lh-status img,
+body.lhauto-theme .lhtrpg.sheet.actor .bad-status img {
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .header-fields .charname input {
+  font-weight: 700;
+  color: var(--lh-green-deep) !important;
+  letter-spacing: 0.02em;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .header-fields .race,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .header-fields .race label,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .header-fields .classes .class,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .header-fields .classes .subclass {
+  color: var(--lh-green-deep);
+  font-family: var(--lh-body);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .header-fields .race label {
+  font-family: var(--lh-display);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .option-field {
+  color: var(--lh-ink);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .option-field .option-name,
+body.lhauto-theme .lhtrpg.sheet.actor .option-field .option-browse {
+  color: var(--lh-ink);
+  font-family: var(--lh-display);
+  font-size: 15px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .option-field.empty .option-placeholder {
+  color: var(--lh-muted);
+  font-style: italic;
+  font-family: var(--lh-body);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .option-field .option-menu,
+body.lhauto-theme .lhtrpg.sheet.actor .option-field .option-browse i {
+  color: var(--lh-green-mid);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .header-fields .levels input {
+  color: var(--lh-green-deep) !important;
+  font-weight: 700;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .header-fields .levels .rank-up {
+  font-family: var(--lh-display);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lh-green-deep);
+  background: rgba(22, 50, 31, 0.06);
+  border: 1px solid var(--lh-green-mid);
+  border-radius: 3px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .header-fields .levels .rank-up:hover {
+  background: var(--lh-green);
+  color: var(--lh-cream);
+  box-shadow: 0 0 6px rgba(201, 169, 78, 0.6);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .collapsible {
+  background-image: url("../assets/ui/uncollapse.webp");
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .collapsible:hover {
+  filter: drop-shadow(0 0 3px var(--lh-gold));
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .info-windows .hate-window,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .info-windows .fatigue-window {
+  background-image: url("../assets/ui/info_window_short.webp");
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .info-windows .hate-label,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .info-windows .fatigue-label {
+  color: var(--lh-green-deep);
+  font-family: var(--lh-display);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .info-windows .hate-input,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-header .info-windows .fatigue-input {
+  color: var(--lh-green-deep) !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .profile-img {
+  filter: sepia(0.08) contrast(1.02);
+}
+
+/* --------------------------------------------------------------------------
+   Tabs
+   -------------------------------------------------------------------------- */
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-tabs a {
+  filter: grayscale(100%) opacity(0.55);
+  transition: filter 0.2s ease-out;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-tabs a:hover {
+  filter: grayscale(60%) opacity(0.9);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-tabs a.active {
+  filter: grayscale(0%) opacity(1) drop-shadow(0 0 4px rgba(201, 169, 78, 0.7));
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats :is(nav.status-tabs, nav.skills-tabs, nav.bio-tabs, nav.items-tabs) a {
+  background-image: url("../assets/ui/confirm-tab.webp");
+  color: var(--lh-green-deep);
+  font-family: var(--lh-display);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: none;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats :is(nav.status-tabs, nav.skills-tabs, nav.bio-tabs, nav.items-tabs) a.active {
+  filter: grayscale(0%) opacity(100%) drop-shadow(0 0 4px rgba(201, 169, 78, 0.8));
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body h4.tab-title {
+  font-family: var(--lh-display) !important;
+  font-size: 17px;
+  letter-spacing: 0.08em;
+  color: var(--lh-green-deep) !important;
+  line-height: 1.1;
+  top: 322px;
+}
+
+/* --------------------------------------------------------------------------
+   Stats
+   -------------------------------------------------------------------------- */
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .hp h4,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .fate h4,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .power h4,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .defense h4 {
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .hp h4,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .hp .hp-gauge input {
+  color: var(--lh-green) !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .fate h4,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .fate .fate-gauge input {
+  color: var(--lh-gold-dark) !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .hp .hp-gauge span,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .fate .fate-gauge span {
+  color: var(--lh-muted);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .hp .hp-gauge input,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .fate .fate-gauge input {
+  font-weight: 700;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .hp .hp-gauge input[name="system.health.max"],
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .battle-status .fate .fate-gauge input[name="system.fate.max"] {
+  font-weight: 400;
+  color: var(--lh-muted) !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-bar {
+  position: relative;
+  height: 5px;
+  margin: 1px 14px 0;
+  border-radius: 3px;
+  background: var(--lh-parch-dark);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-bar i {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--lh-green), var(--lh-green-mid));
+  transition: width 0.6s ease;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-bar--warn i { background: linear-gradient(90deg, var(--lh-gold-dark), var(--lh-gold)); }
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-bar--low i { background: linear-gradient(90deg, #6e1f1f, var(--lh-red)); }
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-stars {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin-top: 1px;
+  font-size: 9px;
+  color: var(--lh-parch-dark);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-stars i.on {
+  color: var(--lh-gold);
+  text-shadow: 0 0 3px rgba(201, 169, 78, 0.6);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .attributes .attr-inputs .attr-mod-input {
+  color: var(--lh-green-deep) !important;
+  font-weight: 700;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .attributes .attr-inputs .attr-input {
+  color: var(--lh-muted) !important;
+  font-size: 12px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .attributes .check {
+  border-radius: 4px;
+  transition: background-color 0.15s, color 0.15s;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .attributes .check h4 {
+  font-family: var(--lh-body) !important;
+  font-size: 12px;
+  font-weight: 600;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .attributes .check span {
+  color: var(--lh-gold-dark);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .attributes .check:hover,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .attributes .check:active,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .attributes .check:focus {
+  background-color: var(--lh-green);
+  box-shadow: 0 0 0 1px var(--lh-gold-dark);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .attributes .check:hover h4,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .attributes .check:hover span,
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .attributes .check:hover input {
+  color: var(--lh-cream) !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .sheet-body .stats .bad-status {
+  color: var(--lh-ink);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .resource-label {
+  font-family: var(--lh-display);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lh-green-deep);
+}
+
+/* --------------------------------------------------------------------------
+   Lists: effects, connections, unions
+   -------------------------------------------------------------------------- */
+body.lhauto-theme .lhtrpg.sheet.actor .items-list {
+  background-color: rgba(22, 50, 31, 0.06);
+  border: 1px solid var(--lh-line);
+  border-radius: 4px;
+  color: var(--lh-ink);
+  scrollbar-color: var(--lh-green-mid) transparent;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .items-header,
+body.lhauto-theme .lhtrpg.sheet.actor .items-list .items-header {
+  background: var(--lh-green);
+  color: var(--lh-cream);
+  border-radius: 3px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .items-header > *,
+body.lhauto-theme .lhtrpg.sheet.actor .items-header .item-name,
+body.lhauto-theme .lhtrpg.sheet.actor .items-list .items-header h3,
+body.lhauto-theme .lhtrpg.sheet.actor .items-header .effect-source,
+body.lhauto-theme .lhtrpg.sheet.actor .items-header .effect-controls a {
+  color: var(--lh-cream) !important;
+  font-family: var(--lh-display) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .items-list .item:nth-child(even) {
+  background-color: rgba(22, 50, 31, 0.07);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .items-list .item .item-name,
+body.lhauto-theme .lhtrpg.sheet.actor .items-list .item .item-name h4 {
+  color: var(--lh-ink) !important;
+  font-family: var(--lh-body) !important;
+  font-size: 13px !important;
+  font-weight: 600;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .effects-list .effect-summary {
+  color: var(--lh-muted);
+  font-family: var(--lh-body);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .effects-list .effect-unmet {
+  color: var(--lh-red);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .effects-list .effect-source,
+body.lhauto-theme .lhtrpg.sheet.actor .effects-list .effect-duration {
+  color: var(--lh-muted);
+  font-size: 11px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .effects-list .effect-duration {
+  color: var(--lh-gold-dark);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .items-list .item-controls a,
+body.lhauto-theme .lhtrpg.sheet.actor .effect-controls a {
+  color: var(--lh-green-mid);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .items-list .item-controls a:hover,
+body.lhauto-theme .lhtrpg.sheet.actor .effect-controls a:hover {
+  color: var(--lh-gold-dark);
+  text-shadow: none;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .items-list .item-controls a.item-delete,
+body.lhauto-theme .lhtrpg.sheet.actor .effect-controls a[data-action="delete"] {
+  color: var(--lh-red);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .items-list .item-prop {
+  border-color: var(--lh-line);
+}
+
+/* --------------------------------------------------------------------------
+   Status panel and tags
+   -------------------------------------------------------------------------- */
+body.lhauto-theme .lhtrpg.sheet.actor .lh-status-panel {
+  color: var(--lh-ink);
+  font-family: var(--lh-body);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lh-status-group-title {
+  color: var(--lh-green-deep) !important;
+  border-bottom-color: var(--lh-green-mid);
+  font-family: var(--lh-display) !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lh-status-panel .lh-status {
+  opacity: 0.62;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lh-status-panel .lh-status:hover {
+  opacity: 0.9;
+  background: rgba(61, 143, 97, 0.15);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lh-status-panel .lh-status.active {
+  opacity: 1;
+  background: rgba(201, 169, 78, 0.35);
+  box-shadow: inset 2px 0 0 var(--lh-gold-dark);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lh-status-panel .lh-status input.lh-status-rating,
+body.lhauto-theme .lhtrpg.sheet.actor .lh-status-entry input {
+  background: rgba(255, 255, 255, 0.35) !important;
+  border: 1px solid var(--lh-line) !important;
+  border-radius: 2px !important;
+  color: var(--lh-ink) !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lh-status-panel .lh-status-list-add,
+body.lhauto-theme .lhtrpg.sheet.actor .lh-status-panel .lh-status-entry-remove {
+  color: var(--lh-green-mid);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lh-status-entries {
+  color: var(--lh-ink);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .tag,
+body.lhauto-theme .lhtrpg.sheet.actor .lh-tag-input .tag {
+  color: var(--lh-green-deep);
+  background-color: rgba(61, 143, 97, 0.14);
+  border: 1px solid var(--lh-green-mid);
+  font-family: var(--lh-body);
+  font-size: 11px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lh-tag-input .tag.tag-custom {
+  border-style: dashed;
+  border-color: var(--lh-gold-dark);
+  background-color: rgba(201, 169, 78, 0.16);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lh-tag-input .tag-remove:hover {
+  color: var(--lh-red);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lh-tag-input .tag-entry-input:focus {
+  background: rgba(201, 169, 78, 0.12) !important;
+}
+
+/* --------------------------------------------------------------------------
+   Skills grid
+   -------------------------------------------------------------------------- */
+body.lhauto-theme .lhtrpg.sheet.actor .skills-grid {
+  scrollbar-color: var(--lh-green-mid) transparent;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .skills-grid .item-image {
+  background-image: url("../assets/ui/inventory/item-bg.webp");
+}
+body.lhauto-theme .lhtrpg.sheet.actor .skills-grid .item.skill-tile:hover .item-image {
+  filter: brightness(1.06) drop-shadow(0 0 4px rgba(201, 169, 78, 0.7));
+}
+body.lhauto-theme .lhtrpg.sheet.actor .skills-grid .slot-label {
+  color: var(--lh-ink);
+  font-family: var(--lh-body);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .skills-grid .items-control a.item-control {
+  background-color: var(--lh-green-mid);
+  border-radius: 3px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .skills-grid .items-control .item-edit {
+  color: var(--lh-cream);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .skills-grid .items-control .item-delete {
+  color: #ffd6d6;
+  background-color: var(--lh-red);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .skills-grid .add-tile .item-image.add-icon {
+  border: 1px dashed var(--lh-green-mid);
+  color: var(--lh-green-deep);
+  opacity: 0.7;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .skills-grid .add-tile:hover .item-image.add-icon {
+  opacity: 1;
+  border-color: var(--lh-gold-dark);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .skills-grid .add-tile.pending .item-image.add-icon {
+  border-color: var(--lh-gold-dark);
+  color: var(--lh-gold-dark);
+  opacity: 1;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .skill-pending-badge {
+  background: var(--lh-gold);
+  color: var(--lh-green-deep);
+}
+
+/* --------------------------------------------------------------------------
+   Items: the body behind the equipment slots, inventory and purse
+   -------------------------------------------------------------------------- */
+body.lhauto-theme .lhtrpg.sheet.actor .equipment-title {
+  color: var(--lh-green-deep);
+  font-family: var(--lh-display);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slots-grid {
+  display: block;
+  position: relative;
+  width: 210px;
+  height: 290px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-doll {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-body :is(ellipse, rect, path) {
+  fill: rgba(22, 50, 31, 0.13);
+  stroke: var(--lh-green-deep);
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-link polyline {
+  fill: none;
+  stroke: var(--lh-green-mid);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  opacity: 0.7;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-link circle {
+  fill: var(--lh-parch);
+  stroke: var(--lh-green-mid);
+  stroke-width: 1.2;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-link.filled polyline {
+  stroke: var(--lh-gold-dark);
+  stroke-dasharray: none;
+  opacity: 1;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-link.filled circle {
+  fill: var(--lh-gold);
+  stroke: var(--lh-gold-dark);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot {
+  position: absolute;
+  width: 52px;
+  gap: 2px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot[data-hand="main"] { left: 0; top: 0; }
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot[data-slot-type="accessory"][data-slot-index="0"] { left: 0; top: 94px; }
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot[data-slot-type="accessory"][data-slot-index="2"] { left: 0; top: 187px; }
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot[data-hand="off"] { left: 158px; top: 0; }
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot[data-slot-type="armor"] { left: 158px; top: 94px; }
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot[data-slot-type="accessory"][data-slot-index="1"] { left: 158px; top: 187px; }
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot[data-slot-type="bag"] { left: 79px; top: 230px; }
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .item,
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .empty-slot,
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .item-image {
+  width: 52px;
+  height: 52px;
+  flex-basis: 52px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .item-image img {
+  max-width: 40px;
+  max-height: 40px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .empty-slot {
+  border: 1px dashed var(--lh-green-mid);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.18);
+  opacity: 0.8;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .empty-slot .slot-placeholder {
+  opacity: 0.45;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot.drag-over {
+  filter: none;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot.drag-over .empty-slot {
+  border-color: var(--lh-gold-dark);
+  background: rgba(201, 169, 78, 0.25);
+  opacity: 1;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .slot-label,
+body.lhauto-theme .lhtrpg.sheet.actor .ticket-slot--ranked .slot-label,
+body.lhauto-theme .lhtrpg.sheet.actor .ticket-slot .slot-label {
+  color: var(--lh-green-deep);
+  font-family: var(--lh-display);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+  background: rgba(239, 227, 195, 0.8);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .hand-swap {
+  color: var(--lh-green-mid);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-list .item-image,
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .item-image {
+  background-image: url("../assets/ui/inventory/item-bg.webp");
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-list .item.equipped .item-image,
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .item.equipped .item-image {
+  background-image: url("../assets/ui/inventory/equipped-bg.webp");
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-list .item:hover {
+  filter: brightness(1.06) drop-shadow(0 0 4px rgba(201, 169, 78, 0.7));
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-list .empty-slot {
+  border: 1px dashed rgba(61, 143, 97, 0.5);
+  background: rgba(255, 255, 255, 0.14);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-list {
+  scrollbar-color: var(--lh-green-mid) transparent;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-list .item:hover a.item-control,
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .item:hover a.item-control {
+  background-color: var(--lh-green-mid);
+  color: var(--lh-cream);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-list .item:hover .item-delete,
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .item:hover .item-delete {
+  background-color: var(--lh-red);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-list .item.equipped a.item-control,
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .item.equipped a.item-control {
+  background-color: var(--lh-gold-dark);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .equip-slot .item .linked-skill-throw-badge,
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-list .item .linked-skill-throw-badge {
+  background: var(--lh-gold);
+  color: var(--lh-green-deep);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-infos {
+  color: var(--lh-ink);
+  font-family: var(--lh-display);
+  font-size: 18px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-infos .gold-input {
+  color: var(--lh-gold-dark) !important;
+  font-weight: 700;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-infos .inventory-gold img {
+  filter: sepia(0.35) saturate(1.4) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-infos .gold-give,
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-infos .addItem .item-controls {
+  color: var(--lh-green-mid);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-stacks {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 30px;
+  margin-right: 8px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-stack {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  width: 16px;
+  min-height: 7px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-stack i {
+  display: block;
+  width: 16px;
+  height: 5px;
+  margin-top: -2px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 40% 30%, #ffe9a6, #d9b24a 60%, #8a6d1f);
+  box-shadow: 0 1px 0 #6a4408;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-stack.empty::before {
+  content: "";
+  width: 16px;
+  height: 5px;
+  border-radius: 50%;
+  border: 1px dashed rgba(138, 109, 31, 0.5);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-infos .addItem .dropdown-content {
+  background-color: var(--lh-parch-2);
+  border: 1px solid var(--lh-green);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-infos .addItem .dropdown-content a.item-control {
+  color: var(--lh-ink);
+  font-family: var(--lh-body);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .inventory-infos .addItem .dropdown-content a.item-control:hover {
+  background: rgba(61, 143, 97, 0.18);
+}
+
+/* --------------------------------------------------------------------------
+   Tickets
+   -------------------------------------------------------------------------- */
+body.lhauto-theme .lhtrpg.sheet.actor .ticket-slot {
+  color: var(--lh-ink);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .ticket-slot .empty-slot {
+  border-color: var(--lh-green-mid);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .ticket-slot .slot-quantity {
+  background: var(--lh-gold);
+  color: var(--lh-green-deep);
+  font-family: var(--lh-display);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .ticket-slot .slot-stack-controls a,
+body.lhauto-theme .lhtrpg.sheet.actor .ticket-rank-row a,
+body.lhauto-theme .lhtrpg.sheet.actor .ticket-rank-add span {
+  color: var(--lh-green-deep);
+  border-color: var(--lh-green-mid);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .ticket-slot .slot-stack-controls a:hover {
+  background: var(--lh-green);
+  color: var(--lh-cream);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .ticket-rank-row,
+body.lhauto-theme .lhtrpg.sheet.actor .ticket-rank-add {
+  color: var(--lh-ink);
+  border-color: var(--lh-line);
+}
+body.lhauto-theme .lhtrpg.sheet.actor .ticket-rank-qty {
+  color: var(--lh-gold-dark);
+  font-family: var(--lh-display);
+}
+
+/* --------------------------------------------------------------------------
+   Bio
+   -------------------------------------------------------------------------- */
+body.lhauto-theme .lhtrpg.sheet.actor .bio-body .guild h4 {
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 12px !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .bio-body .guild .guild-input {
+  font-family: var(--lh-display) !important;
+  font-weight: 700;
+  color: var(--lh-green-deep) !important;
+}
+body.lhauto-theme .lhtrpg.sheet.actor prose-mirror,
+body.lhauto-theme .lhtrpg.sheet.actor .editor {
+  color: var(--lh-ink);
+  font-family: var(--lh-body);
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid var(--lh-line);
+  border-radius: 4px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor prose-mirror .editor-content {
+  color: var(--lh-ink);
+}
+body.lhauto-theme .lhtrpg.sheet.actor prose-mirror .editor-content a {
+  color: var(--lh-green);
+}
+
+/* --------------------------------------------------------------------------
+   Fate star of the module (removes a Bad Status) and misc
+   -------------------------------------------------------------------------- */
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-fate-use {
+  color: var(--lh-gold-dark);
+  margin-left: 4px;
+  font-size: 12px;
+}
+body.lhauto-theme .lhtrpg.sheet.actor .lhauto-fate-use:hover {
+  color: var(--lh-gold);
+}

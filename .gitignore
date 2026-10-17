@@ -7,3 +7,6 @@ node_modules/
 Thumbs.db
 desktop.ini
 .vscode/
+
+# Art preview written by tools/recolor-art.py
+tools/_preview.png

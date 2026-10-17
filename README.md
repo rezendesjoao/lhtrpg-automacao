@@ -4,41 +4,31 @@ Módulo de extensão para o sistema **Log Horizon TRPG** (`lhtrpg` 2.1.x, Foundr
 com muitos jogadores e vários combates ao mesmo tempo. Ele completa a automação que o sistema já tem: não
 substitui fichas nem cartões, só acrescenta o que faltava e corrige o que quebrava em mesa grande.
 
-Já tem a **Fase 1 — núcleo do combate**, a **Fase 2 — conteúdo dos compêndios** e o **visual Elder Tale** da
+Já tem a **Fase 1 — núcleo do combate**, a **Fase 2 — conteúdo dos compêndios** e o **tema pergaminho** da
 ficha e do chat. As próximas fases (mesa por texto, cena e sessão, regras de construção) estão listadas no fim.
 
-## A ficha Elder Tale
+## O tema pergaminho
 
-Uma ficha de personagem nova, no visual das janelas do jogo em Log Horizon: vidro escuro, luz ciano, linhas
-finas e hexágonos. Ela usa toda a lógica da ficha do sistema (equipar, rolar, tíquetes, efeitos, navegador de
-habilidades), só muda a forma e acrescenta leitura.
+A ficha de personagem continua a do sistema, com a moldura e o formato que só ela tem. O módulo recolore a
+arte da janela em pergaminho e no verde do sistema, com detalhes em dourado, e passa o texto para fontes
+serifadas (Cinzel nos títulos e números, Crimson Pro no corpo), no espírito das fichas de Pathfinder 2e. Nada
+muda de lugar; o que ele acrescenta são leituras que a ficha não tinha:
 
-- **Cabeçalho:** retrato hexagonal, nome, NP com o botão de subir, raça, classe, subclasse e guilda, chips dos
-  estados ativos e o emblema da classe.
-- **Vitais:** barra de PV com dez segmentos (verde, âmbar e vermelho conforme o que resta), Destino em
-  estrelas (a estrela ao lado remove um Estado Negativo com Destino), barra de Ódio com a marca de Topo ou
-  Abaixo no Ódio, e a Fadiga.
-- **Atributos:** leitura de Ataque, Mágico, Recuperação, Defesas, Iniciativa e Velocidade; os quatro
-  atributos em hexágonos (valor grande, base pequena) com as perícias roláveis ao lado; o radar dos atributos;
-  Precisão, Esquiva e Resistência em destaque.
-- **Habilidades:** cartões coloridos pelo Momento (Maior, Menor, Movimento, Abertura, reações…), com os pontos
-  de NH, custo, limite, alvo e alcance. Clique na imagem para mandar ao chat.
-- **Equipamento:** o boneco com os sete espaços — mão principal, mão secundária, armadura, três acessórios e
-  bolsa — ligados ao corpo por linhas que acendem quando o espaço está ocupado. Arraste um item para o espaço
-  para equipar, ou de volta para a grade para tirar.
-- **Bolsa de moedas:** o ouro em números grandes, as pilhas de moedas por casa decimal (milhares, centenas,
-  dezenas, unidades) e os botões de receber e gastar, que registram a mudança no chat, além do dar ouro.
-- **Efeitos, estados, tíquetes, bio, conexões e uniões** reorganizados no mesmo visual.
+- **Barra de PV** sob os números de PV: verde, âmbar e vermelho conforme o que resta.
+- **Destino em estrelas** sob os números de Destino. A estrela ao lado remove um Estado Negativo com Destino.
+- **O corpo atrás dos espaços de equipamento:** na aba de itens, os sete espaços — mão principal, mão
+  secundária, armadura, três acessórios e bolsa — ficam em volta de uma silhueta, ligados a ela por linhas que
+  acendem em dourado quando o espaço está ocupado. Equipar e tirar continuam por arrastar.
+- **Pilhas de moedas** ao lado do ouro: uma pilha por casa decimal (milhares, centenas, dezenas, unidades), e
+  o total formatado ao passar o mouse.
 
-A ficha vira o padrão dos personagens ao ativar o módulo. Qualquer ficha pode voltar à do sistema pelo menu de
-configuração da janela (o ícone de ficha no cabeçalho). Monstros e itens continuam com as fichas do sistema.
+O chat recebe o mesmo pergaminho. Os cartões de habilidade, ataque, dano, aplicação, fases e os do próprio
+módulo ganham a faixa verde no cabeçalho com o retrato de quem fala, dados como faces (o 6 em ouro, o 1 em
+vermelho), o total em destaque, acerto, erro e pendente com cores, o crítico brilhando e os botões de Destino
+em dourado. Os cartões de habilidade levam a cor do seu Momento na linha do título.
 
-## O chat Elder Tale
-
-Os cartões de habilidade, ataque, dano, aplicação, fases e os do próprio módulo ganham o mesmo visual: retrato de
-quem fala no cabeçalho, dados como faces (o 6 em ouro, o 1 em vermelho), o total em destaque, acerto, erro e
-pendente com cores, o crítico brilhando, e os botões de Destino em dourado. Os cartões de habilidade ficam
-coloridos pelo Momento, como na ficha.
+As duas partes têm configuração própria. Com o tema da ficha desligado, a ficha volta ao visual original do
+sistema (é preciso recarregar). Monstros e itens continuam com as fichas do sistema.
 
 ## O que ele faz
 
@@ -130,7 +120,8 @@ Ficam em **Configurações → Configurar Configurações → Log Horizon TRPG �
 
 ## Configurações
 
-Todas são do mundo (só o Mestre muda) e valem na hora, sem recarregar.
+Todas são do mundo (só o Mestre muda) e valem na hora, sem recarregar; só o tema da ficha pede para
+recarregar.
 
 | Configuração | Padrão |
 |---|---|
@@ -146,8 +137,8 @@ Todas são do mundo (só o Mestre muda) e valem na hora, sem recarregar.
 | Correções nos cartões de ataque e dano | ligado |
 | Botões de Destino | ligado |
 | Completar os dados dos compêndios | ligado |
-| Ficha Elder Tale como padrão | ligado |
-| Tema Elder Tale no chat | ligado |
+| Tema pergaminho da ficha | ligado |
+| Tema pergaminho no chat | ligado |
 
 "Limites de uso" e "Momento e economia de ações" têm três modos: **desligado**, **avisar** (pergunta se é
 para usar mesmo assim) e **bloquear** (o jogador não consegue; o Mestre pode forçar).
@@ -230,6 +221,10 @@ Foundry 14.367, `lhtrpg` 2.1.0 e `lhtrpg-pt-br` 1.0.0. Cenários testados num mu
     achado pelo nome e em tokens não vinculados.
 - A leitura do dano dos 75 ataques do bestiário dá o mesmo resultado no texto em inglês e no texto traduzido
   pelo `lhtrpg-pt-br`.
+- Tema pergaminho: a ficha em todas as abas (status, efeitos, estados, habilidades, equipamento, tíquetes,
+  bio), a barra de PV, as estrelas de Destino, o corpo com os espaços ocupados e vazios, as pilhas de moedas,
+  a janela de Ódio e Fadiga; no chat, o cartão de habilidade com o uso registrado, o Teste e o botão de
+  Destino.
 
 ## Dados dos compêndios
 

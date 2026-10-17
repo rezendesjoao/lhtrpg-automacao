@@ -54,13 +54,13 @@
         "Name": "Fill in the compendium data",
         "Hint": "Skills, items and monsters taken from the system compendiums get what only existed as text: monster attack damage, skill damage and healing, statuses skills give, items' constant bonuses, start-of-scene statuses and the Fatigue food removes. Only what is missing is filled; nothing edited by hand is replaced."
       },
-      "sheetDefault": {
-        "Name": "Elder Tale sheet as default",
-        "Hint": "Makes the Elder Tale sheet the default character sheet. Any sheet can still go back to the system's one from the window's sheet configuration. Needs a reload."
-      },
       "chatTheme": {
         "Name": "Elder Tale chat theme",
         "Hint": "Skill, attack and damage cards and the rolls in the Elder Tale look, with the speaker's portrait."
+      },
+      "sheetTheme": {
+        "Name": "Parchment sheet theme",
+        "Hint": "The system's character sheet in the parchment and green look: recoloured frame, serif type, HP bar, Fate stars, the body behind the equipment slots and the coin piles. Needs a reload."
       }
     },
     "Use": {
@@ -167,30 +167,7 @@
       "Fed": "Fatigue −{amount}: {names}"
     },
     "Sheet": {
-      "Label": "Elder Tale sheet (Automation)",
-      "Attr": {
-        "str": "STR",
-        "dex": "DEX",
-        "pow": "POW",
-        "int": "INT"
-      },
-      "Readout": {
-        "atk": "Attack",
-        "mag": "Magic",
-        "rec": "Recovery",
-        "def": "Phys. Def.",
-        "mdef": "Magic Def.",
-        "init": "Initiative",
-        "spd": "Speed"
-      },
-      "Hate": {
-        "top": "Hate Top",
-        "under": "Hate Under"
-      },
-      "FatigueHint": "Lowers Max HP",
-      "SpaceHint": "Inventory slots in use",
-      "GoldAdd": "Gain gold",
-      "GoldSpend": "Spend gold",
+      "Gold": "{total} G",
       "GoldGained": "{name} gained {amount} G (total: {total} G).",
       "GoldSpent": "{name} spent {amount} G (total: {total} G)."
     }
