@@ -44,6 +44,7 @@ export function registerSettings() {
   toggle("closeReach");
   toggle("fate");
   toggle("content");
+  toggle("kuden");
   toggle("chatTheme");
   game.settings.register(MODULE_ID, "windowTheme", {
     name: "LHAUTO.Settings.windowTheme.Name",

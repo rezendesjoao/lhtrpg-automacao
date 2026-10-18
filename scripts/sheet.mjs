@@ -8,22 +8,25 @@
  * (.item[data-item-id], .equip-slot, .inventory-list, .option-field, the status panel, tag input and
  * ticket partials, the tab groups…), so equipping, rolling, tickets and effects keep working.
  */
-import { L, MODULE_ID } from "./settings.mjs";
+import { L, MODULE_ID, setting } from "./settings.mjs";
 import { parseSkillField, useItem } from "./system.mjs";
 import { removeBadStatus } from "./fate.mjs";
 import { itemSkillsOf, linkedSkill } from "./content.mjs";
 import { checkUsable } from "./use.mjs";
 import { actorName, escape, toInt } from "./util.mjs";
+import { announceSettle, changeRank, colorOf, createPiece, isKuden, kudenContext, resourceOf, setColor, setResource } from "./kuden/pieces.mjs";
 import { LHTrpgActorSheet } from "../../../systems/lhtrpg/module/sheets/actor-sheet.mjs";
 import { allocateBonusPoints } from "../../../systems/lhtrpg/module/apps/stat-allocation.mjs";
 
 const DIR = `modules/${MODULE_ID}/templates/sheet`;
-const PARTIALS = ["sidebar", "character", "checks", "skills", "inventory", "effects", "biography"];
+const PARTIALS = ["sidebar", "character", "checks", "skills", "kuden", "inventory", "effects", "biography"];
 
 const TABS = [
   { id: "character", icon: "fa-solid fa-address-card" },
   { id: "checks", icon: "fa-solid fa-dice-d6" },
   { id: "skills", icon: "fa-solid fa-wand-sparkles" },
+  // Kuden (house rule, scripts/kuden/): only with its setting on
+  { id: "kuden", icon: "fa-solid fa-scroll" },
   { id: "inventory", icon: "fa-solid fa-backpack" },
   { id: "effects", icon: "fa-solid fa-person-rays" },
   { id: "biography", icon: "fa-solid fa-book-open-reader" }
@@ -120,7 +123,13 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
       "lhauto-delete": LHAutoCharacterSheet.#onDelete,
       "lhauto-power": LHAutoCharacterSheet.#onPower,
       "linked-skill-throw": LHAutoCharacterSheet.#onLinkedSkill,
-      "item-use": LHAutoCharacterSheet.#onItemUse
+      "item-use": LHAutoCharacterSheet.#onItemUse,
+      "kuden-create": LHAutoCharacterSheet.#onKudenCreate,
+      "kuden-rank": LHAutoCharacterSheet.#onKudenRank,
+      "kuden-settle": LHAutoCharacterSheet.#onKudenSettle,
+      "kuden-resource": LHAutoCharacterSheet.#onKudenResource,
+      "kuden-color-add": LHAutoCharacterSheet.#onKudenColorAdd,
+      "kuden-color-remove": LHAutoCharacterSheet.#onKudenColorRemove
     }
   };
 
@@ -164,7 +173,9 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
     const lh = {};
 
     // Tabs
-    lh.tabs = TABS.map(t => ({ ...t, label: L(`Sheet.Tab.${t.id}`) }));
+    const kuden = !!setting("kuden");
+    if (!kuden && (this.tabGroups.primary === "kuden")) this.tabGroups.primary = "skills";
+    lh.tabs = TABS.filter(t => kuden || (t.id !== "kuden")).map(t => ({ ...t, label: L(`Sheet.Tab.${t.id}`) }));
     lh.tabLabel = L(`Sheet.Tab.${this.tabGroups.primary}`);
 
     // Sidebar: HP, Barrier, Hate, Fatigue
@@ -242,7 +253,8 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
         timing: parseSkillField("timing", s.timing).type,
         sr: max ? `${value}/${max}` : "",
         cost: isEmpty(s.cost) ? "" : term("cost", s.cost),
-        limit: isEmpty(s.limit) ? "" : term("limit", s.limit)
+        limit: isEmpty(s.limit) ? "" : term("limit", s.limit),
+        kuden: kuden && isKuden(item)
       };
       return item;
     };
@@ -304,6 +316,9 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
       { id: "unions", type: "union", label: L("Sheet.Unions"), items: withTags(context.social.unions) }
     ];
 
+    // Kuden: Core, Resource, Kuden Points, pieces, color gifts
+    lh.kuden = kuden ? kudenContext(actor, { editable: this.isEditable, term }) : null;
+
     context.lh = lh;
     return context;
   }
@@ -357,6 +372,13 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
     for (const field of root.querySelectorAll(".lhpf-sidebar input, .lhpf-header input, .gold-input")) {
       field.addEventListener("keydown", event => { if (event.key === "Enter") { event.preventDefault(); field.blur(); } });
     }
+    // Enter in the new color gift adds it (the field has no name: the sheet doesn't save it).
+    const color = root.querySelector(".lhk-color-input");
+    color?.addEventListener("keydown", event => {
+      if (event.key !== "Enter") return;
+      event.preventDefault();
+      root.querySelector("[data-action='kuden-color-add']")?.click();
+    });
 
     // Summaries left open before this render.
     for (const id of this.#expanded) {
@@ -489,6 +511,49 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
         name: actorName(this.actor), amount: fmt(Math.abs(after - before)), total: fmt(after)
       }))}</p></div>`
     });
+  }
+
+  /* -------------------------------------------- */
+  /*  Kuden                                       */
+  /* -------------------------------------------- */
+
+  /** A new Kuden piece, paid with the pending picks. */
+  static #onKudenCreate(event, target) {
+    if (this.isEditable) return createPiece(this.actor, target.dataset.piece);
+  }
+
+  /** +1 / −1 Skill Rank of a Technique. */
+  static #onKudenRank(event, target) {
+    if (!this.isEditable) return;
+    const item = this.actor.items.get(target.closest("[data-item-id]")?.dataset.itemId);
+    return changeRank(item, Number(target.dataset.delta) || 0);
+  }
+
+  static async #onKudenSettle() {
+    if (this.isEditable) await announceSettle(this.actor);
+  }
+
+  /** The manual Resource: a pip sets the value (the last lit one takes one off), the steps add or take one. */
+  static #onKudenResource(event, target) {
+    if (!this.isEditable) return;
+    const current = resourceOf(this.actor)?.value ?? 0;
+    if (target.dataset.value !== undefined) {
+      const value = Number(target.dataset.value) || 0;
+      return setResource(this.actor, (value === current) ? value - 1 : value);
+    }
+    return setResource(this.actor, current + (Number(target.dataset.delta) || 0));
+  }
+
+  static #onKudenColorAdd(event, target) {
+    if (!this.isEditable) return;
+    const text = target.closest(".lhk-color-add")?.querySelector(".lhk-color-input")?.value.trim();
+    if (text) return setColor(this.actor, [...colorOf(this.actor), text]);
+  }
+
+  static #onKudenColorRemove(event, target) {
+    if (!this.isEditable) return;
+    const index = Number(target.dataset.index);
+    return setColor(this.actor, colorOf(this.actor).filter((_, i) => i !== index));
   }
 }
 

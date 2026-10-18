@@ -14,6 +14,8 @@
 import { L, MODULE_ID, setting } from "./settings.mjs";
 import { actorName, confirm, escape, postSummary, toInt } from "./util.mjs";
 import { fillWorld } from "./content.mjs";
+import { kudenEndScene } from "./kuden/pieces.mjs";
+import { applyEnvFromTools, envToolsHTML } from "./kuden/env.mjs";
 
 /** Bad Statuses with a checkbox, with a Rating, and with a list of Ratings; Combat Statuses. */
 const FLAG_STATUSES = ["staggered", "dazed", "rigor", "confused", "afflicted", "overconfident"];
@@ -82,6 +84,7 @@ export async function endScene(actors, { scenario = false } = {}) {
     try {
       await bumpCounter(actor, "scene");
       if (scenario) await bumpCounter(actor, "scenario");
+      if (setting("kuden")) await kudenEndScene(actor);
       if (setting("endOfScene")) {
         const line = await endOfSceneFor(actor);
         if (line) lines.push(line);
@@ -119,7 +122,8 @@ class ToolsApp extends foundry.applications.api.ApplicationV2 {
       sceneSelected: ToolsApp.#sceneSelected,
       scenarioSelected: ToolsApp.#scenarioSelected,
       scenarioAll: ToolsApp.#scenarioAll,
-      fillWorld: ToolsApp.#fillWorld
+      fillWorld: ToolsApp.#fillWorld,
+      kudenEnv: ToolsApp.#kudenEnv
     }
   };
 
@@ -135,7 +139,11 @@ class ToolsApp extends foundry.applications.api.ApplicationV2 {
       ${button("scenarioAll", "fa-solid fa-book-open", "Tools.ScenarioAll")}
       <hr>
       <p>${escape(L("Tools.FillIntro"))}</p>
-      ${button("fillWorld", "fa-solid fa-wand-magic-sparkles", "Tools.FillWorld")}`;
+      ${button("fillWorld", "fa-solid fa-wand-magic-sparkles", "Tools.FillWorld")}
+      ${setting("kuden") ? `<hr>
+      <p><b>${escape(L("Kuden.Env.Title"))}</b></p>
+      ${envToolsHTML()}
+      ${game.scenes.viewed ? button("kudenEnv", "fa-solid fa-sun-cloud", "Kuden.Env.Apply") : ""}` : ""}`;
     return div;
   }
 
@@ -174,6 +182,11 @@ class ToolsApp extends foundry.applications.api.ApplicationV2 {
     if (!ok) return;
     const done = await fillWorld();
     ui.notifications.info(L("Tools.FillDone", done));
+  }
+
+  /** The Kuden environment of the viewed scene (hour, open sky, darkness, miasma). */
+  static async #kudenEnv() {
+    await applyEnvFromTools(this.element);
   }
 }
 

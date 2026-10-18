@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.10.0 — 2026-10-18
+
+**Kuden (regra da casa).** Assinaturas de personagem pagas com as mesmas escolhas de habilidade das oficiais. As
+regras ficam em `Log Horizon TTRPG/kuden/Kuden-v0.1.md`. Configuração nova "Kuden (regra da casa)", ligada.
+
+- **Peças.** A ficha da habilidade ganha a aba Kuden, que define:
+  - a peça: Núcleo, Técnica, Dom, Dom maior ou Ápice;
+  - a Restrição (Leve, Média ou Pesada) e a fraqueza;
+  - a origem no original e a régua ou gêmeo oficial.
+
+  A tag Kuden acompanha a peça.
+- **Pontos de Kuden.** Cada escolha de Combate vale 2 PK e cada Geral, 1 PK. Pagar uma peça marca nela as
+  escolhas gastas, do mesmo jeito que o navegador de habilidades do sistema. A contagem de pendentes, apagar a
+  peça e baixar o NP continuam funcionando como com qualquer habilidade. "Acertar PK" paga o que falta e devolve
+  as sobras (1 PK pode ficar guardado). O NH das Técnicas sobe e desce pela ficha.
+- **Recurso do Núcleo.** Vai de 0 a 5 e pode ser:
+  - manual, com círculos na ficha e a opção de voltar a 0 no fim da cena;
+  - pela hora da cena, com um valor por hora e a opção de ir a 0 na escuridão.
+- **Ambiente da cena.** Hora do dia, céu aberto, escuridão e miasma. Fica na aba Ambiente da configuração da
+  cena e nas Ferramentas do Mestre.
+- **Condições novas** no editor de condições do sistema (efeitos e habilidades):
+  - Recurso ≥ N e Recurso no máximo;
+  - de dia, de noite, ao meio-dia, céu aberto, escuridão, em miasma e fora de miasma;
+  - alvo Chefe ou Raide;
+  - PV ≤ N% do máximo.
+
+  Os efeitos ligam e desligam sozinhos quando a cena, os alvos, o PV ou o Recurso mudam.
+- **Uso das peças.** O módulo confere as condições da própria habilidade antes de usar. "Só contra Chefe ou
+  Raide" avisa ou bloqueia pela configuração dos limites de uso.
+- **Ficha de pergaminho.** A aba nova Kuden mostra:
+  - o Núcleo, o Recurso e os Pontos de Kuden;
+  - as peças por tipo, com o custo em PK, o NH e a Restrição;
+  - os Dons de cor e o ambiente da cena.
+
+  Na aba Habilidades, as peças levam o selo Kuden.
+- **API:** `api.kuden` com `ledgerOf`, `settle`, `resourceOf`, `setResource` e `sceneEnv`.
+
 ## 0.9.0 — 2026-10-18
 
 - **Corpo a corpo encostado (regra da casa).** Um ataque Corpo a corpo também acerta um token encostado no do

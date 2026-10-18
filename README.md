@@ -5,8 +5,8 @@ com muitos jogadores e vários combates ao mesmo tempo. Ele completa a automaç�
 substitui fichas nem cartões, só acrescenta o que faltava e corrige o que quebrava em mesa grande.
 
 Já tem a **Fase 1 — núcleo do combate**, a **Fase 2 — conteúdo dos compêndios** e a **ficha de pergaminho**,
-com o chat e as outras janelas do sistema no mesmo visual. As próximas fases (mesa por texto, cena e sessão, regras de construção) estão
-listadas no fim.
+com o chat e as outras janelas do sistema no mesmo visual, e o **Kuden**, uma regra da casa para assinaturas de
+personagem. As próximas fases (mesa por texto, cena e sessão, regras de construção) estão listadas no fim.
 
 ## A ficha de pergaminho
 
@@ -202,6 +202,46 @@ Ficam em **Configurações → Configurar Configurações → Log Horizon TRPG �
 - **Completar os dados do mundo.** Aplica o "Conteúdo dos compêndios" ao que já existe no mundo: itens,
   personagens, monstros e tokens. Dá aos personagens as habilidades dos poderes dos itens que eles já carregam,
   ligadas aos itens, e apaga as de itens que eles não têm mais. Mostra quanto vai mudar antes de mexer.
+- **Ambiente (Kuden)** da cena exibida: hora do dia, céu aberto, escuridão e miasma.
+
+### Kuden (regra da casa)
+O Kuden dá a cada personagem uma assinatura própria (as bênçãos do Reinhard, o sol do Escanor), paga com as
+mesmas escolhas de habilidade das oficiais. As regras estão em `Log Horizon TTRPG/kuden/Kuden-v0.1.md`, fora
+deste repositório. O módulo cuida da parte de mesa:
+- **Peças.** Uma habilidade vira peça do Kuden na aba **Kuden** da ficha dela: Núcleo (grátis), Técnica (2 PK
+  por NH de Combate, 1 por NH Geral), Dom (1 PK), Dom maior (2 PK, ou 1 com Restrição Média ou Pesada) ou Ápice
+  (4 PK). A mesma aba guarda a Restrição (Leve, Média ou Pesada) e a fraqueza, a origem no original e a régua ou
+  gêmeo oficial. A peça ganha a tag Kuden.
+- **Pontos de Kuden.** Uma escolha de Combate vale 2 PK e uma Geral, 1 PK. Pagar uma peça marca nela as escolhas
+  gastas, do mesmo jeito que o navegador de habilidades do sistema marca as dele. Por isso:
+  - a contagem de escolhas pendentes desconta o Kuden;
+  - apagar a peça devolve as escolhas;
+  - baixar o NP oferece desfazer as escolhas, como com qualquer habilidade.
+
+  "Acertar PK" paga o que falta com as escolhas pendentes e devolve o que passou do custo (só 1 PK pode ficar
+  guardado). Subir e descer o NH de uma Técnica paga ou devolve uma escolha.
+- **Recurso.** O Núcleo pode definir um Recurso de 0 a 5:
+  - **manual:** os círculos da ficha marcam o valor, e ele pode voltar a 0 no fim da cena;
+  - **pela hora da cena:** um valor para cada hora do dia, que pode ir a 0 na escuridão (o Sol do Escanor).
+- **Ambiente da cena.** Hora do dia, céu aberto, escuridão e miasma. O Mestre ajusta no fim da aba Ambiente da
+  configuração da cena ou nas Ferramentas do Mestre. Um personagem lê a cena do seu token, a do combate em que
+  luta ou a cena exibida.
+- **Condições novas.** Ficam no mesmo editor de condições do sistema, nos efeitos e nas habilidades:
+  - Recurso ≥ N e Recurso no máximo;
+  - de dia, de noite, ao meio-dia, sob o céu aberto, na escuridão, em miasma e fora de miasma;
+  - alvo Chefe ou Raide (entre os alvos marcados por quem usa);
+  - PV ≤ N% do máximo.
+
+  O efeito liga e desliga sozinho, e a aba Efeitos mostra a condição que falta.
+- **Uso das peças.** Antes de usar uma peça, o módulo confere as condições da própria habilidade (as do sistema e
+  as novas), pela configuração dos limites de uso. É assim que "só contra Chefe ou Raide" avisa ou bloqueia.
+- **Aba Kuden da ficha de pergaminho.** Mostra:
+  - o Núcleo e o Recurso;
+  - os Pontos de Kuden, com as escolhas pendentes e os avisos;
+  - as Técnicas, os Dons, os Dons maiores e o Ápice;
+  - os Dons de cor (só história) e o ambiente da cena.
+
+  Na aba Habilidades, as peças levam o selo Kuden.
 
 ## Configurações
 
@@ -223,6 +263,7 @@ pedem para recarregar.
 | Corpo a corpo alcança os quadrados vizinhos | ligado |
 | Botões de Destino | ligado |
 | Completar os dados dos compêndios | ligado |
+| Kuden (regra da casa) | ligado |
 | Tema pergaminho no chat | ligado |
 | Janelas do sistema em pergaminho | ligado |
 
@@ -260,6 +301,11 @@ api.removeBadStatus(actor);       // diálogo de remover Estado Negativo com Des
 api.fillWorld({ dryRun: true });  // conta (ou completa) os dados que faltam no mundo
 api.syncItemSkills(actor);        // cria e liga as habilidades dos poderes dos itens do personagem
 api.parseMonsterDamage(html);     // lê o dano de um ataque de monstro escrito em texto
+api.kuden.ledgerOf(actor);        // Pontos de Kuden: custo, pago, guardado, escolhas pendentes, avisos
+api.kuden.settle(actor);          // paga o que falta com as escolhas pendentes e devolve as sobras
+api.kuden.resourceOf(actor);      // o Recurso do Núcleo (nome, valor, máximo, fonte)
+api.kuden.setResource(actor, 3);  // muda um Recurso manual
+api.kuden.sceneEnv(scene);        // o ambiente de uma cena (hora, céu aberto, escuridão, miasma)
 ```
 
 ## Limites conhecidos
@@ -294,6 +340,13 @@ api.parseMonsterDamage(html);     // lê o dano de um ataque de monstro escrito 
   - danos que dependem do escudo, como Golpe de Escudo e Escudo Sagrado.
 - **Os estados das habilidades** entram pelo botão **Aplicar efeitos**, depois do acerto. Aplicar sozinho no
   acerto é a Fase 3.
+- **Kuden:**
+  - A condição de alvo Chefe ou Raide é lida nos alvos de quem está usando o Foundry naquele momento. O efeito
+    atualiza para o personagem do jogador, para os tokens selecionados e para as fichas abertas.
+  - As condições novas não valem nos efeitos que uma habilidade aplica em outro personagem (o sistema só confere
+    as dele nesse caso).
+  - Os efeitos que nenhuma condição descreve (o primeiro ataque da luta erra, filtrar por tipo de ataque) ficam
+    com o Mestre.
 - **Erro do core 14.367 no console.** Com combates simultâneos, aparece
   `Cannot use 'in' operator to search for 'turn'`. Ele vem do rastreador de combate do Foundry, não do módulo,
   e é inofensivo: só afeta a rolagem automática da lista.
@@ -318,6 +371,14 @@ Foundry 14.367, `lhtrpg` 2.1.0 e `lhtrpg-pt-br` 1.0.1. Cenários testados num mu
   - Habilidades de classe tiradas do compêndio com dano, cura e estado.
   - Bônus de item (Manopla +14) e Anulação de início de cena (Broche).
   - Comida tirando Fadiga.
+- Kuden, num Samurai NP 1 e NP 2, em inglês e em português:
+  - Peças pagas com as escolhas pendentes, inclusive faltando PK, sobrando PK e "Acertar PK".
+  - NH de Técnica subindo e descendo; apagar devolvendo as escolhas.
+  - Baixar o NP oferecendo desfazer o Ápice escolhido no NP 2.
+  - Recurso pela hora (meio-dia 5, noite 0, escuridão 0) e manual (círculos, −1, zerar no fim da cena).
+  - Efeitos com Recurso ≥ 5, de noite, PV ≤ 50% e alvo Chefe ligando e desligando.
+  - Ápice "só contra Chefe" pedindo confirmação sem alvo.
+  - Ambiente pela configuração da cena e pelas Ferramentas do Mestre.
   - "Completar os dados do mundo" em monstros antigos, num monstro feito à mão em português, num item
     achado pelo nome e em tokens não vinculados.
 - A leitura do dano dos 75 ataques do bestiário dá o mesmo resultado no texto em inglês e no texto traduzido

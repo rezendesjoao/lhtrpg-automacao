@@ -13,6 +13,8 @@
  *               item bonuses, statuses at the start of the scene, food, healing items, and the
  *               skills of the items' trigger powers.
  * - sheet.mjs   the parchment character sheet; chat.mjs the chat cards; windows.mjs the other windows.
+ * - kuden/      the Kuden house rule: signature pieces paid with the skill picks, Resources, scene
+ *               environment and new effect conditions.
  * Each part has its own setting (Game Settings → Configure Settings → this module).
  */
 import { MODULE_ID, registerSettings } from "./settings.mjs";
@@ -28,6 +30,9 @@ import { registerSheet } from "./sheet.mjs";
 import { registerChat } from "./chat.mjs";
 import { registerWindows } from "./windows.mjs";
 import { registerReach } from "./reach.mjs";
+import { registerKuden } from "./kuden/index.mjs";
+import { ledgerOf, resourceOf, setResource, settle } from "./kuden/pieces.mjs";
+import { sceneEnv } from "./kuden/env.mjs";
 
 Hooks.once("init", () => {
   if (game.system.id !== "lhtrpg") return;
@@ -43,6 +48,7 @@ Hooks.once("init", () => {
   registerChat();
   registerWindows();
   registerReach();
+  registerKuden();
 
   // For macros and other modules.
   game.modules.get(MODULE_ID).api = {
@@ -55,6 +61,7 @@ Hooks.once("init", () => {
     spendFate,
     removeBadStatus,
     syncItemSkills,
-    undoUse
+    undoUse,
+    kuden: { ledgerOf, resourceOf, setResource, settle, sceneEnv }
   };
 });

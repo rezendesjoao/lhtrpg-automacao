@@ -23,6 +23,7 @@ import { parseSkillField, skillModifiers } from "./system.mjs";
 import { combatantOf, combatOf, confirm, escape, toInt, wrap } from "./util.mjs";
 import { counter } from "./scenes.mjs";
 import { ITEM_SKILL, linkedSkill } from "./content.mjs";
+import { kudenUseIssues } from "./kuden/conditions.mjs";
 
 /** The action a Timing spends in the Main Process. */
 const ACTIONS = { Major: "major", Minor: "minor", Move: "move" };
@@ -220,6 +221,8 @@ function itemIssues(item, actor, combat, combatant) {
   const of = item.getFlag(MODULE_ID, "srOf");
   if (of && !rankOf(item)) issues.push(L("Use.NoRankSkill", { skill: of.name }));
   if (item.getFlag(MODULE_ID, "notActed") && combatant && combat.isPostAction?.(combatant)) issues.push(L("Use.AlreadyActed"));
+  // Kuden pieces: the conditions of the skill itself (Restrictions such as "only against a Boss").
+  issues.push(...kudenUseIssues(item, actor));
   return issues;
 }
 

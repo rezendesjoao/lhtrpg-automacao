@@ -58,6 +58,10 @@
         "Name": "Completar os dados dos compêndios",
         "Hint": "Habilidades, itens e monstros tirados dos compêndios do sistema recebem o que só existia no texto: dano dos ataques de monstro, dano e cura de habilidades, estados que as habilidades causam, bônus fixos dos itens, estados de início de cena e a Fadiga que a comida remove. Só completa o que falta; nada editado à mão é trocado."
       },
+      "kuden": {
+        "Name": "Kuden (regra da casa)",
+        "Hint": "Liga a aba Kuden da ficha: as peças de assinatura pagas com as escolhas de habilidade, o Recurso do Núcleo, o ambiente de cada cena (hora, céu, escuridão e miasma) e as condições novas de efeito. As regras estão em Log Horizon TTRPG/kuden/Kuden-v0.1.md."
+      },
       "chatTheme": {
         "Name": "Tema pergaminho no chat",
         "Hint": "Cartões de habilidade, ataque, dano e as rolagens em pergaminho, com o retrato de quem fala."
@@ -185,6 +189,7 @@
         "character": "Personagem",
         "checks": "Testes",
         "skills": "Habilidades",
+        "kuden": "Kuden",
         "inventory": "Inventário",
         "effects": "Efeitos e estados",
         "biography": "Biografia"
@@ -279,6 +284,165 @@
     },
     "Chat": {
       "Description": "Descrição"
+    },
+    "Kuden": {
+      "Title": "Kuden",
+      "Piece": {
+        "core": "Núcleo",
+        "technique": "Técnica",
+        "gift": "Dom",
+        "greaterGift": "Dom maior",
+        "apex": "Ápice"
+      },
+      "Pieces": {
+        "technique": "Técnicas",
+        "gift": "Dons",
+        "greaterGift": "Dons maiores",
+        "apex": "Ápice"
+      },
+      "PieceNone": "Não é Kuden",
+      "PieceNoneHint": "Escolha a peça para a habilidade virar parte do Kuden (ela ganha a tag Kuden).",
+      "PieceHint": {
+        "core": "Grátis. A regra que define o personagem, do tamanho de uma habilidade inicial de classe. Pode definir o Recurso.",
+        "technique": "2 PK por NH numa de Combate, 1 PK por NH numa Geral.",
+        "gift": "1 PK. Do tamanho de uma habilidade Geral oficial.",
+        "greaterGift": "2 PK, ou 1 PK com Restrição Média ou Pesada. Do tamanho de uma habilidade de Combate no NH 1.",
+        "apex": "4 PK. O golpe máximo, 1/Cenário, um por personagem."
+      },
+      "Tier": {
+        "none": "Sem Restrição",
+        "light": "Leve",
+        "medium": "Média",
+        "heavy": "Pesada"
+      },
+      "TierHint": {
+        "light": "+50% ou +1D",
+        "medium": "+100% ou +2D",
+        "heavy": "+200% ou +3D"
+      },
+      "Field": {
+        "Piece": "Peça do Kuden",
+        "Restriction": "Restrição",
+        "RestrictionText": "Fraqueza",
+        "Origin": "Origem no original",
+        "Ruler": "Régua ou gêmeo oficial",
+        "CostLine": "Custa {cost} PK; as escolhas marcadas nela pagaram {paid} PK."
+      },
+      "Resource": {
+        "Title": "Recurso",
+        "Hint": "O Recurso vai de 0 a 5. As peças o leem pelas condições Recurso ≥ N e Recurso no máximo.",
+        "Name": "Nome",
+        "NamePlaceholder": "Sol, Fúria, Cargas...",
+        "Max": "Máximo",
+        "Source": "Fonte",
+        "Dark": "Vai a 0 na escuridão",
+        "ResetOnScene": "Volta a 0 no fim da cena"
+      },
+      "Source": {
+        "manual": "Manual",
+        "hour": "Hora da cena"
+      },
+      "Hour": {
+        "lateNight": "Madrugada",
+        "dawn": "Aurora",
+        "morning": "Manhã",
+        "noon": "Meio-dia",
+        "afternoon": "Tarde",
+        "dusk": "Crepúsculo",
+        "night": "Noite"
+      },
+      "Env": {
+        "Title": "Ambiente (Kuden)",
+        "Hint": "As condições de cena do Kuden e os Recursos que seguem a hora leem estes campos.",
+        "Hour": "Hora do dia",
+        "OpenSky": "Céu aberto",
+        "Darkness": "Escuridão",
+        "Miasma": "Miasma",
+        "OpenSkyShort": "céu aberto",
+        "CoveredShort": "sem céu",
+        "DarknessShort": "escuridão",
+        "MiasmaShort": "miasma",
+        "Viewed": "Cena exibida: {name}",
+        "NoScene": "Nenhuma cena exibida.",
+        "Apply": "Aplicar o ambiente",
+        "Applied": "Ambiente de {name}: {env}."
+      },
+      "Ledger": {
+        "Title": "Pontos de Kuden",
+        "Paid": "PK pagos",
+        "Cost": "PK de custo",
+        "Kept": "guardado",
+        "Pending": "Escolhas pendentes: Combate {combat}, Geral {general}",
+        "Settle": "Acertar PK",
+        "SettleHint": "Paga o que falta com as escolhas pendentes e devolve as que pagaram além do custo e do 1 PK guardado.",
+        "Missing": "Faltam {n} PK. Use Acertar PK para pagar com as escolhas pendentes.",
+        "MissingNoPicks": "Faltam {n} PK e não há escolhas pendentes. O Mestre confere.",
+        "Surplus": "Sobram {n} PK; só 1 PK pode ficar guardado.",
+        "TwoCores": "Há mais de um Núcleo.",
+        "TwoApexes": "Há mais de um Ápice.",
+        "NoCore": "Falta o Núcleo.",
+        "NoPicks": "Faltam {n} PK e não há escolhas pendentes para pagar. O Mestre confere."
+      },
+      "Sheet": {
+        "NoCore": "Este personagem ainda não tem Núcleo.",
+        "CreateCore": "Criar Núcleo",
+        "NoPieces": "Nenhuma peça ainda.",
+        "Less": "−1",
+        "More": "+1",
+        "Raise": "+1 NH (paga com uma escolha pendente)",
+        "Lower": "−1 NH (devolve a escolha)",
+        "AtMax": "O NH já está no máximo da peça ou no seu NP.",
+        "AtMin": "O NH já está em 1.",
+        "PaidTip": "Custa {cost} PK; pagos {paid} PK.",
+        "ResourceHour": "Segue a hora: {hour}",
+        "Color": "Dons de cor",
+        "NoColor": "Nenhum ainda.",
+        "ColorPlaceholder": "Novo Dom de cor (só história)",
+        "ColorRemove": "Remover",
+        "ColorOver": "Mais de 3 Dons de cor: só vale se o Núcleo permitir.",
+        "Env": "Ambiente da cena",
+        "BadgeTip": "Peça do Kuden: veja a aba Kuden."
+      },
+      "New": {
+        "core": "Novo Núcleo",
+        "technique": "Nova Técnica",
+        "gift": "Novo Dom",
+        "greaterGift": "Novo Dom maior",
+        "apex": "Novo Ápice"
+      },
+      "Use": {
+        "Unmet": "Restrição do Kuden não cumprida: {condition}."
+      }
+    }
+  },
+  "LHTRPG": {
+    "Condition": {
+      "Type": {
+        "kudenResource": "Kuden: Recurso ≥ N",
+        "kudenResourceFull": "Kuden: Recurso no máximo",
+        "sceneDay": "Cena: de dia",
+        "sceneNight": "Cena: de noite",
+        "sceneNoon": "Cena: ao meio-dia",
+        "sceneOpenSky": "Cena: sob o céu aberto",
+        "sceneDarkness": "Cena: na escuridão",
+        "sceneMiasma": "Cena: em miasma",
+        "sceneNoMiasma": "Cena: fora de miasma",
+        "targetBossRaid": "Alvo: Chefe ou Raide",
+        "hpAtMost": "PV ≤ N% do máximo"
+      },
+      "Summary": {
+        "kudenResource": "Recurso ≥ {value}",
+        "kudenResourceFull": "Recurso no máximo",
+        "sceneDay": "De dia",
+        "sceneNight": "De noite",
+        "sceneNoon": "Ao meio-dia",
+        "sceneOpenSky": "Sob o céu aberto",
+        "sceneDarkness": "Na escuridão",
+        "sceneMiasma": "Em miasma",
+        "sceneNoMiasma": "Fora de miasma",
+        "targetBossRaid": "Mirando um Chefe ou Raide",
+        "hpAtMost": "PV em {value}% do máximo ou menos"
+      }
     }
   }
 }
