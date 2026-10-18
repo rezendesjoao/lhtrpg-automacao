@@ -72,6 +72,7 @@ export const sameTarget = (a, b) => (a?.tokenUuid && b?.tokenUuid) ? (a.tokenUui
 export async function confirm({ title, content, yes, no }) {
   const answer = await foundry.applications.api.DialogV2.confirm({
     window: { title },
+    classes: ["lhauto-dialog"],
     content,
     modal: true,
     rejectClose: false,

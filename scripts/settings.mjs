@@ -44,6 +44,15 @@ export function registerSettings() {
   toggle("fate");
   toggle("content");
   toggle("chatTheme");
+  game.settings.register(MODULE_ID, "windowTheme", {
+    name: "LHAUTO.Settings.windowTheme.Name",
+    hint: "LHAUTO.Settings.windowTheme.Hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    requiresReload: true
+  });
 }
 
 /** A setting's value (null before the settings exist). */

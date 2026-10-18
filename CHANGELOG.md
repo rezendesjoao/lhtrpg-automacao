@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.7.0 — 2026-10-17
+
+As outras janelas do sistema no visual da ficha de pergaminho.
+
+- **Fichas de item:** a barra verde no topo, o nome sobre a faixa verde com a imagem emoldurada, as tags como
+  etiquetas, os números em duas colunas com rótulos em versalete sobre linhas pontilhadas e a barra clara de abas
+  com arabescos. Teste e Dano das habilidades ganham o botão verde de rolar; o tipo da habilidade vira uma
+  etiqueta. Cabeçalho, números e abas ficam parados e só o corpo rola. Efeitos sob barras verdes, habilidades
+  iniciais em etiquetas emolduradas.
+- **Ficha de monstro:** atributos em caixas, Esquiva e Resistência com o botão de rolar, estados e habilidades no
+  visual da ficha; enviar ao chat vira um botão redondo na faixa.
+- **Editor de efeitos:** cabeçalho na faixa verde, abas com ícones, linhas pontilhadas, as mudanças sob uma barra
+  verde e o botão de salvar verde.
+- **Seleção de habilidades e de classe**, diálogos de pontos de atributo, subida de NP, habilidades iniciais e
+  rolagem, as confirmações abertas por essas janelas, baús, saques e lojas e as Ferramentas do Mestre.
+- Fichas de compêndio trancado mostram os valores como texto, sem caixas apagadas.
+- Nova configuração "Janelas do sistema em pergaminho" (ligada; pede para recarregar). O módulo só acrescenta
+  classes às janelas: as fichas e os scripts do sistema continuam os mesmos.
+
 ## 0.6.0 — 2026-10-17
 
 O chat refeito: mais curto, organizado e com rolagens novas.

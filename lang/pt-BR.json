@@ -57,6 +57,10 @@
       "chatTheme": {
         "Name": "Tema pergaminho no chat",
         "Hint": "Cartões de habilidade, ataque, dano e as rolagens em pergaminho, com o retrato de quem fala."
+      },
+      "windowTheme": {
+        "Name": "Janelas do sistema em pergaminho",
+        "Hint": "Fichas de item e de monstro, editor de efeitos, seleção de habilidades e de classe, baús e lojas e as caixas de diálogo no mesmo visual da ficha de personagem."
       }
     },
     "Use": {

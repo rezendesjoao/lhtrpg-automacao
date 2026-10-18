@@ -5,7 +5,7 @@ com muitos jogadores e vários combates ao mesmo tempo. Ele completa a automaç�
 substitui fichas nem cartões, só acrescenta o que faltava e corrige o que quebrava em mesa grande.
 
 Já tem a **Fase 1 — núcleo do combate**, a **Fase 2 — conteúdo dos compêndios** e a **ficha de pergaminho**,
-com o chat no mesmo visual. As próximas fases (mesa por texto, cena e sessão, regras de construção) estão
+com o chat e as outras janelas do sistema no mesmo visual. As próximas fases (mesa por texto, cena e sessão, regras de construção) estão
 listadas no fim.
 
 ## A ficha de pergaminho
@@ -39,7 +39,8 @@ Ela usa toda a lógica da ficha do sistema (equipar, rolar, tíquetes, efeitos, 
 - **Biografia:** o texto, as Conexões e as Uniões.
 
 A ficha vira o padrão dos personagens ao ativar o módulo. Qualquer ficha pode voltar à do sistema pelo menu de
-configuração da janela (o ícone de ficha no cabeçalho). Monstros e itens continuam com as fichas do sistema.
+configuração da janela (o ícone de ficha no cabeçalho). Itens e monstros ganham o mesmo visual nas fichas do
+próprio sistema (veja "As outras janelas").
 
 ## O chat
 
@@ -58,8 +59,26 @@ As mensagens do sistema e do módulo ganham o mesmo pergaminho, mais curtas e or
 - **Fases da rodada** viram um divisor fino; os resumos não repetem o título.
 - Os botões de Destino ficam dourados e pequenos, junto do que alteram.
 
-As duas partes têm configuração própria ("Tema pergaminho no chat"). Monstros e itens continuam com as fichas do
-sistema.
+As duas partes têm configuração própria ("Tema pergaminho no chat").
+
+## As outras janelas
+
+As janelas do sistema seguem a ficha: a barra verde no topo, pergaminho, o nome sobre a faixa verde com a imagem
+emoldurada, rótulos em versalete sobre linhas pontilhadas, a barra clara de abas com arabescos e as barras
+verdes nas listas.
+
+- **Fichas de item** (os 14 tipos): os números em duas colunas; Teste e Dano das habilidades com o botão verde de
+  rolar; o tipo da habilidade como uma etiqueta ao lado das tags. Cabeçalho, números e abas ficam parados e só o
+  corpo rola. Num compêndio trancado os valores aparecem como texto.
+- **Ficha de monstro:** os quatro atributos em caixas, Esquiva e Resistência com o botão de rolar, o painel de
+  estados e a lista de habilidades no visual da ficha.
+- **Editor de efeitos:** cabeçalho na faixa verde, abas com ícones, as mudanças sob uma barra verde.
+- **Seleção de habilidades e de classe**, os diálogos de pontos de atributo, de subida de NP, de habilidades
+  iniciais e de rolagem, as confirmações abertas por essas janelas, baús, saques e lojas, e as Ferramentas do
+  Mestre.
+
+As fichas e os scripts do sistema não mudam: o módulo só troca o visual. A configuração "Janelas do sistema em
+pergaminho" desliga tudo isso (pede para recarregar).
 
 ## O que ele faz
 
@@ -151,7 +170,8 @@ Ficam em **Configurações → Configurar Configurações → Log Horizon TRPG �
 
 ## Configurações
 
-Todas são do mundo (só o Mestre muda) e valem na hora, sem recarregar.
+Todas são do mundo (só o Mestre muda) e valem na hora, sem recarregar, menos as janelas em pergaminho, que
+pedem para recarregar.
 
 | Configuração | Padrão |
 |---|---|
@@ -168,6 +188,7 @@ Todas são do mundo (só o Mestre muda) e valem na hora, sem recarregar.
 | Botões de Destino | ligado |
 | Completar os dados dos compêndios | ligado |
 | Tema pergaminho no chat | ligado |
+| Janelas do sistema em pergaminho | ligado |
 
 "Limites de uso" e "Momento e economia de ações" têm três modos: **desligado**, **avisar** (pergunta se é
 para usar mesmo assim) e **bloquear** (o jogador não consegue; o Mestre pode forçar).
@@ -255,6 +276,11 @@ Foundry 14.367, `lhtrpg` 2.1.0 e `lhtrpg-pt-br` 1.0.0. Cenários testados num mu
   para os espaços do boneco; criar conexão; detalhes
   de habilidade abertos e mantidos entre atualizações; usar habilidade pela imagem (com os avisos de ação);
   nenhum erro no console. No chat, o cartão de habilidade com o uso registrado, o Teste e o botão de Destino.
+- Janelas em pergaminho, em inglês e em português: fichas de acessório, arma, consumível, classe (habilidades
+  iniciais), subclasse e habilidade (com condições e efeitos), editáveis e de compêndio trancado; ficha de monstro
+  em todas as abas; editor de efeitos em todas as abas; seleção de habilidades (escolher e desfazer) e de classe;
+  diálogos de rolagem, de exclusão, de pontos de atributo, de subida de NP e de habilidades iniciais; loja e saque;
+  Ferramentas do Mestre; a configuração desligada devolve o visual do sistema.
 
 ## Dados dos compêndios
 

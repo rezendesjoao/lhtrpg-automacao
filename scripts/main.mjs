@@ -11,6 +11,7 @@
  * - scenes.mjs  scene / scenario counters and the GM tools.
  * - content.mjs data the compendiums only have as text: monster damage, skill damage and statuses,
  *               item bonuses, statuses at the start of the scene, food.
+ * - sheet.mjs   the parchment character sheet; chat.mjs the chat cards; windows.mjs the other windows.
  * Each part has its own setting (Game Settings → Configure Settings → this module).
  */
 import { MODULE_ID, registerSettings } from "./settings.mjs";
@@ -24,6 +25,7 @@ import { fillWorld, registerContent } from "./content.mjs";
 import { parseMonsterDamage } from "./content/monster-damage.mjs";
 import { registerSheet } from "./sheet.mjs";
 import { registerChat } from "./chat.mjs";
+import { registerWindows } from "./windows.mjs";
 
 Hooks.once("init", () => {
   if (game.system.id !== "lhtrpg") return;
@@ -37,6 +39,7 @@ Hooks.once("init", () => {
   registerContent();
   registerSheet();
   registerChat();
+  registerWindows();
 
   // For macros and other modules.
   game.modules.get(MODULE_ID).api = {

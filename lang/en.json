@@ -57,6 +57,10 @@
       "chatTheme": {
         "Name": "Parchment chat theme",
         "Hint": "Skill, attack and damage cards and the rolls on parchment, with the speaker's portrait."
+      },
+      "windowTheme": {
+        "Name": "Parchment system windows",
+        "Hint": "Item and monster sheets, the effect editor, the skill and class browsers, chests and shops and the dialogs in the same look as the character sheet."
       }
     },
     "Use": {

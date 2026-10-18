@@ -421,7 +421,7 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
   static #onDelete(event, target) {
     if (!this.isEditable) return;
     const item = this.actor.items.get(target.closest("[data-item-id]")?.dataset.itemId);
-    return item?.deleteDialog();
+    return item?.deleteDialog({ classes: ["lhauto-dialog"] });
   }
 
   static #onAllocate() {
