@@ -1168,9 +1168,9 @@
 .lhpf .proficiencies-list > li {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px; /* tight enough for the longest check name, "Conhecimento" (pt-BR), at the sheet's minimum width */
   min-height: 36px;
-  padding: 0 8px 0 4px;
+  padding: 0 6px 0 4px;
   border: 3px double transparent;
   border-image: var(--pf-frame-elegant) 11 / 14px repeat;
   font: 400 16px/1 var(--pf-serif);
@@ -1181,7 +1181,7 @@
   background: rgba(31, 81, 55, 0.07);
 }
 .lhpf .proficiencies-list .d6 {
-  padding: 4px;
+  padding: 4px 3px;
   color: var(--pf-primary);
   font-size: 17px;
   filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.35));
@@ -1190,7 +1190,8 @@
   animation: lhpf-spin 1.4s linear infinite;
 }
 .lhpf .proficiencies-list .modifier {
-  width: 28px;
+  flex: 0 0 26px;
+  width: 26px;
   padding-top: 2px;
   color: var(--pf-primary);
   font-weight: 600;

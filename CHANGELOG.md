@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.1 — 2026-10-17
+
+- Ficha de pergaminho, aba Testes: o nome do teste não corta mais em português ("Conhecimento" aparecia como
+  "Conhecime…"). As linhas ficaram um pouco mais justas, e o nome completo aparece ao passar o mouse.
+
 ## 0.8.0 — 2026-10-17
 
 Os poderes de gatilho dos itens viram habilidades, e os consumíveis de cura e dano funcionam sozinhos.
