@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.0 — 2026-10-18
+
+- **Corpo a corpo encostado (regra da casa).** Um ataque Corpo a corpo também acerta um token encostado no do
+  atacante, de lado ou na diagonal, sem precisar pôr os dois tokens no mesmo quadrado. O aviso "Fora de alcance"
+  some nesse caso e o cartão mostra o alvo como Corpo a corpo. As outras distâncias continuam as do sistema.
+  Configuração nova "Corpo a corpo alcança os quadrados vizinhos" (ligada).
+
 ## 0.8.2 — 2026-10-17
 
 - Ficha de pergaminho: dois cliques no título minimizam a ficha de novo. O tamanho mínimo da ficha (750×560) impedia

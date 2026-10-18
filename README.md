@@ -137,6 +137,11 @@ pergaminho" desliga tudo isso (pede para recarregar).
   - Não aceita clique duplo.
 - **Modo privado.** Cartões rolados em modo privado (Mestre, cego ou só para mim) também aparecem para os
   donos dos alvos e do atacante, que precisam deles para esquivar e aplicar.
+- **Corpo a corpo encostado (regra da casa).** O sistema só aceita um ataque Corpo a corpo com os dois tokens no
+  mesmo quadrado. Com esta opção, um token encostado no do atacante, de lado ou na diagonal, também conta como
+  Corpo a corpo, e o cartão mostra o alvo como Corpo a corpo. As outras distâncias continuam as do sistema
+  (a diagonal vale 2 quadrados). Vale no botão Teste do cartão da habilidade (e na rerrolagem com Destino) e no
+  rótulo Teste da ficha do item.
 
 ### Destino
 Cada botão gasta 1 Destino do personagem e fica marcado no cartão.
@@ -215,6 +220,7 @@ pedem para recarregar.
 | Fim de cena ao encerrar o combate | ligado |
 | Aventureiros mortos revivem no fim da cena | ligado |
 | Correções nos cartões de ataque e dano | ligado |
+| Corpo a corpo alcança os quadrados vizinhos | ligado |
 | Botões de Destino | ligado |
 | Completar os dados dos compêndios | ligado |
 | Tema pergaminho no chat | ligado |
@@ -343,6 +349,11 @@ Foundry 14.367, `lhtrpg` 2.1.0 e `lhtrpg-pt-br` 1.0.1. Cenários testados num mu
     item.
   - Itens com o texto do `lhtrpg-pt-br`: cada habilidade com o seu poder em português. Personagem copiado com os
     itens ligados às habilidades da cópia.
+- Corpo a corpo encostado: ataque Corpo a corpo de monstro em personagem de lado, na diagonal e no mesmo quadrado
+  (cartão criado, alvo como Corpo a corpo); a 2 quadrados continua o aviso do sistema; com a opção desligada volta
+  o aviso a 1 quadrado. Pelo botão Teste do cartão (com e sem as correções dos cartões) e pelo rótulo Teste da
+  ficha do item, sempre um cartão só. Habilidade de 4 quadrados com as distâncias de antes (4 aceita, 5 recusa,
+  diagonal vizinha conta 2).
 
 ## Dados dos compêndios
 

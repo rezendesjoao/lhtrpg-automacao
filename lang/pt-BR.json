@@ -46,6 +46,10 @@
         "Name": "Correções nos cartões de ataque e dano",
         "Hint": "O dano fica ligado ao ataque certo, e o cartão de ataque ganha um botão de dano. O Aplicar não vale para quem ainda vai esquivar ou já esquivou, e pede confirmação antes de aplicar de novo. Cartões privados ficam visíveis aos donos dos alvos."
       },
+      "closeReach": {
+        "Name": "Corpo a corpo alcança os quadrados vizinhos",
+        "Hint": "Regra da casa: um ataque Corpo a corpo também acerta um token encostado no do atacante, de lado ou na diagonal, sem precisar pôr os dois no mesmo quadrado. As outras distâncias continuam as do sistema."
+      },
       "fate": {
         "Name": "Botões de Destino",
         "Hint": "Gastam 1 Destino para: +1D no Teste de uma habilidade, rerrolar o acerto, a esquiva ou um teste comum, e remover um Estado Negativo (botão Destino no quadro de Estados da ficha)."

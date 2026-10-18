@@ -19,6 +19,7 @@ import {
   rollBonuses, rollBonusesLabel, rollSkill, skillRollable, targetEntries
 } from "./system.mjs";
 import { confirm, escape, sameTarget, targetActor, toInt } from "./util.mjs";
+import { withCloseReach } from "./reach.mjs";
 
 /** Battle status a character skill's damage adds, by type (as the system's skill-rolls.mjs). */
 const DAMAGE_POWER = { physical: "attack", magical: "magic" };
@@ -51,7 +52,7 @@ export function registerCards() {
 export async function rollCheck(item, useMessage) {
   pending = { itemUuid: item.uuid, useMessageId: useMessage?.id ?? null };
   try {
-    return await rollSkill(item, "check");
+    return await withCloseReach(item, () => rollSkill(item, "check"));
   }
   finally {
     pending = null;

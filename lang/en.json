@@ -46,6 +46,10 @@
         "Name": "Attack and damage card fixes",
         "Hint": "Damage is tied to the right attack, and the attack card gets a damage button. Apply doesn't work on a target that still has to dodge or that dodged, and asks before applying again. Private cards are shown to the owners of the targets."
       },
+      "closeReach": {
+        "Name": "Close reaches the next squares",
+        "Hint": "House rule: a Close attack also reaches a token touching the attacker's, sideways or diagonally, so the two tokens don't have to share a square. Every other range is the system's."
+      },
       "fate": {
         "Name": "Fate buttons",
         "Hint": "Spend 1 Fate to: +1D on a skill's Check, reroll the hit, the dodge or a plain check, and remove a Bad Status (Fate button on the sheet's Statuses box)."

@@ -27,6 +27,7 @@ import { parseMonsterDamage } from "./content/monster-damage.mjs";
 import { registerSheet } from "./sheet.mjs";
 import { registerChat } from "./chat.mjs";
 import { registerWindows } from "./windows.mjs";
+import { registerReach } from "./reach.mjs";
 
 Hooks.once("init", () => {
   if (game.system.id !== "lhtrpg") return;
@@ -41,6 +42,7 @@ Hooks.once("init", () => {
   registerSheet();
   registerChat();
   registerWindows();
+  registerReach();
 
   // For macros and other modules.
   game.modules.get(MODULE_ID).api = {

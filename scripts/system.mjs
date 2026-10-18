@@ -9,6 +9,7 @@ export { createDamageCard, targetEntries } from "../../../systems/lhtrpg/module/
 export { isSelfTarget, useItem } from "../../../systems/lhtrpg/module/helpers/item-use.mjs";
 export { rollBonuses, rollBonusesLabel, skillModifiers } from "../../../systems/lhtrpg/module/helpers/roll-bonuses.mjs";
 export { diceFormula } from "../../../systems/lhtrpg/module/helpers/dice.mjs";
+export { parseRange } from "../../../systems/lhtrpg/module/helpers/hands.mjs";
 export { evaluateFormula, formulaData } from "../../../systems/lhtrpg/module/helpers/effect-formulas.mjs";
 export { parseSkillField } from "../../../systems/lhtrpg/module/helpers/skill-fields.mjs";
 export { isLocalChange, isPrimaryGM } from "../../../systems/lhtrpg/module/helpers/clients.mjs";

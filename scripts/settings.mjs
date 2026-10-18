@@ -41,6 +41,7 @@ export function registerSettings() {
   toggle("endOfScene");
   toggle("revive");
   toggle("cards");
+  toggle("closeReach");
   toggle("fate");
   toggle("content");
   toggle("chatTheme");
