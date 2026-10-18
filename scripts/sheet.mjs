@@ -9,8 +9,10 @@
  * ticket partials, the tab groups…), so equipping, rolling, tickets and effects keep working.
  */
 import { L, MODULE_ID } from "./settings.mjs";
-import { parseSkillField } from "./system.mjs";
+import { parseSkillField, useItem } from "./system.mjs";
 import { removeBadStatus } from "./fate.mjs";
+import { itemSkillsOf, linkedSkill } from "./content.mjs";
+import { checkUsable } from "./use.mjs";
 import { actorName, escape, toInt } from "./util.mjs";
 import { LHTrpgActorSheet } from "../../../systems/lhtrpg/module/sheets/actor-sheet.mjs";
 import { allocateBonusPoints } from "../../../systems/lhtrpg/module/apps/stat-allocation.mjs";
@@ -115,7 +117,10 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
       "lhauto-remove-bad": LHAutoCharacterSheet.#onRemoveBad,
       "lhauto-allocate": LHAutoCharacterSheet.#onAllocate,
       "lhauto-gold": LHAutoCharacterSheet.#onGold,
-      "lhauto-delete": LHAutoCharacterSheet.#onDelete
+      "lhauto-delete": LHAutoCharacterSheet.#onDelete,
+      "lhauto-power": LHAutoCharacterSheet.#onPower,
+      "linked-skill-throw": LHAutoCharacterSheet.#onLinkedSkill,
+      "item-use": LHAutoCharacterSheet.#onItemUse
     }
   };
 
@@ -249,11 +254,20 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
       }
       return groups.filter(g => g.skills.length);
     };
+    // The skills of the items' trigger powers (content.mjs) are used from their item, in the inventory.
+    const powers = itemSkillsOf(actor);
+    const fromItems = new Set([...powers].filter(([id]) => actor.items.has(id)).flatMap(([, list]) => list.map(s => s.id)));
+    const listed = skills => skills.filter(s => !fromItems.has(s._id));
+    const powerIcons = item => (powers.get(item?._id) ?? []).map((skill, i, list) => ({
+      id: skill.id,
+      n: (list.length > 1) ? i + 1 : null,
+      tooltip: L("Sheet.UsePower", { name: skill.name, timing: term("timing", skill.system.timing) })
+    }));
     const browse = context.skillBrowse ?? {};
     lh.skillTabs = [
-      { id: "basic", subtype: "Basic", skills: context.skills.basic },
-      { id: "general", subtype: "General", skills: context.skills.general },
-      { id: "combat", subtype: "Combat", skills: context.skills.combat }
+      { id: "basic", subtype: "Basic", skills: listed(context.skills.basic) },
+      { id: "general", subtype: "General", skills: listed(context.skills.general) },
+      { id: "combat", subtype: "Combat", skills: listed(context.skills.combat) }
     ].map(tab => ({
       ...tab, groups: group(tab.skills), count: tab.skills.length,
       browse: browse[tab.subtype], pending: toInt(browse[tab.subtype]?.pending)
@@ -270,12 +284,14 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
       { pos: "acc1", type: "accessory", index: 1, icon: "accessory", label: "TYPES.Item.accessory", item: eq.accessories[1] },
       { pos: "acc2", type: "accessory", index: 2, icon: "accessory", label: "TYPES.Item.accessory", item: eq.accessories[2] }
     ].map(slot => ({ ...slot, doll: dollPlace(slot.pos), filled: !!(slot.item || slot.locked) }));
+    for (const slot of lh.slots) if (slot.item) slot.item.lhPowers = powerIcons(slot.item);
     const items = context.items;
     const space = toInt(system.inventory?.space), maxSpace = toInt(system.inventory?.maxSpace);
     lh.carried = [].concat(items.weapons, items.armors, items.shields, items.accessories, items.bags, items.usables, items.gear)
       .map((item, i) => Object.assign(item, {
         typeLabel: game.i18n.localize(`TYPES.Item.${item.type}`),
-        over: i >= maxSpace
+        over: i >= maxSpace,
+        lhPowers: powerIcons(item)
       }));
     lh.space = { value: space, max: maxSpace, pct: maxSpace ? Math.clamp(Math.round((space / maxSpace) * 100), 0, 100) : 100, over: space > maxSpace };
     lh.itemTypes = ITEM_TYPES.map(type => ({ type, label: game.i18n.localize(`TYPES.Item.${type}`) }));
@@ -426,6 +442,27 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
 
   static #onAllocate() {
     if (this.isEditable) return allocateBonusPoints(this.actor);
+  }
+
+  /** One of an item's trigger powers: its skill (content.mjs), used like any skill. */
+  static #onPower(event, target) {
+    return this.actor.items.get(target.dataset.skillId)?.ItemThrow();
+  }
+
+  /** The item's linked skill: the one on this character first (a copied character still links to the original's). */
+  static async #onLinkedSkill(event, target) {
+    const item = this.actor.items.get(target.closest(".item")?.dataset.itemId);
+    if (!item) return;
+    const skill = linkedSkill(item);
+    if (skill?.ItemThrow) return skill.ItemThrow();
+    const found = item.system.linkedSkillUuid ? await fromUuid(item.system.linkedSkillUuid).catch(() => null) : null;
+    return found?.ItemThrow?.();
+  }
+
+  /** A usable item, used after the check of its Character Rank lock (use.mjs). */
+  static async #onItemUse(event, target) {
+    const item = this.actor.items.get(target.closest(".item")?.dataset.itemId);
+    if (item && (await checkUsable(item))) return useItem(item);
   }
 
   /** Add or spend gold, with a note in the chat (the table's economy log). */

@@ -161,10 +161,10 @@ class ToolsApp extends foundry.applications.api.ApplicationV2 {
     return ToolsApp.#run(game.actors.filter(a => a.type === "character"), true);
   }
 
-  /** Fill the data the world's skills, items and monsters lack (see content.mjs). */
+  /** Fill the data the world's skills, items and monsters lack, and the characters' item skills (see content.mjs). */
   static async #fillWorld() {
     const counts = await fillWorld({ dryRun: true });
-    if (!counts.documents) return ui.notifications.info(L("Tools.FillNothing"));
+    if (!counts.documents && !counts.skills && !counts.links && !counts.removed) return ui.notifications.info(L("Tools.FillNothing"));
     const ok = await confirm({
       title: L("Tools.FillWorld"),
       content: `<p>${escape(L("Tools.FillConfirm", counts))}</p>`,

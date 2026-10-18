@@ -5,7 +5,8 @@
  * very files the system loaded (same URL, same module instance, same state).
  */
 export { rollSkill, isMonsterSkill, skillRollable } from "../../../systems/lhtrpg/module/helpers/skill-rolls.mjs";
-export { createDamageCard } from "../../../systems/lhtrpg/module/helpers/combat-cards.mjs";
+export { createDamageCard, targetEntries } from "../../../systems/lhtrpg/module/helpers/combat-cards.mjs";
+export { isSelfTarget, useItem } from "../../../systems/lhtrpg/module/helpers/item-use.mjs";
 export { rollBonuses, rollBonusesLabel, skillModifiers } from "../../../systems/lhtrpg/module/helpers/roll-bonuses.mjs";
 export { diceFormula } from "../../../systems/lhtrpg/module/helpers/dice.mjs";
 export { evaluateFormula, formulaData } from "../../../systems/lhtrpg/module/helpers/effect-formulas.mjs";

@@ -101,7 +101,13 @@
       "Forced": "Used despite the warnings",
       "Undo": "Undo use",
       "UndoHint": "Gives back the Hate, the Fate, the use and the action. Effects the skill applied are not removed.",
-      "Undone": "Use undone."
+      "Undone": "Use undone.",
+      "OnlyInitiative": "Initiative skills only in the Initiative Process, during the rounds of the combat.",
+      "NotEquipped": "{item} is not equipped.",
+      "CrLocked": "From CR {lock}, this item's effect cannot be used.",
+      "MinHate": "Not enough Hate: needs {need}, has {have}.",
+      "NoRankSkill": "Its number of uses is the SR of \"{skill}\", which the character doesn't have.",
+      "AlreadyActed": "Only before your Main Process this round (Not Acted)."
     },
     "Cards": {
       "RollDamage": "Roll damage",
@@ -156,15 +162,18 @@
       "Done": "{what}: {n} character(s).",
       "Scene": "Scene ended",
       "Scenario": "Scenario ended",
-      "FillIntro": "Fills the data of what is already in the world (items, characters, monsters and tokens): damage, statuses, bonuses and food. Homebrew monsters get their attack damage read from their text.",
+      "FillIntro": "Fills the data of what is already in the world (items, characters, monsters and tokens): damage, statuses, bonuses, food, healing, the items' CR lock and the skills of the trigger powers of the items the characters carry. Homebrew monsters get their attack damage read from their text.",
       "FillWorld": "Fill in the world's data",
       "FillNothing": "Nothing to fill: the world already has the data.",
-      "FillConfirm": "This fills {documents} skills and items: {damage} with damage, {effects} with effects and {flags} with scene or food data. Only what is missing is filled. Go on?",
+      "FillConfirm": "This fills {documents} skills and items: {damage} with damage, {effects} with effects and {flags} with scene, food, healing or CR data. On the characters: {skills} item power skills to create, {links} items to link to their skill and {removed} skills of items they no longer have to delete. Only what is missing is filled. Go on?",
       "FillYes": "Fill in",
-      "FillDone": "Data filled in: {documents} skills and items ({damage} with damage, {effects} with effects, {flags} with scene or food data)."
+      "FillDone": "Data filled in: {documents} skills and items ({damage} with damage, {effects} with effects, {flags} with scene, food, healing or CR data); {skills} item power skills created, {links} items linked, {removed} skills deleted."
     },
     "Content": {
-      "Fed": "Fatigue −{amount}: {names}"
+      "Fed": "Fatigue −{amount}: {names}",
+      "Healed": "Healing: {names}",
+      "NotHealer": "{name} is not of the Healer archetype (no effect)",
+      "Dead": "{name} is Dead (no effect)"
     },
     "Sheet": {
       "Label": "Parchment sheet (Automação)",
@@ -261,7 +270,8 @@
       "Unions": "Unions",
       "BioHint": "Click the pencil to write the biography.",
       "HateBox": "Hate {value}: the box fills a step per point, up to 10.",
-      "FatigueBox": "Fatigue {value}: the maximum HP drops by {value}. The box shows how much of the maximum HP Fatigue took."
+      "FatigueBox": "Fatigue {value}: the maximum HP drops by {value}. The box shows how much of the maximum HP Fatigue took.",
+      "UsePower": "Use {name} ({timing})"
     },
     "Chat": {
       "Description": "Description"

@@ -101,7 +101,13 @@
       "Forced": "Usada apesar dos avisos",
       "Undo": "Desfazer uso",
       "UndoHint": "Devolve o Ódio, o Destino, o uso e a ação. Os efeitos que a habilidade aplicou não são removidos.",
-      "Undone": "Uso desfeito."
+      "Undone": "Uso desfeito.",
+      "OnlyInitiative": "Habilidades de Iniciativa só no Processo de Iniciativa, durante as rodadas do combate.",
+      "NotEquipped": "{item} não está equipado.",
+      "CrLocked": "A partir do NP {lock}, o efeito deste item não pode ser usado.",
+      "MinHate": "Ódio insuficiente: precisa de {need}, tem {have}.",
+      "NoRankSkill": "O limite de usos vem do NH de \"{skill}\", que o personagem não tem.",
+      "AlreadyActed": "Só antes do seu Processo Principal nesta rodada (Pré-Ação)."
     },
     "Cards": {
       "RollDamage": "Rolar dano",
@@ -156,15 +162,18 @@
       "Done": "{what}: {n} personagem(ns).",
       "Scene": "Cena encerrada",
       "Scenario": "Cenário encerrado",
-      "FillIntro": "Completa os dados do que já está no mundo (itens, personagens, monstros e tokens): dano, estados, bônus e comida. Monstros feitos à mão têm o dano dos ataques lido do texto.",
+      "FillIntro": "Completa os dados do que já está no mundo (itens, personagens, monstros e tokens): dano, estados, bônus, comida, cura, a trava de NP dos itens e as habilidades dos poderes de gatilho dos itens que os personagens carregam. Monstros feitos à mão têm o dano dos ataques lido do texto.",
       "FillWorld": "Completar os dados do mundo",
       "FillNothing": "Nada para completar: o mundo já tem os dados.",
-      "FillConfirm": "Vai completar {documents} habilidades e itens: {damage} com dano, {effects} com efeitos e {flags} com dados de cena ou comida. Só o que falta é preenchido. Continuar?",
+      "FillConfirm": "Vai completar {documents} habilidades e itens: {damage} com dano, {effects} com efeitos e {flags} com dados de cena, comida, cura ou NP. Nos personagens: {skills} habilidades de poderes de itens a criar, {links} itens a ligar à sua habilidade e {removed} habilidades de itens que eles não têm mais a apagar. Só o que falta é preenchido. Continuar?",
       "FillYes": "Completar",
-      "FillDone": "Dados completados: {documents} habilidades e itens ({damage} com dano, {effects} com efeitos, {flags} com dados de cena ou comida)."
+      "FillDone": "Dados completados: {documents} habilidades e itens ({damage} com dano, {effects} com efeitos, {flags} com dados de cena, comida, cura ou NP); {skills} habilidades de poderes de itens criadas, {links} itens ligados, {removed} habilidades apagadas."
     },
     "Content": {
-      "Fed": "Fadiga −{amount}: {names}"
+      "Fed": "Fadiga −{amount}: {names}",
+      "Healed": "Cura: {names}",
+      "NotHealer": "{name} não é do arquétipo Curandeiro (sem efeito)",
+      "Dead": "{name} está Morto (sem efeito)"
     },
     "Sheet": {
       "Label": "Ficha de pergaminho (Automação)",
@@ -261,7 +270,8 @@
       "Unions": "Uniões",
       "BioHint": "Clique no lápis para escrever a biografia.",
       "HateBox": "Ódio {value}: a caixa enche a cada ponto, até 10.",
-      "FatigueBox": "Fadiga {value}: o PV máximo cai {value}. A caixa mostra quanto do PV máximo a Fadiga tirou."
+      "FatigueBox": "Fadiga {value}: o PV máximo cai {value}. A caixa mostra quanto do PV máximo a Fadiga tirou.",
+      "UsePower": "Usar {name} ({timing})"
     },
     "Chat": {
       "Description": "Descrição"

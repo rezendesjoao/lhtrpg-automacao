@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.8.0 — 2026-10-17
+
+Os poderes de gatilho dos itens viram habilidades, e os consumíveis de cura e dano funcionam sozinhos.
+
+- **Poderes de gatilho dos itens.** Os 95 poderes "[Momento: …]" de 90 equipamentos e ferramentas do compêndio
+  viram habilidades de item no personagem que carrega o item, uma por poder: Momento, Alvo, Alcance, Custo e
+  Limite nos campos, o texto do poder (no idioma do item) como descrição e, em 30 deles, o efeito: Barreira,
+  Regeneração, Anulação, Perseguição, Deterioração, Fraqueza, Atordoado, Rigidez, Voando, Oculto, Nadando,
+  bônus de Recuperação e de rolagem de dano, cura e dano direto. A primeira habilidade fica ligada ao item. As
+  habilidades chegam com o item e saem com ele; um personagem copiado fica com as suas.
+- **Ficha de pergaminho:** um ícone por poder no item (numerados quando há mais de um); as habilidades de item
+  saem da aba Habilidades.
+- **Conferências das habilidades de item**, pela configuração dos limites de uso: o item equipado, a trava de NP
+  ("〔NP21〕O efeito deste item não pode ser usado"), o Ódio mínimo, a Pré-Ação e os limites pelo NH de outra
+  habilidade ("[NH de «Invocar Shikigami»] vezes por cena").
+- **Momento Iniciativa** passa a ser conferido: só durante as rodadas do combate.
+- **Itens de cura:** as Poções de Cura curam sozinhas ao usar (quem usa ou os personagens marcados), com o PV de
+  antes e de depois no cartão, que perde o botão de rolar a cura de novo. As Joias do Renascimento e do Chamado
+  da Vida curam o NP do alvo mais o bônus delas e levantam quem está Incapacitado; a do Chamado da Vida só em
+  Curandeiros.
+- **Consumíveis:** 17 venenos, areias mágicas, águas bentas e afins ganham o Dano (Teste e Dano no cartão de
+  uso); 5 poções e joias ganham o estado que dão; 84 consumíveis com "(NP21): Este item não tem efeito" avisam a
+  partir desse NP antes do uso, pelo botão Usar da ficha de pergaminho.
+- O dano ou a cura de uma habilidade Pessoal tem o token do próprio usuário como alvo quando ninguém está marcado.
+- Os efeitos completados pelo módulo levam o nome do item ou da habilidade como está no mundo (antes, em inglês).
+- "Completar os dados do mundo" também cria e liga as habilidades dos poderes dos itens que os personagens já
+  carregam, e apaga as de itens que eles não têm mais.
+- API: `syncItemSkills(actor)`.
+
 ## 0.7.0 — 2026-10-17
 
 As outras janelas do sistema no visual da ficha de pergaminho.

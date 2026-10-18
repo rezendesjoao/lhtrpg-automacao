@@ -10,7 +10,8 @@
  * - fate.mjs    Fate Points: +1D, rerolls, removing a Bad Status.
  * - scenes.mjs  scene / scenario counters and the GM tools.
  * - content.mjs data the compendiums only have as text: monster damage, skill damage and statuses,
- *               item bonuses, statuses at the start of the scene, food.
+ *               item bonuses, statuses at the start of the scene, food, healing items, and the
+ *               skills of the items' trigger powers.
  * - sheet.mjs   the parchment character sheet; chat.mjs the chat cards; windows.mjs the other windows.
  * Each part has its own setting (Game Settings → Configure Settings → this module).
  */
@@ -21,7 +22,7 @@ import { registerRound } from "./round.mjs";
 import { registerCards, rollCheck, rollDamage } from "./cards.mjs";
 import { registerFate, removeBadStatus, spendFate } from "./fate.mjs";
 import { endScene, registerScenes } from "./scenes.mjs";
-import { fillWorld, registerContent } from "./content.mjs";
+import { fillWorld, registerContent, syncItemSkills } from "./content.mjs";
 import { parseMonsterDamage } from "./content/monster-damage.mjs";
 import { registerSheet } from "./sheet.mjs";
 import { registerChat } from "./chat.mjs";
@@ -51,6 +52,7 @@ Hooks.once("init", () => {
     rollDamage,
     spendFate,
     removeBadStatus,
+    syncItemSkills,
     undoUse
   };
 });

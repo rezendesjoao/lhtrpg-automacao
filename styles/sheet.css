@@ -1381,6 +1381,12 @@
 .lhpf .item-controls a[data-action="delete"]:hover {
   color: var(--pf-red);
 }
+/* the powers of an item with several: numbered in the order of its text */
+.lhpf .item-controls a[data-action="lhauto-power"] sup {
+  margin-left: -2px;
+  font-size: 8px;
+  font-weight: 700;
+}
 .lhpf .lhpf-list .tags.meta {
   flex: 0 0 auto;
 }

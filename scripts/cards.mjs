@@ -10,11 +10,13 @@
  *   target that already took it asks before taking it again; the button can't be clicked twice.
  * - Cards posted in a private message mode (GM / blind / self) are also shown to the owners of their
  *   targets and of the attacker, who dodge and apply from them.
+ * - The damage (or healing) of a skill on its user (Target: Self) has the user's token as its target when
+ *   nobody is targeted.
  */
 import { L, MODULE_ID, setting } from "./settings.mjs";
 import {
-  createDamageCard, diceFormula, evaluateFormula, formulaData, isMonsterSkill,
-  rollBonuses, rollBonusesLabel, rollSkill, skillRollable
+  createDamageCard, diceFormula, evaluateFormula, formulaData, isMonsterSkill, isSelfTarget,
+  rollBonuses, rollBonusesLabel, rollSkill, skillRollable, targetEntries
 } from "./system.mjs";
 import { confirm, escape, sameTarget, targetActor, toInt } from "./util.mjs";
 
@@ -112,9 +114,16 @@ export async function rollDamage(item, attackMessage) {
   const type = values.recovery ? RECOVERY_LABEL : TYPE_LABELS[values.type];
   if (type) flavor += ` (${game.i18n.localize(type)})`;
 
+  // A skill on its user (Target: Self) heals or hits the user's token when nobody is targeted.
+  let targets;
+  if (!attackMessage && !game.user.targets.size && item.actor && isSelfTarget(item)) {
+    const token = canvas?.tokens?.controlled.find(t => t.actor === item.actor) ?? item.actor.getActiveTokens()[0];
+    if (token) targets = targetEntries([token]);
+  }
+
   pending = { itemUuid: item.uuid, attackId: attackMessage?.id ?? null };
   try {
-    return await createDamageCard(item, actor, diceFormula({ dice, mod }), flavor, attackMessage, undefined,
+    return await createDamageCard(item, actor, diceFormula({ dice, mod }), flavor, attackMessage, targets,
       { bonuses: rollBonusesLabel(bonuses) });
   }
   finally {

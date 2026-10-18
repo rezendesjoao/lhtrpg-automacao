@@ -91,8 +91,15 @@ pergaminho" desliga tudo isso (pede para recarregar).
 - **Momento e economia de ações.** Em combate, o módulo confere:
   - Ação Maior, Menor, de Movimento e Instantânea: só no seu Processo Principal.
   - Abertura: só na Abertura. Encerramento: só no Encerramento.
+  - Iniciativa: só durante as rodadas, no Processo de Iniciativa.
   - Briefing: antes de o combate começar.
   - A Ação Maior, a Menor e a de Movimento: cada uma só uma vez por Processo Principal.
+- **Habilidades de itens.** Uma habilidade que vem de um item (os poderes de gatilho, em "Conteúdo dos
+  compêndios", ou qualquer habilidade ligada a um item) segue a configuração dos limites de uso e também confere:
+  - o item precisa estar equipado;
+  - a trava de NP: "〔NP21〕O efeito deste item não pode ser usado" vale a partir desse NP;
+  - o Ódio mínimo ("só quando seu Ódio for 10 ou mais") e a Pré-Ação ("Pessoal: Pré-Ação");
+  - limites pelo NH de outra habilidade ("[NH de «Invocar Shikigami»] vezes por cena").
 - **Avisar ou bloquear.** Quando algo não bate, o módulo pergunta se é para usar mesmo assim, ou bloqueia o
   jogador (o Mestre sempre pode forçar). Cada um tem a sua configuração.
 - **Registro no cartão.** O cartão da habilidade ganha uma linha com o que foi gasto (ação, Ódio, Destino,
@@ -157,6 +164,28 @@ Muita coisa dos compêndios do sistema só existia no texto. O módulo completa 
   broches, cintos, brincos, medalhões e talismãs de Anulação, e outros.
 - **Comida.** 32 pratos tiram Fadiga de quem come: de quem usa, ou dos personagens marcados nos pratos para
   o grupo.
+- **Poderes de gatilho dos itens.** "[Momento: Iniciativa] Você recebe [Barreira:60]. Uma vez por Cenário." Os
+  95 poderes de 90 equipamentos e ferramentas viram habilidades de item, uma por poder, no personagem que
+  carrega o item:
+  - Momento, Alvo, Alcance, Custo ("& Destino 1", "& Ódio 2") e Limite ficam nos campos da habilidade, e o
+    texto do poder vira a descrição, no idioma em que o item está;
+  - 30 poderes têm o efeito: Barreira, Regeneração, Anulação, Perseguição, Deterioração, Fraqueza, Atordoado,
+    Rigidez, Voando, Oculto e Nadando, bônus de Recuperação e de rolagem de dano, cura e dano direto. Os de alvo
+    Pessoal vão para quem usa; os outros, para os alvos marcados (ou pelo botão **Aplicar efeitos**);
+  - usa-se pelo ícone do item no inventário, com as conferências e o registro de qualquer habilidade (Momento,
+    limite, custo, **Desfazer uso**). Na ficha de pergaminho cada poder tem o seu ícone, numerado quando o item
+    tem mais de um, e eles não se repetem na aba Habilidades;
+  - as habilidades chegam com o item (do compêndio, de outro personagem, numa cópia do personagem) e saem com
+    ele. A primeira fica ligada ao item, como o sistema faz.
+- **Itens de cura.** As Poções de Cura curam sozinhas ao usar: quem usa, ou os personagens marcados. O cartão
+  mostra o PV de antes e de depois e perde o botão de rolar a cura de novo. As Joias do Renascimento e do
+  Chamado da Vida curam o NP do alvo mais o bônus delas e levantam quem está Incapacitado; a do Chamado da Vida
+  só funciona em personagens do arquétipo Curandeiro.
+- **Consumíveis de dano e de estado.** 17 venenos, areias mágicas, águas bentas e afins ganham o Dano: o cartão
+  de uso rola e o cartão de dano aplica. 5 poções e joias ganham o estado que dão (Regeneração, Barreira,
+  Voando).
+- **Trava de NP dos consumíveis.** "(NP21): Este item não tem efeito": 84 consumíveis avisam (ou bloqueiam) a
+  partir desse NP, pelo botão Usar da ficha de pergaminho, como os limites de uso.
 
 Só o que falta é preenchido. O que o Mestre editou à mão nunca é trocado.
 
@@ -166,7 +195,8 @@ Ficam em **Configurações → Configurar Configurações → Log Horizon TRPG �
 - Encerrar o cenário dos tokens selecionados.
 - Encerrar o cenário de todos os personagens.
 - **Completar os dados do mundo.** Aplica o "Conteúdo dos compêndios" ao que já existe no mundo: itens,
-  personagens, monstros e tokens. Mostra quantos documentos vai mudar antes de mexer.
+  personagens, monstros e tokens. Dá aos personagens as habilidades dos poderes dos itens que eles já carregam,
+  ligadas aos itens, e apaga as de itens que eles não têm mais. Mostra quanto vai mudar antes de mexer.
 
 ## Configurações
 
@@ -222,6 +252,7 @@ api.rollDamage(item, attackMsg);  // Dano contra um cartão de ataque específic
 api.spendFate(actor);             // gasta 1 Destino
 api.removeBadStatus(actor);       // diálogo de remover Estado Negativo com Destino
 api.fillWorld({ dryRun: true });  // conta (ou completa) os dados que faltam no mundo
+api.syncItemSkills(actor);        // cria e liga as habilidades dos poderes dos itens do personagem
 api.parseMonsterDamage(html);     // lê o dano de um ataque de monstro escrito em texto
 ```
 
@@ -235,8 +266,22 @@ api.parseMonsterDamage(html);     // lê o dano de um ataque de monstro escrito 
 - **Custos de grupo** ("(Party)", "(Allies)") não aparecem em nenhuma habilidade do compêndio. Se algum
   aparecer, o usuário paga o próprio e os aliados pagam à mão.
 - **Dano rolado pela ficha**, fora do cartão da habilidade, ainda usa a busca do próprio sistema.
+- **Poderes de itens:**
+  - 65 dos 95 poderes ficam só com os campos, o texto e a contagem de usos e custos: os que dependem de uma
+    escolha (a tag da Redução da Guarda da Égide), de um resultado ("se o Ataque Mágico infligir…"), de outra
+    habilidade («Cura», «Ressurreição») ou do Ódio no valor, e os que mexem em objetos de cena, movimento, tags
+    ou Conexões. O efeito deles é feito à mão.
+  - "Na próxima rolagem de dano" vale até o fim da rodada (ou do processo, nos poderes de Momento Rolagem de
+    Dano). "Soma à intensidade" (Regeneração da Lâmina do Tumulto, Deterioração do Açoite de Labrin) fica como o
+    maior valor, como qualquer estado.
+  - O Destino que alguns poderes dão (Peitoral da Donzela Guerreira, Armadura do Farol) e a tag [Quebrado] são à
+    mão. As Joias do Renascimento e do Chamado da Vida não somam o Ódio delas (+2 / +1).
+  - Na ficha do sistema, a segunda habilidade de um item com dois poderes aparece entre as habilidades de
+    Combate (o ícone do item só usa a primeira).
+  - Apagar à mão a habilidade de um poder desliga o item; "Completar os dados do mundo" cria de novo. Um item
+    ligado à mão a uma habilidade própria fica como está.
+  - O dano dos consumíveis não leva a tag do elemento ([Frio], [Choque]…), que continua só no texto.
 - **Conteúdo que ainda é só texto:**
-  - os poderes "[Momento] … 1×/cena" de 92 itens;
   - "conta como tendo «Habilidade» com NH+N" (14 itens);
   - estados com condição ("(Menor): o alvo sofre…", "Resultado 17+…");
   - venenos de Fadiga;
@@ -249,7 +294,7 @@ api.parseMonsterDamage(html);     // lê o dano de um ataque de monstro escrito 
 
 ## Testado
 
-Foundry 14.367, `lhtrpg` 2.1.0 e `lhtrpg-pt-br` 1.0.0. Cenários testados num mundo de teste:
+Foundry 14.367, `lhtrpg` 2.1.0 e `lhtrpg-pt-br` 1.0.1. Cenários testados num mundo de teste:
 - Custos de Ódio e Destino, limite por cena (com aviso, uso forçado e desfazer).
 - Ação Maior repetida e Momento fora do Processo Principal.
 - Topo e Abaixo no Ódio em dois combates simultâneos.
@@ -281,6 +326,23 @@ Foundry 14.367, `lhtrpg` 2.1.0 e `lhtrpg-pt-br` 1.0.0. Cenários testados num mu
   em todas as abas; editor de efeitos em todas as abas; seleção de habilidades (escolher e desfazer) e de classe;
   diálogos de rolagem, de exclusão, de pontos de atributo, de subida de NP e de habilidades iniciais; loja e saque;
   Ferramentas do Mestre; a configuração desligada devolve o visual do sistema.
+- Poderes de itens e consumíveis:
+  - R10 Hikari no kōshi tirado do compêndio: a habilidade criada e ligada. Equipado e usado pelo ícone do
+    inventário: aviso de Momento na Abertura; na Iniciativa, Barreira 60 aplicada e "Uso 1/1 por cenário" no
+    cartão; no segundo uso, os avisos do limite e da trava com NP 21; o limite volta no cenário seguinte; aviso
+    de item não equipado.
+  - Poção de Cura I pelo botão Usar da ficha: PV 80 → 105, sem o botão de rolar a cura no cartão. Joia do
+    Renascimento I (cura o NP do alvo) e Joia do Chamado da Vida num Samurai (sem efeito). Trava de NP de um
+    consumível avisando antes do uso.
+  - Armadura do Cavaleiro do Graal: cura de 100 pelo cartão, com o próprio personagem como alvo.
+  - Esmagador de Minos dando Fraqueza (Física) 7 ao alvo marcado; Varinha Kodama com +6 no dano de Ataque
+    Mágico; Kōryū no tsume com o limite pelo NH de «Ação de Kung Fu» e o aviso de Pré-Ação.
+  - Veneno de Maldição III com Teste e Dano no cartão de uso; Poção de Regeneração III dando Regeneração 15.
+  - "Completar os dados do mundo" num personagem que já tinha os itens: 5 habilidades criadas e 3 itens
+    ligados; rodar de novo não acha mais nada. Apagar o item apaga as habilidades; apagar a habilidade desliga o
+    item.
+  - Itens com o texto do `lhtrpg-pt-br`: cada habilidade com o seu poder em português. Personagem copiado com os
+    itens ligados às habilidades da cópia.
 
 ## Dados dos compêndios
 
@@ -292,8 +354,10 @@ node tools/build-patches.mjs ../LHTTRPG
 ```
 
 O script lê o texto em inglês dos compêndios (`tools/text-rules.mjs`, `scripts/content/monster-damage.mjs`) e
-usa as tabelas revisadas à mão dentro dele: dano das habilidades e exceções. Ele imprime as listas para
-revisão.
+usa as tabelas revisadas à mão dentro dele: dano das habilidades, exceções, os poderes dos itens (`POWERS`:
+alvo, alcance, efeitos e condições de cada poder) e os consumíveis (`USABLE_DAMAGE`, `USABLE_HEAL`,
+`USABLE_STATUSES`). Ele imprime as listas para revisão e avisa dos poderes sem revisão ou com campos que o
+sistema não reconhece.
 
 ## Publicar uma nova versão
 

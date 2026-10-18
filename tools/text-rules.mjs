@@ -166,3 +166,99 @@ export function itemFatigue(html) {
     ?? text.match(/Fatigue\]?\s*is reduced by\s*-?\s*(\d+)/i);
   return m ? Number(m[1]) : null;
 }
+
+/* -------------------------------------------- */
+/*  Trigger powers of items                     */
+/* -------------------------------------------- */
+
+/** The marker of an item power: "[Trigger: Initiative]", "[Trigger: Action & Fate 1]:", "[Act: Instant]". */
+const POWER_MARKER = /\[(?:Trigger|Act)\s*:\s*([^\]]+)\]\s*:?/gi;
+
+/** Trigger words -> the system's Timings ("Text" and "Body" are the rules' "Refer": see the text). */
+const POWER_TIMINGS = [
+  [/^immediately after (?:the )?damage/i, "After Damage"],
+  [/^immediately after (?:the )?check/i, "After Check"],
+  [/^damage roll/i, "Damage Roll"],
+  [/^pre-?play/i, "Pre-Play"],
+  [/^rest time/i, "Rest Time"],
+  [/^(?:text|body|refer)\b/i, "Refer"],
+  [/^action\b/i, "Action"],
+  [/^setup\b/i, "Setup"],
+  [/^initiative\b/i, "Initiative"],
+  [/^instant\b/i, "Instant"],
+  [/^move\b/i, "Move"],
+  [/^minor\b/i, "Minor"],
+  [/^major\b/i, "Major"],
+  [/^cleanup\b/i, "Cleanup"]
+];
+
+/**
+ * What a power's marker says: its Timing, its cost ("Fate 1", "Hate 2", "Magic Catalyst 1") and a
+ * condition ("Self: Not Acted").
+ * @param {string} header   The inside of "[Trigger: …]"
+ * @returns {{timing: string, cost: string, condition: string}}
+ */
+export function parseTrigger(header) {
+  const [first = "", ...rest] = String(header).split("&").map(s => s.trim()).filter(Boolean);
+  const timing = POWER_TIMINGS.find(([pattern]) => pattern.test(first))?.[1] ?? first;
+  let cost = "";
+  let condition = "";
+  for (const part of rest) {
+    const m = part.match(/^(fate|hate)\s*(\d+)$/i);
+    if (m) cost = `${m[1].charAt(0).toUpperCase()}${m[1].slice(1).toLowerCase()} ${m[2]}`;
+    else if (/magic catalyst/i.test(part)) cost = part.replace(/\s+/g, " ");
+    else condition = part;
+  }
+  return { timing, cost, condition };
+}
+
+/**
+ * The usage limit a power's text writes, as a skill Limit: "Once per scenario" -> "1/Scenario",
+ * "1Once per scene" -> "1/Scene", "2 times per scenario" -> "2/Scenario". "" when it writes none.
+ */
+export function powerLimit(text) {
+  const t = String(text ?? "");
+  let m = t.match(/(once|twice|\d+)\s*(?:times?\s*)?(?:per|\/|in an?)\s*(scene|scenario)\b/i);
+  let n;
+  let type;
+  if (m) [, n, type] = m;
+  else if ((m = t.match(/\b(scene|scenario)\s+can be used\s+(once|twice|\d+)/i))) [, type, n] = m;
+  else return "";
+  const count = { once: 1, twice: 2 }[n.toLowerCase()] ?? Number(n);
+  return `${count}/${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()}`;
+}
+
+/**
+ * The Character Rank from which an item no longer works: "〔CR21〕This item's effect cannot be used",
+ * "[CR12] The effect of this item cannot be activated", "(CR11): This item has no effect". 0 if none.
+ */
+export function crLock(text) {
+  const m = plainText(text).match(/[〔[(]\s*CR\s*(\d+)\s*[〕\])]\s*:?\s*(?:this item|the effect)/i);
+  return m ? Number(m[1]) : 0;
+}
+
+/**
+ * The trigger powers of an item, in the order of its text. Each power runs from its marker to the next
+ * one, or to the end of its line: the item's flavor text and crafting recipe come after.
+ * @param {string} html   The item's description
+ * @returns {{timing: string, cost: string, condition: string, text: string, body: string, limit: string,
+ *   crLock: number}[]}   `text` is the whole power with its marker, `body` without it.
+ */
+export function itemPowers(html) {
+  const text = String(html ?? "").split(/<hr\s*\/?>/i)[0]
+    .split(/<\/p>|<br\s*\/?>|\n/i).map(plainText).join("\n");
+  const marks = [...text.matchAll(POWER_MARKER)];
+  return marks.map((m, i) => {
+    const end = marks[i + 1]?.index ?? text.length;
+    const power = text.slice(m.index, end).split("\n")[0].trim();
+    const body = power.slice(m[0].length).trim();
+    return { ...parseTrigger(m[1]), text: power, body, limit: powerLimit(body), crLock: crLock(body) };
+  });
+}
+
+/** The rules text of an item with trigger powers: every line up to the one with its last power. */
+export function powerRules(html) {
+  const lines = String(html ?? "").split(/<hr\s*\/?>/i)[0].split(/<\/p>|<br\s*\/?>|\n/i).map(plainText);
+  const last = lines.findLastIndex(line => /\[(?:Trigger|Act)\s*:/i.test(line));
+  return lines.slice(0, last + 1).filter(Boolean).join(" ");
+}

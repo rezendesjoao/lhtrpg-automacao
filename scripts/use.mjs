@@ -12,11 +12,17 @@
  *
  * Constant skills are never "used". Hate is only paid in a started combat (it is reset at the start
  * and end of every combat); Fate is always paid. Monsters pay no costs (they have no Hate).
+ *
+ * Skills of an item (its trigger powers, see content.mjs, or any skill an item links to) are also checked
+ * like the usage limit: the item must be equipped, the user's Character Rank below the item's lock
+ * ("〔CR21〕This item's effect cannot be used"), its Hate high enough, and so on (flags of the skill).
+ * Usable items with a Character Rank lock are checked the same way before they are used (checkUsable).
  */
 import { L, MODULE_ID, setting } from "./settings.mjs";
 import { parseSkillField, skillModifiers } from "./system.mjs";
 import { combatantOf, combatOf, confirm, escape, toInt, wrap } from "./util.mjs";
 import { counter } from "./scenes.mjs";
+import { ITEM_SKILL, linkedSkill } from "./content.mjs";
 
 /** The action a Timing spends in the Main Process. */
 const ACTIONS = { Major: "major", Minor: "minor", Move: "move" };
@@ -26,6 +32,8 @@ const OWN_PROCESS = new Set(["Major", "Minor", "Move", "Main Process", "Instant"
 const OUT_OF_COMBAT = new Set(["Rest Time", "Pre-Play", "Interlude"]);
 /** Usage limit types that are counted. */
 const LIMIT_TYPES = ["Scene", "Scenario", "Round"];
+/** Items whose skills only work while they are equipped. */
+const EQUIPMENT = ["weapon", "armor", "shield", "accessory", "bag"];
 
 /** Call during the `init` hook. */
 export function registerUse() {
@@ -55,13 +63,27 @@ function tracked(item) {
 /* -------------------------------------------- */
 
 /**
+ * The Skill Rank a skill's amounts use: its own, or the rank of the user's skill its `srOf` flag names
+ * ("This effect can be used [your "Shikigami Master" SR] times per scene"), 0 without that skill.
+ * @param {Item} item
+ * @returns {number}
+ */
+function rankOf(item) {
+  const of = item?.getFlag?.(MODULE_ID, "srOf");
+  if (!of) return Math.max(1, toInt(item?.system?.skillRank?.value));
+  const source = i => i._stats?.compendiumSource ?? i.flags?.core?.sourceId;
+  const skill = item.actor?.items.find(i => (i.type === "skill") && ((of.uuid && (source(i) === of.uuid)) || (i.name === of.name)));
+  return toInt(skill?.system?.skillRank?.value);
+}
+
+/**
  * An amount written in a skill block: "1", "(SR)", "SR+1", "(SRx3)", "2xSR", "[SR]", "CR"…
  * @param {string} text
  * @param {Item} item     The skill (its SR, its owner's CR)
  * @returns {number|null}
  */
 export function amount(text, item) {
-  const sr = Math.max(1, toInt(item?.system?.skillRank?.value));
+  const sr = rankOf(item);
   const actor = item?.actor;
   const cr = Math.max(1, toInt(actor?.system?.infos?.crank ?? actor?.system?.rank));
   const expr = String(text ?? "").toUpperCase()
@@ -156,10 +178,85 @@ function timingIssues(timing, combat, combatant) {
     return ((phase === "main") && (combat.progress.active === combatant.id)) ? [] : [L("Use.OutsideProcess")];
   }
   if (timing === "Setup") return (phase === "setup") ? [] : [L("Use.OnlySetup")];
+  // The Initiative Process comes before each Main Process of the round.
+  if (timing === "Initiative") return (phase === "main") ? [] : [L("Use.OnlyInitiative")];
   if (timing === "Cleanup") return (phase === "cleanup") ? [] : [L("Use.OnlyCleanup")];
   if (timing === "Briefing") return [L("Use.OnlyBriefing")];
   if (OUT_OF_COMBAT.has(timing)) return [L("Use.OnlyOutOfCombat")];
   return [];
+}
+
+/** The item a skill comes from: the one whose power it is (content.mjs), else one that links to it. */
+function sourceItem(skill) {
+  const actor = skill.actor;
+  const id = skill.getFlag(MODULE_ID, ITEM_SKILL)?.item;
+  return (id && actor.items.get(id)) || actor.items.find(i => (i.id !== skill.id) && (linkedSkill(i) === skill)) || null;
+}
+
+/** The Character Rank from which an item (or the skill of its power) no longer works, 0 if none. */
+const crLockOf = item => toInt(item.getFlag(MODULE_ID, "crLock"));
+const crOf = actor => toInt(actor?.system?.infos?.crank ?? actor?.system?.rank);
+
+/**
+ * Whether the conditions of an item's skill are met: the item is equipped, the Character Rank is below the
+ * item's lock, the Hate is high enough, the skill whose rank sets the limit is there, the user hasn't acted.
+ * @param {Item} item
+ * @param {Actor} actor
+ * @param {Combat|null} combat
+ * @param {Combatant|null} combatant
+ * @returns {string[]}
+ */
+function itemIssues(item, actor, combat, combatant) {
+  const issues = [];
+  const owner = sourceItem(item);
+  if (owner && EQUIPMENT.includes(owner.type) && (owner.system.equipped === false)) {
+    issues.push(L("Use.NotEquipped", { item: owner.name }));
+  }
+  const lock = crLockOf(item);
+  if (lock && (crOf(actor) >= lock)) issues.push(L("Use.CrLocked", { lock }));
+  const minHate = toInt(item.getFlag(MODULE_ID, "minHate"));
+  const hate = toInt(actor._source.system.infos?.hate);
+  if (minHate && (hate < minHate)) issues.push(L("Use.MinHate", { need: minHate, have: hate }));
+  const of = item.getFlag(MODULE_ID, "srOf");
+  if (of && !rankOf(item)) issues.push(L("Use.NoRankSkill", { skill: of.name }));
+  if (item.getFlag(MODULE_ID, "notActed") && combatant && combat.isPostAction?.(combatant)) issues.push(L("Use.AlreadyActed"));
+  return issues;
+}
+
+/**
+ * Ask whether a use goes on despite its issues, or refuse it (issues of a "block" setting, for players).
+ * @param {Item} item
+ * @param {{text: string, mode: string}[]} issues
+ * @returns {Promise<string[]|null>}   The issues it goes on despite, or null when it stops.
+ */
+async function decide(item, issues) {
+  if (!issues.length) return [];
+  const blocked = issues.filter(i => i.mode === "block");
+  if (blocked.length && !game.user.isGM) {
+    ui.notifications.warn(L("Use.Blocked", { name: item.name, reasons: blocked.map(i => i.text).join(" ") }));
+    return null;
+  }
+  const list = issues.map(i => `<li>${escape(i.text)}</li>`).join("");
+  const ok = await confirm({
+    title: L("Use.ConfirmTitle", { name: item.name }),
+    content: `<p>${escape(L("Use.ConfirmIntro"))}</p><ul>${list}</ul><p>${escape(L("Use.ConfirmQuestion"))}</p>`,
+    yes: L("Use.UseAnyway"),
+    no: L("Use.Cancel")
+  });
+  return ok ? issues.map(i => i.text) : null;
+}
+
+/**
+ * Before a usable item is used: its Character Rank lock ("(CR21): This item has no effect"), by the setting
+ * of the usage limits.
+ * @param {Item} item
+ * @returns {Promise<boolean>}   Whether the use goes on.
+ */
+export async function checkUsable(item) {
+  const mode = setting("limits");
+  const lock = crLockOf(item);
+  if (!mode || (mode === "off") || !lock || (crOf(item.actor) < lock)) return true;
+  return !!(await decide(item, [{ text: L("Use.CrLocked", { lock }), mode }]));
 }
 
 /* -------------------------------------------- */
@@ -187,13 +284,16 @@ async function planUse(item) {
     if (action && spentActions(actor, combat)[action]) issues.push({ text: L(`Use.ActionSpent.${action}`), mode: actionsMode });
   }
 
-  // Usage limit
+  // Usage limit, and the conditions of an item's skill
   const limitsMode = setting("limits");
   const limit = (limitsMode && (limitsMode !== "off")) ? limitOf(item) : null;
   const key = limit ? limitKey(limit.type, actor, combat) : null;
   const uses = key ? usesOf(item, key) : 0;
   if (key && (uses >= limit.max)) {
     issues.push({ text: L("Use.LimitReached", { uses, max: limit.max, per: L(`Use.Per.${limit.type}`) }), mode: limitsMode });
+  }
+  if (limitsMode && (limitsMode !== "off")) {
+    for (const text of itemIssues(item, actor, combat, combatant)) issues.push({ text, mode: limitsMode });
   }
 
   // Costs: the Fate must be there to pay
@@ -203,23 +303,8 @@ async function planUse(item) {
     if (fate < cost.fate) issues.push({ text: L("Use.NoFate", { need: cost.fate, have: fate }), mode: "block" });
   }
 
-  let forced = [];
-  if (issues.length) {
-    const blocked = issues.filter(i => i.mode === "block");
-    if (blocked.length && !game.user.isGM) {
-      ui.notifications.warn(L("Use.Blocked", { name: item.name, reasons: blocked.map(i => i.text).join(" ") }));
-      return null;
-    }
-    const list = issues.map(i => `<li>${escape(i.text)}</li>`).join("");
-    const ok = await confirm({
-      title: L("Use.ConfirmTitle", { name: item.name }),
-      content: `<p>${escape(L("Use.ConfirmIntro"))}</p><ul>${list}</ul><p>${escape(L("Use.ConfirmQuestion"))}</p>`,
-      yes: L("Use.UseAnyway"),
-      no: L("Use.Cancel")
-    });
-    if (!ok) return null;
-    forced = issues.map(i => i.text);
-  }
+  const forced = await decide(item, issues);
+  if (!forced) return null;
   return { combat, combatant, action, limit, key, uses, cost, forced };
 }
 
