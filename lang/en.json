@@ -339,7 +339,22 @@
       "BioHint": "Click the pencil to write the biography.",
       "HateBox": "Hate {value}: the box fills a step per point, up to 10.",
       "FatigueBox": "Fatigue {value}: the maximum HP drops by {value}. The box shows how much of the maximum HP Fatigue took.",
-      "UsePower": "Use {name} ({timing})"
+      "UsePower": "Use {name} ({timing})",
+      "Damage": "Damage",
+      "Monster": {
+        "Label": "Parchment monster sheet (Automation)",
+        "Level": "Monster Level",
+        "LevelShort": "LV",
+        "IdentShort": "Ident.",
+        "HateShort": "Hate mult.",
+        "FateBox": "Fate {value}/{max}: the box fills with the Fate left.",
+        "SendHint": "Show the monster in the chat: tags, statuses, the lower defense, the Hate multiplier and the abilities.",
+        "Description": "Description",
+        "DescriptionHint": "Click the pencil to write the description.",
+        "NoAbilities": "No abilities. Drag one from a compendium or click Add.",
+        "Edit": "Edit",
+        "StatusesHint": "Open the statuses panel"
+      }
     },
     "Chat": {
       "Description": "Description"

@@ -339,7 +339,22 @@
       "BioHint": "Clique no lápis para escrever a biografia.",
       "HateBox": "Ódio {value}: a caixa enche a cada ponto, até 10.",
       "FatigueBox": "Fadiga {value}: o PV máximo cai {value}. A caixa mostra quanto do PV máximo a Fadiga tirou.",
-      "UsePower": "Usar {name} ({timing})"
+      "UsePower": "Usar {name} ({timing})",
+      "Damage": "Dano",
+      "Monster": {
+        "Label": "Ficha de monstro em pergaminho (Automação)",
+        "Level": "Nível do monstro",
+        "LevelShort": "NV",
+        "IdentShort": "Identif.",
+        "HateShort": "Mult. Ódio",
+        "FateBox": "Destino {value}/{max}: a caixa enche com o Destino que resta.",
+        "SendHint": "Mostrar o monstro no chat: tags, estados, a defesa mais baixa, o multiplicador de Ódio e as habilidades.",
+        "Description": "Descrição",
+        "DescriptionHint": "Clique no lápis para escrever a descrição.",
+        "NoAbilities": "Nenhuma habilidade. Arraste uma de um compêndio ou clique em Adicionar.",
+        "Edit": "Editar",
+        "StatusesHint": "Abrir o painel de estados"
+      }
     },
     "Chat": {
       "Description": "Descrição"

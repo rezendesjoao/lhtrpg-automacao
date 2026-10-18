@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.4.0 — 2026-10-18
+
+- **Ficha de monstro nova**, com a organização e o visual da ficha de personagem e pequena (580×610):
+  - **estandarte** com PV, máximo e Barreira, a barra de PV, o Destino numa caixa dourada que enche com o que
+    resta, o multiplicador de Ódio, as defesas em escudos, Iniciativa, Velocidade, Esquiva e Resistência (dados,
+    modificador e o dado que rola) e os estados ativos, com o botão Editar que abre o quadro de estados;
+  - **cabeçalho** com retrato, nome, tags, o Nível num brasão e o botão de mostrar o monstro no chat;
+  - **faixa** com FOR, DES, POD, INT e a Identificação;
+  - **habilidades na primeira aba**, agrupadas pelo Momento, com o teste, o dano e o limite em etiquetas embaixo do
+    nome; clique na imagem para usar e no nome para abrir os detalhes;
+  - abas de **efeitos e estados** e de **descrição**.
+
+  Todo campo continua editável na ficha, e o que um efeito altera aparece destacado, com o valor final. Ela vira a
+  ficha padrão dos monstros (a do sistema continua no menu da janela).
+- Os detalhes das habilidades, nas duas fichas, passam a mostrar o dano.
+- Efeitos sem origem não mostram mais "None" na coluna de origem; o nome do efeito mostra a origem ao passar o
+  mouse.
+
 ## 1.3.0 — 2026-10-18
 
 - **TBG no visual de Log Horizon.** Com o módulo TBG ativo, o tema pergaminho do chat passa a vestir também as falas

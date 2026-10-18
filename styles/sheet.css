@@ -2356,3 +2356,364 @@
   color: var(--pf-text-soft);
   font: italic 12px/1.3 var(--pf-body);
 }
+
+/* ==========================================================================
+   Monster sheet (scripts/monster-sheet.mjs, templates/monster/): the character sheet's banner, header, band
+   and lists, made small. Header with the portrait, a strip with the attributes, abilities first.
+   ========================================================================== */
+.lhpf.monster:not(.minimizing, .minimized, .maximizing) {
+  min-width: 540px;
+  min-height: 480px;
+}
+.lhpf .lhpf-sheet.lhpf-monster {
+  position: relative;
+  grid-template:
+    "sidebar header" 74px
+    "sidebar stats" 46px
+    "sidebar nav" 20px
+    "sidebar content" minmax(0, 1fr)
+    / 190px minmax(0, 1fr);
+  background: none;
+}
+/* The dark band only behind the header: the strip of attributes is on the parchment */
+.lhpf .lhpf-sheet.lhpf-monster::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 74px;
+  background: url("../assets/sheet/header.webp") repeat-x 0 0 / auto 90px;
+  pointer-events: none;
+}
+
+/* Banner */
+.lhpf .lhpf-monster .lhpf-sidebar {
+  width: 184px;
+  background:
+    url("../assets/sheet/sidebar.webp") no-repeat center calc(100% - 43px) / 184px 100%,
+    url("../assets/sheet/sidebar-tail.webp") no-repeat center bottom / 184px 43px;
+}
+.lhpf .lhpf-monster .lhpf-sidebar .sidebar {
+  margin-bottom: 38px;
+  padding: 0 2px 4px 10px;
+}
+.lhpf .lhpf-monster .sidebar header {
+  margin: 8px 0 5px;
+}
+.lhpf .lhpf-monster .sidebar header:first-child {
+  margin-top: 12px;
+}
+.lhpf .lhpf-monster .lhpf-hpbar {
+  margin-top: 7px;
+}
+.lhpf .lhpf-monster .hp-small {
+  margin-top: 7px;
+}
+.lhpf .lhpf-monster .lhpf-sidebar .eff {
+  color: #ffd27a;
+  font: 600 10px/1 var(--pf-sans);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Hit points: the maximum is a field too */
+.lhpf .lhpf-monster .hitpoints .hp-big {
+  grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr);
+}
+.lhpf .lhpf-monster .hitpoints .container.barrier,
+.lhpf .lhpf-monster .hitpoints .container.max-hp {
+  margin-top: 12px;
+}
+.lhpf .lhpf-monster .lhpf-sidebar .hitpoints .container.barrier input,
+.lhpf .lhpf-monster .lhpf-sidebar .hitpoints .container.max-hp input {
+  width: 3.4ch;
+  margin-top: 4px;
+  font-size: 20px;
+}
+.lhpf .lhpf-monster .lhpf-sidebar .hitpoints .container.max-hp input {
+  color: var(--pf-tertiary);
+}
+.lhpf .lhpf-monster .hitpoints .current-hp input {
+  height: 30px;
+  font-size: 27px;
+}
+
+/* Fate (gold, fills with the Fate left; value / maximum) and the Hate multiplier (orange) */
+.lhpf .lhpf-monster .hp-small .gauge.fate {
+  --box: #b8902e;
+  --box-light: #e3c25a;
+}
+.lhpf .lhpf-monster .hp-small .box {
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 40px;
+}
+.lhpf .lhpf-monster .hp-small .box.wide {
+  width: 76px;
+}
+.lhpf .lhpf-monster .lhpf-sidebar .hp-small .box input[type="text"] {
+  width: 26px;
+  height: 100%;
+  font-size: 19px;
+}
+.lhpf .lhpf-monster .hp-small .slash,
+.lhpf .lhpf-monster .hp-small .times {
+  position: relative;
+  z-index: 1;
+  color: var(--pf-tertiary);
+  font: 400 13px/1 var(--pf-serif);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+}
+
+/* Defenses: the shields hold their field */
+.lhpf .lhpf-monster .lhpf-defenses {
+  grid-template-columns: 50px 50px minmax(0, 1fr);
+  gap: 3px;
+}
+.lhpf .lhpf-monster .lhpf-defenses .shield svg {
+  width: 46px;
+  height: 52px;
+}
+.lhpf .lhpf-monster .lhpf-sidebar .lhpf-defenses .shield input.value {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  width: 34px;
+  height: 26px;
+  margin-left: -17px;
+  font-size: 22px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.lhpf .lhpf-monster .lhpf-defenses .shield .sidebar_label {
+  text-align: center;
+}
+.lhpf .lhpf-monster .lhpf-defenses .stack {
+  gap: 6px;
+  padding-left: 6px;
+}
+.lhpf .lhpf-monster .lhpf-defenses .mini .sidebar_label {
+  font-size: 9px;
+  letter-spacing: 0.02em;
+}
+.lhpf .lhpf-monster .lhpf-sidebar .lhpf-defenses .mini input.value {
+  width: 4ch;
+  height: 22px;
+  color: var(--pf-tertiary);
+  font-size: 20px;
+  text-align: left;
+}
+
+/* Evasion and Resistance: dice, modifier and the die that rolls */
+.lhpf .lhpf-monster .saves.checks li {
+  gap: 4px;
+}
+.lhpf .lhpf-monster .saves.checks .check-line {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.lhpf .lhpf-monster .lhpf-sidebar select.lhpf-dice-select {
+  flex: none;
+  width: auto;
+  height: 18px;
+  margin: 0;
+  padding: 0 1px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+  background: #424242;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font: 500 10px/1 var(--pf-sans);
+  letter-spacing: 0.03em;
+  cursor: pointer;
+}
+.lhpf .lhpf-monster .lhpf-sidebar select.lhpf-dice-select[data-tier="2"] { background: #1d4c63; }
+.lhpf .lhpf-monster .lhpf-sidebar select.lhpf-dice-select[data-tier="3"] { background: #3c1f5e; }
+.lhpf .lhpf-monster .lhpf-sidebar select.lhpf-dice-select[data-tier="4"] { background: #6b4a0f; }
+.lhpf .lhpf-monster .lhpf-sidebar select.lhpf-dice-select[data-tier="5"] { background: #6e1414; }
+.lhpf .lhpf-monster .lhpf-sidebar select.lhpf-dice-select option {
+  background: #fff;
+  color: var(--pf-text);
+}
+.lhpf .lhpf-monster .lhpf-sidebar select.lhpf-dice-select.has-effect {
+  box-shadow: inset 0 0 0 1px #ffd27a;
+}
+.lhpf .lhpf-monster .lhpf-sidebar .saves.checks input.modifier {
+  width: 3.2ch;
+  height: 20px;
+  color: var(--pf-tertiary);
+  font-size: 18px;
+  text-align: left;
+}
+.lhpf .lhpf-monster .saves.checks .save-roll {
+  gap: 5px;
+}
+.lhpf .lhpf-monster .saves.checks .save-roll i {
+  font-size: 16px;
+}
+
+/* Header: portrait, name, tags on the dark band, the button to the chat and the Level */
+.lhpf .lhpf-monster .lhpf-header {
+  position: relative;
+  gap: 10px;
+  padding: 0 12px 0 10px;
+}
+.lhpf .lhpf-monster .lhpf-header .portrait {
+  flex: 0 0 54px;
+  height: 54px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--pf-primary-dark);
+  box-shadow: 0 0 0 1px var(--pf-tertiary), 0 0 0 2px var(--pf-ring), 0 2px 5px rgba(0, 0, 0, 0.55);
+  cursor: pointer;
+}
+.lhpf .lhpf-monster .lhpf-header .portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: cover;
+}
+.lhpf .lhpf-monster .lhpf-header .char-name {
+  height: 28px;
+  font-size: 22px;
+}
+.lhpf .lhpf-monster .lhpf-header .lh-tag-input {
+  max-height: 38px;
+  margin-top: 2px;
+  overflow: hidden auto;
+  scrollbar-width: none;
+}
+.lhpf .lhpf-monster .lhpf-header .lh-tag-input .tag-list {
+  gap: 3px;
+}
+.lhpf .lhpf-monster .lhpf-header .lh-tag-input .tag {
+  gap: 4px;
+  padding: 2px 5px;
+  background: rgba(0, 0, 0, 0.28);
+  box-shadow: inset 0 0 0 1px rgba(233, 215, 161, 0.5);
+  color: var(--pf-tertiary-light);
+  font-size: 9px;
+}
+.lhpf .lhpf-monster .lhpf-header .lh-tag-input .tag.tag-custom {
+  background: rgba(120, 100, 82, 0.55);
+}
+.lhpf .lhpf-monster .lhpf-header .lh-tag-input .tag-remove {
+  color: rgba(233, 215, 161, 0.6);
+}
+.lhpf .lhpf-monster .lhpf-header .lh-tag-input .tag-entry {
+  flex: 1 0 100px;
+}
+.lhpf .lhpf-monster .lhpf-header .lh-tag-input .tag-entry-input {
+  height: 18px;
+  padding: 0 3px;
+  border: none;
+  border-bottom: 1px solid rgba(233, 215, 161, 0.3);
+  border-radius: 0;
+  background: transparent;
+  color: var(--pf-tertiary-light);
+  font: italic 12px var(--pf-body);
+}
+.lhpf .lhpf-monster .lhpf-header .lh-tag-input .tag-entry-input::placeholder {
+  color: rgba(233, 215, 161, 0.5);
+}
+.lhpf .lhpf-monster .lhpf-header .lh-tag-input .tag-entry-input:focus {
+  border-bottom-color: var(--pf-tertiary);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Strip: the attributes (modifiers) and the Identification */
+.lhpf .lhpf-stats {
+  grid-area: stats;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(0, 1.3fr);
+  gap: 6px;
+  align-items: center;
+  padding: 4px 12px 4px 10px;
+}
+.lhpf .lhpf-stats .stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  height: 38px;
+  border: 3px double transparent;
+  border-image: var(--pf-frame-elegant) 11 / 14px repeat;
+  background: rgba(255, 255, 255, 0.22);
+  cursor: text;
+}
+.lhpf .lhpf-stats .abbr {
+  color: var(--pf-primary);
+  font: 600 9px/1 var(--pf-sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.lhpf .lhpf-stats .stat.ident .abbr {
+  color: var(--pf-alt-dark);
+}
+.lhpf .lhpf-stats input {
+  width: 100%;
+  height: 19px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--pf-text);
+  font: 500 18px/1 var(--pf-serif);
+  text-align: center;
+}
+.lhpf .lhpf-stats input:focus {
+  outline: none;
+  background: rgba(31, 81, 55, 0.08);
+}
+.lhpf .lhpf-stats input.has-effect {
+  color: var(--pf-primary);
+}
+
+/* Abilities: the name, and the check, the damage and the limit under it */
+.lhpf .lhpf-abilities > li.item {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.lhpf .lhpf-abilities .item-image {
+  flex-basis: 30px;
+  width: 30px;
+  height: 30px;
+}
+.lhpf .lhpf-abilities .item-name .text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.lhpf .lhpf-abilities .item-name h4 {
+  flex: none;
+}
+.lhpf .lhpf-abilities .tags.meta {
+  flex-wrap: wrap;
+}
+.lhpf .tab-content .tags .tag.tag_damage {
+  background: var(--pf-red);
+}
+.lhpf .lhpf-abilities .item-summary {
+  margin-left: 38px;
+}
+
+/* Effects in the narrower column: the origin goes to the name's tooltip */
+.lhpf.monster .effects-list .source {
+  display: none;
+}
+.lhpf.monster .effects-list .duration {
+  flex-basis: 70px;
+}
+.lhpf.monster .effects-list .action-header h3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

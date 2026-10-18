@@ -42,8 +42,32 @@ Ela usa toda a lógica da ficha do sistema (equipar, rolar, tíquetes, efeitos, 
 - **Biografia:** o texto, as Conexões e as Uniões.
 
 A ficha vira o padrão dos personagens ao ativar o módulo. Qualquer ficha pode voltar à do sistema pelo menu de
-configuração da janela (o ícone de ficha no cabeçalho). Itens e monstros ganham o mesmo visual nas fichas do
-próprio sistema (veja "As outras janelas").
+configuração da janela (o ícone de ficha no cabeçalho). Os itens ganham o mesmo visual nas fichas do próprio
+sistema (veja "As outras janelas").
+
+## A ficha de monstro
+
+A ficha de monstro segue a organização e o visual da ficha de personagem, num tamanho pequeno (580×610), com o que
+o Mestre usa numa luta sempre à vista:
+
+- **Estandarte:** PV atual e máximo com a Barreira ao lado e a barra do que resta; o Destino (atual / máximo) numa
+  caixa dourada que enche com o que resta, e o multiplicador de Ódio numa caixa laranja; Defesa Física e Mágica
+  em escudos, Iniciativa e Velocidade; Esquiva e Resistência com os dados e o modificador, roláveis pelo dado; e
+  os estados ativos, com o botão Editar que abre o quadro de estados.
+- **Cabeçalho:** retrato (clique para trocar), nome, tags e o Nível num brasão, com o botão de mostrar o monstro
+  no chat (tags, estados, a defesa mais baixa, o multiplicador de Ódio e as habilidades).
+- **Faixa de atributos:** FOR, DES, POD e INT e a dificuldade de Identificação.
+- **Habilidades** (a primeira aba): agrupadas pelo Momento, com o teste, o dano e o limite em etiquetas embaixo do
+  nome, e o Momento quando ele é próprio do monstro (como "Ver texto"). Clique na imagem para usar e no
+  nome para abrir os detalhes ali mesmo (com o dano); o botão Adicionar cria uma habilidade nova, e dá para
+  arrastar habilidades de um compêndio.
+- **Efeitos e estados:** os efeitos com a duração (a origem aparece ao passar o mouse no nome) e o quadro de
+  estados.
+- **Descrição:** o texto do monstro, como os itens que ele deixa.
+
+Todo campo é editável na própria ficha; um valor alterado por um efeito fica destacado, com o valor final ao lado
+("→ 14"). Ela é a ficha padrão dos monstros, inclusive dos tokens não vinculados e dos compêndios (onde fica só
+para leitura), e pode voltar à do sistema pelo menu de configuração da janela.
 
 ## O chat
 
@@ -92,8 +116,8 @@ verdes nas listas.
 - **Fichas de item** (os 14 tipos): os números em duas colunas; Teste e Dano das habilidades com o botão verde de
   rolar; o tipo da habilidade como uma etiqueta ao lado das tags. Cabeçalho, números e abas ficam parados e só o
   corpo rola. Num compêndio trancado os valores aparecem como texto.
-- **Ficha de monstro:** os quatro atributos em caixas, Esquiva e Resistência com o botão de rolar, o painel de
-  estados e a lista de habilidades no visual da ficha.
+- **Ficha de monstro do sistema** (para quem voltar a ela no menu da janela): os quatro atributos em caixas,
+  Esquiva e Resistência com o botão de rolar, o painel de estados e a lista de habilidades no visual da ficha.
 - **Editor de efeitos:** cabeçalho na faixa verde, abas com ícones, as mudanças sob uma barra verde.
 - **Seleção de habilidades e de classe**, os diálogos de pontos de atributo, de subida de NP, de habilidades
   iniciais e de rolagem, as confirmações abertas por essas janelas, baús, saques e lojas, e as Ferramentas do
@@ -551,6 +575,14 @@ Versão 1.3 (mesmo ambiente, com TBG 0.13.0 e Custom Chat Tabs 1.1.3, em 1024 px
 sussurro, pensamento, ação, fora do personagem e narração no chat, nas abas e em balões sobre os tokens; selo de
 "digitando" e contador; balão do narrador; cartões de habilidade e de rolagem do sistema intactos no ROLL; HUD com a
 barra lateral aberta e recolhida.
+
+Versão 1.4 (mesmo ambiente, em português, em 1024 px de largura): ficha de monstro com todos os campos salvos
+pela própria ficha (PV, máximo, Barreira, Destino, multiplicador de Ódio, defesas, Iniciativa, Velocidade,
+atributos, Identificação, Nível, dados e modificador de Esquiva e Resistência, nome e tags); Esquiva rolada;
+monstro mostrado no chat; habilidade usada, criada, editada e apagada; detalhes abertos e mantidos entre
+atualizações; efeito criado, desligado e apagado; estado marcado pelo quadro e listado no estandarte; efeito que
+muda a defesa e a Esquiva destacado; token não vinculado (o PV muda só no token); monstro de compêndio trancado
+(só leitura); janela no tamanho mínimo (540×480). Ficha de personagem com os detalhes das habilidades como antes.
 
 ## Dados dos compêndios
 

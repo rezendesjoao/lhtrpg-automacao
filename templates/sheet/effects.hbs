@@ -21,7 +21,7 @@
 					<div class="item-name">
 						<span class="item-image framed"><img src="{{effect.img}}" alt=""></span>
 						<div class="text">
-							<h4 class="name">{{effect.name}}</h4>
+							<h4 class="name" data-tooltip="{{effect.name}}{{#with (lhautoSource effect.sourceName)}} · {{this}}{{/with}}">{{effect.name}}</h4>
 							{{#with (lhEffectSummary effect) as |summary|}}<div class="summary" title="{{lhEffectSummary effect plain=true}}">{{summary}}</div>{{/with}}
 							{{#if effect.unmetCondition}}<div class="unmet"><i class="fa-solid fa-ban"></i> {{lhConditionLabel effect.unmetCondition}}</div>{{/if}}
 						</div>

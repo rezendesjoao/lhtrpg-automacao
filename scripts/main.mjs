@@ -12,7 +12,8 @@
  * - content.mjs data the compendiums only have as text: monster damage, skill damage and statuses,
  *               item bonuses, statuses at the start of the scene, food, healing items, and the
  *               skills of the items' trigger powers.
- * - sheet.mjs   the parchment character sheet; chat.mjs the chat cards; windows.mjs the other windows.
+ * - sheet.mjs   the parchment character sheet; monster-sheet.mjs the monster sheet in the same layout;
+ *               chat.mjs the chat cards; windows.mjs the other windows.
  * - kuden/      the Kuden house rule: signature pieces paid with the skill picks, Resources, scene
  *               environment and new effect conditions.
  * - hud/        the action HUD above the hotbar: checks, skills, Kuden, items, statuses, turn, dodges.
@@ -33,6 +34,7 @@ import { fillWorld, registerContent, syncItemSkills } from "./content.mjs";
 import { parseMonsterDamage } from "./content/monster-damage.mjs";
 import { registerTerms } from "./terms.mjs";
 import { registerSheet } from "./sheet.mjs";
+import { registerMonsterSheet } from "./monster-sheet.mjs";
 import { registerChat } from "./chat.mjs";
 import { registerWindows } from "./windows.mjs";
 import { registerReach } from "./reach.mjs";
@@ -59,6 +61,7 @@ Hooks.once("init", () => {
   registerContent();
   registerTerms();
   registerSheet();
+  registerMonsterSheet();
   registerChat();
   registerWindows();
   registerReach();

@@ -84,7 +84,87 @@ function dollPlace(pos) {
 
 /** "athletics" -> "Athletics" (the key the system's roll-check action localizes) */
 const checkName = key => key.charAt(0).toUpperCase() + key.slice(1);
-const signed = n => (n >= 0 ? `+${n}` : `${n}`);
+export const signed = n => (n >= 0 ? `+${n}` : `${n}`);
+
+/**
+ * The active statuses of a status panel (the system's getStatusPanel), as the sidebar tags: rated ones with their
+ * value, list ones with their entries.
+ * @param {object[]} panel
+ */
+export function activeStatuses(panel) {
+  const entry = v => ((v && typeof v === "object") ? [v.tag, v.value].filter(x => x !== undefined && x !== "").join(" ") : String(v));
+  return (panel ?? []).flatMap(group => group.statuses.filter(s => s.active).map(s => {
+    let detail = "";
+    if (s.list && Array.isArray(s.value) && s.value.length) detail = s.value.map(entry).join(", ");
+    else if (s.rated && toInt(s.value)) detail = String(toInt(s.value));
+    return { id: s.id, img: s.img, label: detail ? `${s.label} ${detail}` : s.label };
+  }));
+}
+
+/** The summary of a skill or item: its tags, its fields and its text. */
+export async function summaryHTML(item) {
+  const s = item.system;
+  const fields = [
+    ["LHTRPG.Item.Label.Timing", "timing"], ["LHTRPG.Item.Label.Check", "checkType"],
+    ["LHTRPG.Item.Label.Target", "target"], ["LHTRPG.Item.Label.Range", "range"],
+    ["LHAUTO.Sheet.Cost", "cost"], ["LHAUTO.Sheet.Limit", "limit"], ["LHAUTO.Sheet.Damage", "damageLabel"]
+  ].filter(([, key]) => !isEmpty(s[key])).map(([label, key]) =>
+    `<span class="field"><b>${escape(game.i18n.localize(label))}</b> ${escape(key === "damageLabel" ? s[key] : term(key === "checkType" ? "check" : key, s[key]))}</span>`);
+  const tags = (s.tags ?? []).map(t => `<li class="tag">${escape(tagLabel(t))}</li>`).join("");
+  const text = await foundry.applications.ux.TextEditor.implementation.enrichHTML(s.description ?? "", {
+    relativeTo: item, rollData: item.getRollData?.() ?? {}, secrets: item.isOwner
+  });
+  return `${tags ? `<ul class="tags">${tags}</ul>` : ""}
+    ${fields.length ? `<div class="fields">${fields.join("")}</div>` : ""}
+    <div class="description">${text || `<p class="empty">${escape(L("Sheet.NoDescription"))}</p>`}</div>`;
+}
+
+/**
+ * The summaries a sheet opens from the names of its rows (`.item[data-item-id]` with an `.item-summary`), kept
+ * open across its re-renders.
+ */
+export class Summaries {
+  #open = new Set();
+
+  /** @param {foundry.applications.sheets.ActorSheetV2} sheet */
+  constructor(sheet) {
+    this.sheet = sheet;
+  }
+
+  /** Open or close the summary of the row the clicked element is in. */
+  async toggle(target) {
+    const row = target.closest(".item[data-item-id]");
+    const summary = row?.querySelector(":scope > .item-summary");
+    if (!summary) return;
+    if (!summary.hidden) {
+      summary.hidden = true;
+      row.classList.remove("expanded");
+      this.#open.delete(row.dataset.itemId);
+      return;
+    }
+    this.#open.add(row.dataset.itemId);
+    await this.#show(row);
+  }
+
+  /** After a render: the summaries that were open open again (the ones of deleted items are forgotten). */
+  restore(root) {
+    for (const id of this.#open) {
+      const row = root.querySelector(`.item[data-item-id="${id}"]`);
+      if (row) this.#show(row, { animate: false });
+      else this.#open.delete(id);
+    }
+  }
+
+  async #show(row, { animate = true } = {}) {
+    const item = this.sheet.actor.items.get(row.dataset.itemId);
+    const summary = row.querySelector(":scope > .item-summary");
+    if (!item || !summary) return;
+    summary.innerHTML = await summaryHTML(item);
+    summary.hidden = false;
+    row.classList.add("expanded");
+    if (animate) summary.animate([{ opacity: 0, transform: "translateY(-4px)" }, { opacity: 1, transform: "none" }], { duration: 160, easing: "ease-out" });
+  }
+}
 
 export class LHAutoCharacterSheet extends LHTrpgActorSheet {
 
@@ -123,8 +203,8 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
   /** Tab group states (survive re-renders). */
   tabGroups = { primary: "character", skills: "basic", effects: "list", bio: "bio" };
 
-  /** Items whose summary is open (kept open across re-renders). */
-  #expanded = new Set();
+  /** Summaries opened from the names (kept open across re-renders). */
+  #summaries = new Summaries(this);
 
   /**
    * @override
@@ -215,13 +295,7 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
     lh.combatChecks = COMBAT_CHECKS.map(c => check(c));
 
     // Active statuses (sidebar tags)
-    const entry = v => ((v && typeof v === "object") ? [v.tag, v.value].filter(x => x !== undefined && x !== "").join(" ") : String(v));
-    lh.statuses = (context.statusPanel ?? []).flatMap(group => group.statuses.filter(s => s.active).map(s => {
-      let detail = "";
-      if (s.list && Array.isArray(s.value) && s.value.length) detail = s.value.map(entry).join(", ");
-      else if (s.rated && toInt(s.value)) detail = String(toInt(s.value));
-      return { id: s.id, img: s.img, label: detail ? `${s.label} ${detail}` : s.label };
-    }));
+    lh.statuses = activeStatuses(context.statusPanel);
 
     // Skills: by subtype, then by Timing
     const enrich = item => {
@@ -359,58 +433,11 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
     });
 
     // Summaries left open before this render.
-    for (const id of this.#expanded) {
-      const row = root.querySelector(`.item[data-item-id="${id}"]`);
-      if (row) this.#openSummary(row, { animate: false });
-      else this.#expanded.delete(id);
-    }
+    this.#summaries.restore(root);
   }
 
-  /* -------------------------------------------- */
-  /*  Summaries                                   */
-  /* -------------------------------------------- */
-
-  /** The summary of a skill or item: its fields and its text. */
-  async #summaryHTML(item) {
-    const s = item.system;
-    const fields = [
-      ["LHTRPG.Item.Label.Timing", "timing"], ["LHTRPG.Item.Label.Check", "checkType"],
-      ["LHTRPG.Item.Label.Target", "target"], ["LHTRPG.Item.Label.Range", "range"],
-      ["LHAUTO.Sheet.Cost", "cost"], ["LHAUTO.Sheet.Limit", "limit"]
-    ].filter(([, key]) => !isEmpty(s[key])).map(([label, key]) =>
-      `<span class="field"><b>${escape(game.i18n.localize(label))}</b> ${escape(term(key === "checkType" ? "check" : key, s[key]))}</span>`);
-    const tags = (s.tags ?? []).map(t => `<li class="tag">${escape(tagLabel(t))}</li>`).join("");
-    const text = await foundry.applications.ux.TextEditor.implementation.enrichHTML(s.description ?? "", {
-      relativeTo: item, rollData: item.getRollData?.() ?? {}, secrets: item.isOwner
-    });
-    return `${tags ? `<ul class="tags">${tags}</ul>` : ""}
-      ${fields.length ? `<div class="fields">${fields.join("")}</div>` : ""}
-      <div class="description">${text || `<p class="empty">${escape(L("Sheet.NoDescription"))}</p>`}</div>`;
-  }
-
-  async #openSummary(row, { animate = true } = {}) {
-    const item = this.actor.items.get(row.dataset.itemId);
-    const summary = row.querySelector(":scope > .item-summary");
-    if (!item || !summary) return;
-    summary.innerHTML = await this.#summaryHTML(item);
-    summary.hidden = false;
-    row.classList.add("expanded");
-    if (animate) summary.animate([{ opacity: 0, transform: "translateY(-4px)" }, { opacity: 1, transform: "none" }], { duration: 160, easing: "ease-out" });
-  }
-
-  static async #onSummary(event, target) {
-    const row = target.closest(".item[data-item-id]");
-    if (!row) return;
-    const summary = row.querySelector(":scope > .item-summary");
-    if (!summary) return;
-    if (!summary.hidden) {
-      summary.hidden = true;
-      row.classList.remove("expanded");
-      this.#expanded.delete(row.dataset.itemId);
-      return;
-    }
-    this.#expanded.add(row.dataset.itemId);
-    await this.#openSummary(row);
+  static #onSummary(event, target) {
+    return this.#summaries.toggle(target);
   }
 
   /* -------------------------------------------- */
@@ -538,8 +565,8 @@ export class LHAutoCharacterSheet extends LHTrpgActorSheet {
 /** Call during the `init` hook. */
 export function registerSheet() {
   foundry.applications.handlebars.loadTemplates([`${DIR}/sheet.hbs`, ...PARTIALS.map(p => `${DIR}/${p}.hbs`)]);
-  // An effect without an origin has the localized "None" as its source: shown as nothing.
-  Handlebars.registerHelper("lhautoSource", value => ((value === game.i18n.localize("None")) ? "" : value));
+  // An effect without an origin has "None" as its source (localized or not): shown as nothing.
+  Handlebars.registerHelper("lhautoSource", value => (((value === "None") || (value === game.i18n.localize("None"))) ? "" : value));
   foundry.documents.collections.Actors.registerSheet(MODULE_ID, LHAutoCharacterSheet, {
     types: ["character"],
     makeDefault: true,
