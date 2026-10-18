@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.2 — 2026-10-17
+
+- Ficha de pergaminho: dois cliques no título minimizam a ficha de novo. O tamanho mínimo da ficha (750×560) impedia
+  o Foundry de recolher a janela, que ficava do tamanho inteiro e vazia. Agora ela vira a barra do título e volta
+  ao tamanho em que estava.
+
 ## 0.8.1 — 2026-10-17
 
 - Ficha de pergaminho, aba Testes: o nome do teste não corta mais em português ("Conhecimento" aparecia como
