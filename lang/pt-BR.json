@@ -109,6 +109,13 @@
         "look": "Visual",
         "hud": "HUD de ações (cada jogador escolhe)",
         "turn": "Turno (cada jogador escolhe)"
+      },
+      "hotbar": {
+        "Name": "Barra de macros do Foundry",
+        "Hint": "Esconder a barra de macros deixa o HUD no lugar dela; trocar mostra a barra só quando o HUD não está na tela (sem token selecionado). As teclas 1 a 0 continuam executando as macros. Configuração sua: cada jogador escolhe.",
+        "hide": "Esconder (o HUD fica no lugar)",
+        "swap": "Trocar: aparece quando o HUD some",
+        "show": "Mostrar"
       }
     },
     "Use": {
@@ -549,7 +556,7 @@
     "Notice": {
       "Title": "Log Horizon TRPG — Automação {version}",
       "Ok": "Entendi",
-      "Body": "<p><strong>Novidades desta versão</strong></p><ul><li><strong>HUD de ações.</strong> Selecione o seu token (ou nenhum, para ver o seu personagem) e use a barra acima da barra de macros: rolar testes, usar habilidades, Kuden e itens, acompanhar PV, Destino e Ódio, encerrar o seu Processo Principal e rolar as esquivas pendentes. Passe o mouse para ver os detalhes; o alfinete fixa um atalho na barra.</li><li><strong>Estados clicáveis.</strong> Clique num estado escrito num cartão do chat, como [Atordoado] ou [Deterioração: 10], para aplicá-lo nos seus alvos.</li><li><strong>Criar efeito.</strong> Botão direito num cartão de habilidade → Criar efeito nos alvos.</li><li><strong>Turno.</strong> Aviso com som quando começa a sua vez e alvos limpos quando ela acaba.</li></ul><p>Cada jogador liga ou desliga o HUD e os avisos em Configurações do Jogo → Configurar Opções → Log Horizon TRPG — Automação.</p>"
+      "Body": "<p><strong>Novidades desta versão</strong></p><ul><li><strong>HUD de ações no lugar da barra de macros.</strong> Selecione o seu token (ou nenhum, para ver o seu personagem) e use a barra no pé da tela: rolar testes, usar habilidades, Kuden e itens, acompanhar PV, Destino e Ódio, encerrar o seu Processo Principal e rolar as esquivas pendentes. Passe o mouse para ver os detalhes; o alfinete fixa um atalho na barra. A barra de macros do Foundry fica escondida, mas as teclas 1 a 0 continuam executando as macros; para trazê-la de volta, mude a opção \"Barra de macros do Foundry\".</li><li><strong>Estados clicáveis.</strong> Clique num estado escrito num cartão do chat, como [Atordoado] ou [Deterioração: 10], para aplicá-lo nos seus alvos.</li><li><strong>Criar efeito.</strong> Botão direito num cartão de habilidade → Criar efeito nos alvos.</li><li><strong>Turno.</strong> Aviso com som quando começa a sua vez e alvos limpos quando ela acaba.</li></ul><p>Cada jogador ajusta o HUD, a barra de macros e os avisos em Configurações do Jogo → Configurar Opções → Log Horizon TRPG — Automação.</p>"
     }
   },
   "LHTRPG": {

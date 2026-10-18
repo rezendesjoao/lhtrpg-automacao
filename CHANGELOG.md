@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.0 — 2026-10-18
+
+- **O HUD no lugar da barra de macros.** A barra de macros do Foundry fica escondida e o HUD de ações ocupa o
+  lugar dela, no pé da tela. As teclas 1 a 0 continuam executando as macros (a barra só é escondida, não removida).
+  Configuração nova de cada jogador, "Barra de macros do Foundry":
+  - **esconder** (padrão): o HUD fica no lugar da barra;
+  - **trocar**: a barra aparece quando o HUD some (sem token selecionado) e dá lugar a ele quando volta;
+  - **mostrar**: as duas, com o HUD acima da barra, como na 1.0.
+- **Encaixe no pé da tela.** O HUD não fica mais por baixo da caixa de mensagem do chat (que flutua no canto quando
+  a barra lateral está recolhida) nem da lista de jogadores: ele se ajusta ao espaço ao lado deles, desliza para o
+  lado se precisar e, se ainda não couber, sobe para cima deles. Os botões dos painéis não são mais espremidos
+  quando falta espaço: viram ícones.
+- A janela de novidades aparece mais uma vez para cada usuário, agora explicando onde foi parar a barra de macros.
+
 ## 1.0.0 — 2026-10-18
 
 **HUD de ações** e as melhorias que vieram da análise de dez módulos de Pathfinder 2e e de três HUDs para Foundry

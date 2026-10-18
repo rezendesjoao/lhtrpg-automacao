@@ -14,6 +14,9 @@
  *   button (rendered off-screen with its listeners).
  * The data is built in data.mjs; the bar re-renders (debounced) when the actor, its items and effects, its
  * token, the combats, the attack cards or the scene change.
+ *
+ * The core macro hotbar can give its place to the HUD (client setting "hotbar"): hidden, or hidden only while the
+ * HUD is on screen. It is only hidden with CSS, so the macro keys (1–0) keep working.
  */
 import { L, MODULE_ID, setting } from "../settings.mjs";
 import { diceFormula, useItem } from "../system.mjs";
@@ -134,19 +137,50 @@ export class ActionHud extends HandlebarsApplicationMixin(ApplicationV2) {
     this.panel = context.panel?.id ?? null;
     this.element.classList.toggle("collapsed", this.collapsed);
     this.element.classList.toggle("open", !!context.panel);
+    syncHotbar();
     this.fit();
   }
 
-  /** Narrower layouts when the bar doesn't fit in the bottom column: icon-only panel buttons, then shorter labels. */
+  /**
+   * Fit the bar in the free space of the bottom column: between the players list and the chat box that floats in the
+   * corner when the sidebar is collapsed, when they sit at the bar's height (with the macro hotbar hidden, the bar is
+   * at the bottom of the screen). Narrower layouts first (icon-only panel buttons, then the name in the portrait,
+   * then fewer pins); if it still doesn't fit beside them, the bar rises above them with the whole column; then it
+   * stays centered, or slides into the free space.
+   */
   fit() {
     const el = this.element;
     if (!el?.isConnected) return;
+    el.style.translate = el.style.maxWidth = el.style.marginBottom = "";
+    // The interface may be scaled (--ui-scale): page pixels → layout pixels.
+    const scale = (el.getBoundingClientRect().width / el.offsetWidth) || 1;
+    let span = freeSpan(el);
+    if (!this.#fitIn((span.right - span.left) / scale) && span.lift) {
+      const margin = parseFloat(getComputedStyle(el).marginBottom) || 0;
+      el.style.marginBottom = `${Math.ceil(margin + (span.lift / scale))}px`;
+      span = freeSpan(el);
+      this.#fitIn((span.right - span.left) / scale);
+    }
+    // Centered when it fits between the neighbours, else slid into the free space.
+    const box = el.getBoundingClientRect();
+    const left = Math.clamp(box.left, span.left, Math.max(span.left, span.right - box.width));
+    if (Math.abs(left - box.left) > 0.5) el.style.translate = `${Math.round((left - box.left) / scale)}px 0`;
+  }
+
+  /**
+   * Fit the bar in a width (layout pixels): narrow, then tiny, then fewer pins.
+   * @param {number} room
+   * @returns {boolean}   Whether it fits.
+   */
+  #fitIn(room) {
+    const el = this.element;
+    room = Math.max(0, Math.floor(room));
+    el.style.maxWidth = `${room}px`;
     el.classList.remove("narrow", "tiny");
-    const room = el.parentElement?.clientWidth ?? window.innerWidth;
     const bar = el.querySelector(".lhh-bar");
-    // The bar is as wide as its content up to the column; past that its parts are squeezed (scrollWidth grows).
     const name = el.querySelector(".lhh-name");
-    const overflows = () => (el.offsetWidth > room) || (bar && (bar.scrollWidth > bar.clientWidth + 1))
+    // The bar is as wide as its content up to the room; past that its parts are squeezed (scrollWidth grows).
+    const overflows = () => (el.offsetWidth > room + 1) || (bar && (bar.scrollWidth > bar.clientWidth + 1))
       || [...el.querySelectorAll(".lhh-side, .lhh-main")].some(part => part.scrollWidth > part.clientWidth + 1)
       || (name && (name.offsetParent !== null) && (name.scrollWidth > name.clientWidth + 1));
     for (const size of ["narrow", "tiny"]) {
@@ -157,11 +191,13 @@ export class ActionHud extends HandlebarsApplicationMixin(ApplicationV2) {
     const pins = [...el.querySelectorAll(".lhh-pinned")];
     for (const pin of pins) pin.hidden = false;
     while (pins.length && overflows()) pins.pop().hidden = true;
+    return !overflows();
   }
 
   /** @override */
   _onClose(options) {
     super._onClose(options);
+    syncHotbar();
     const active = game.tooltip.element;
     if (active && !document.body.contains(active)) game.tooltip.deactivate();
   }
@@ -364,6 +400,40 @@ function pickActor() {
   return { token: null, actor: null };
 }
 
+/** Gap kept between the bar and its neighbours, in page pixels. */
+const GAP = 10;
+
+/**
+ * The free horizontal span of the bottom column at the bar's height (page pixels): the column, minus the players
+ * list on the left and the chat box on the right when they overlap the bar's band; `lift` is how much higher the
+ * bar must go to clear them (0 when nothing is beside it).
+ * @param {HTMLElement} el   The HUD element
+ */
+function freeSpan(el) {
+  const column = el.parentElement?.getBoundingClientRect() ?? { left: 0, right: window.innerWidth };
+  const band = el.getBoundingClientRect();
+  let left = column.left, right = column.right, lift = 0;
+  const beside = rect => rect && rect.width && rect.height && (rect.top < band.bottom) && (rect.bottom > band.top);
+  const chat = document.getElementById("chat-message")?.getBoundingClientRect();
+  if (beside(chat) && (chat.left < right)) {
+    right = Math.min(right, chat.left - GAP);
+    lift = Math.max(lift, band.bottom - chat.top + GAP);
+  }
+  const players = document.getElementById("players")?.getBoundingClientRect();
+  if (beside(players) && (players.right > left)) {
+    left = Math.max(left, players.right + GAP);
+    lift = Math.max(lift, band.bottom - players.top + GAP);
+  }
+  return { left, right: Math.max(left, right), lift };
+}
+
+/** The core macro hotbar hidden (body class) as the "hotbar" setting says: always, or while the HUD is shown. */
+function syncHotbar() {
+  const mode = setting("hotbar");
+  const shown = !!(hud?.rendered && hud.actor);
+  document.body.classList.toggle("lhauto-no-hotbar", (mode === "hide") || ((mode === "swap") && shown));
+}
+
 /** +1 / −1 Fate Point of a character (never above its maximum). */
 async function setFate(actor, delta) {
   if ((actor?.type !== "character") || !actor.isOwner) return;
@@ -434,6 +504,23 @@ export function registerHud() {
     default: true,
     onChange: () => hud?.refresh()
   });
+  game.settings.register(MODULE_ID, "hotbar", {
+    name: "LHAUTO.Settings.hotbar.Name",
+    hint: "LHAUTO.Settings.hotbar.Hint",
+    scope: "client",
+    config: true,
+    type: String,
+    choices: {
+      hide: "LHAUTO.Settings.hotbar.hide",
+      swap: "LHAUTO.Settings.hotbar.swap",
+      show: "LHAUTO.Settings.hotbar.show"
+    },
+    default: "hide",
+    onChange: () => {
+      syncHotbar();
+      hud?.fit();
+    }
+  });
   game.settings.register(MODULE_ID, "hudCollapsed", { scope: "client", config: false, type: Boolean, default: false });
   foundry.applications.handlebars.loadTemplates([`${DIR}/hud.hbs`, `${DIR}/panel.hbs`, `${DIR}/row.hbs`]);
 
@@ -466,7 +553,10 @@ export function registerHud() {
   Hooks.once("ready", () => {
     hud = new ActionHud();
     hud.refresh();
+    syncHotbar();
     window.addEventListener("resize", foundry.utils.debounce(() => hud.fit(), 150));
+    // The chat box floats in the corner only while the sidebar is collapsed.
+    Hooks.on("collapseSidebar", () => setTimeout(() => hud.fit(), 350));
     // A click on the board closes the open panel (not while targeting: the target of the skill is being picked).
     document.getElementById("board")?.addEventListener("pointerdown", () => {
       const tool = ui.controls?.tool?.name ?? game.activeTool;

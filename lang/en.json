@@ -109,6 +109,13 @@
         "look": "Look",
         "hud": "Action HUD (each player chooses)",
         "turn": "Turn (each player chooses)"
+      },
+      "hotbar": {
+        "Name": "Foundry macro hotbar",
+        "Hint": "Hiding the macro hotbar puts the HUD in its place; swap shows the hotbar only while the HUD is off screen (no token selected). The 1 to 0 keys keep running the macros. Your own setting: each player chooses.",
+        "hide": "Hide (the HUD takes its place)",
+        "swap": "Swap: shown when the HUD is gone",
+        "show": "Show"
       }
     },
     "Use": {
@@ -549,7 +556,7 @@
     "Notice": {
       "Title": "Log Horizon TRPG — Automação {version}",
       "Ok": "Got it",
-      "Body": "<p><strong>New in this version</strong></p><ul><li><strong>Action HUD.</strong> Select your token (or none, to see your character) and use the bar above the macro hotbar: roll checks, use skills, Kuden and items, follow HP, Fate and Hate, end your Main Process and roll the pending dodges. Hover for the details; the pin fixes a shortcut on the bar.</li><li><strong>Clickable statuses.</strong> Click a status written in a chat card, such as [Dazed] or [Decay: 10], to apply it to your targets.</li><li><strong>Create effect.</strong> Right click a skill card → Create effect on targets.</li><li><strong>Turn.</strong> A notice with a sound when your turn starts, and your targets cleared when it ends.</li></ul><p>Each player turns the HUD and the notices on or off in Game Settings → Configure Settings → Log Horizon TRPG — Automação.</p>"
+      "Body": "<p><strong>New in this version</strong></p><ul><li><strong>Action HUD in place of the macro hotbar.</strong> Select your token (or none, to see your character) and use the bar at the bottom of the screen: roll checks, use skills, Kuden and items, follow HP, Fate and Hate, end your Main Process and roll the pending dodges. Hover for the details; the pin fixes a shortcut on the bar. The Foundry macro hotbar is hidden, but the 1 to 0 keys keep running the macros; to bring it back, change the \"Foundry macro hotbar\" option.</li><li><strong>Clickable statuses.</strong> Click a status written in a chat card, such as [Dazed] or [Decay: 10], to apply it to your targets.</li><li><strong>Create effect.</strong> Right click a skill card → Create effect on targets.</li><li><strong>Turn.</strong> A notice with a sound when your turn starts, and your targets cleared when it ends.</li></ul><p>Each player adjusts the HUD, the macro hotbar and the notices in Game Settings → Configure Settings → Log Horizon TRPG — Automação.</p>"
     }
   },
   "LHTRPG": {

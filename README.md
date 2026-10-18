@@ -86,7 +86,7 @@ pergaminho" desliga tudo isso (pede para recarregar).
 ## O HUD de ações
 
 Com um token selecionado (ou, para um jogador, sem nenhum selecionado: o personagem atribuído a ele), aparece uma
-barra de pergaminho logo acima da barra de macros, no visual da ficha:
+barra de pergaminho no pé da tela, no lugar da barra de macros do Foundry, no visual da ficha:
 - **Retrato** na faixa verde: clique para abrir a ficha; a seta recolhe o HUD só no retrato.
 - **Recursos:** PV com a barra, Barreira, Destino em estrelas (clique +1, botão direito −1), Ódio (com a coroa do
   Topo) e Fadiga.
@@ -113,7 +113,12 @@ barra de pergaminho logo acima da barra de macros, no visual da ficha:
 - **Teclado:** Esc fecha o painel aberto sem soltar o token. Recolher o HUD e abrir cada painel podem ganhar teclas
   em Configurar Controles (vêm sem tecla).
 - **Telas menores:** quando falta espaço, os botões dos painéis viram só ícones (o nome aparece ao passar o mouse)
-  e, no limite, o nome do personagem vai para o retrato.
+  e, no limite, o nome do personagem vai para o retrato. O HUD nunca fica por baixo da caixa de mensagem do chat
+  (que flutua no canto quando a barra lateral está recolhida) nem da lista de jogadores: ele se ajusta ao espaço
+  ao lado deles ou, se não couber, sobe para cima deles.
+- **Barra de macros do Foundry:** fica escondida e o HUD toma o lugar dela. As teclas 1 a 0 continuam executando as
+  macros. Cada jogador escolhe entre esconder, trocar (a barra volta quando o HUD some, sem token selecionado) ou
+  mostrar (o HUD fica acima dela).
 
 Cada jogador liga ou desliga o HUD para si, e escolhe se ele mostra o personagem atribuído quando nada está
 selecionado.
@@ -339,6 +344,7 @@ Cada jogador escolhe as suas:
 |---|---|
 | HUD de ações | ligado |
 | HUD sem token selecionado (mostra o seu personagem) | ligado |
+| Barra de macros do Foundry | esconder (o HUD fica no lugar) |
 | Aviso da sua vez | ligado |
 | Selecionar o token na sua vez | desligado |
 | Levar a tela até quem age | desligado |
