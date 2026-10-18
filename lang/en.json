@@ -258,6 +258,9 @@
       "BioHint": "Click the pencil to write the biography.",
       "HateBox": "Hate {value}: the box fills a step per point, up to 10.",
       "FatigueBox": "Fatigue {value}: the maximum HP drops by {value}. The box shows how much of the maximum HP Fatigue took."
+    },
+    "Chat": {
+      "Description": "Description"
     }
   }
 }

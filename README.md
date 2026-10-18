@@ -41,10 +41,25 @@ Ela usa toda a lógica da ficha do sistema (equipar, rolar, tíquetes, efeitos, 
 A ficha vira o padrão dos personagens ao ativar o módulo. Qualquer ficha pode voltar à do sistema pelo menu de
 configuração da janela (o ícone de ficha no cabeçalho). Monstros e itens continuam com as fichas do sistema.
 
-O chat recebe o mesmo pergaminho. Os cartões de habilidade, ataque, dano, aplicação, fases e os do próprio
-módulo ganham a faixa verde no cabeçalho com o retrato de quem fala, dados como faces (o 6 em ouro, o 1 em
-vermelho), o total em destaque, acerto, erro e pendente com cores, o crítico brilhando e os botões de Destino
-em dourado. Os cartões de habilidade levam a cor do seu Momento na linha do título.
+## O chat
+
+As mensagens do sistema e do módulo ganham o mesmo pergaminho, mais curtas e organizadas para a barra lateral:
+
+- **Rolagens:** uma faixa com os dados como faces (os 6 em dourado, os 1 com pontos vermelhos), o modificador e o
+  total num selo. Testes mostram **Crítico** (dois ou mais 6) e **Desastre** (todos 1), com o selo dourado ou
+  escuro; o dano tem o selo vermelho e a cura, verde. Os dados de uma rolagem nova caem rolando. Passe o mouse
+  na faixa para ver a fórmula.
+- **Título da rolagem:** "Teste de Atributo — Atletismo" vira um título com o tipo em versalete acima.
+- **Cartões de habilidade e de item:** Momento, Alvo e Alcance numa linha sob o nome (o Momento com a sua cor),
+  Teste e Dano em duas linhas, NH, Custo e Limite em etiquetas, e a descrição dobrada numa linha que abre com um
+  clique (e continua aberta quando o cartão se atualiza).
+- **Ataque e dano:** alvos numa linha cada, com distância, esquiva e resultado; os botões de aplicar cabem na
+  barra lateral. O dano aplicado fica numa linha, com o resultado em destaque.
+- **Fases da rodada** viram um divisor fino; os resumos não repetem o título.
+- Os botões de Destino ficam dourados e pequenos, junto do que alteram.
+
+As duas partes têm configuração própria ("Tema pergaminho no chat"). Monstros e itens continuam com as fichas do
+sistema.
 
 ## O que ele faz
 

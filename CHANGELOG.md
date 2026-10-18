@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.6.0 — 2026-10-17
+
+O chat refeito: mais curto, organizado e com rolagens novas.
+
+- **Rolagens em faixa:** os dados como faces (6 em dourado, 1 com pontos vermelhos), o modificador e o total
+  num selo; Crítico e Desastre nos testes (selo dourado ou escuro, com uma faixa de aviso), selo vermelho no
+  dano e verde na cura. Os dados de uma rolagem nova caem rolando; a fórmula aparece ao passar o mouse.
+- **Título das rolagens:** o tipo do teste em versalete e o nome em destaque, no lugar da linha de sabor.
+- **Cartões de habilidade e de item:** Momento, Alvo e Alcance sob o nome; Teste e Dano em duas linhas; NH,
+  Custo e Limite em etiquetas; a descrição dobrada (abre com um clique e continua aberta quando o cartão muda).
+  O cartão de habilidade cai de ~690px para ~330px de altura.
+- **Combate:** alvos e botões de aplicar cabem na barra lateral (antes os nomes longos e os botões vazavam);
+  dano aplicado numa linha com o resultado em destaque.
+- Fases da rodada como divisor fino; resumos e efeitos expirados sem título repetido e legíveis.
+- Botões de Destino dourados, pequenos e legíveis.
+- Os cartões antigos, escritos em outro idioma, também são reconhecidos.
+
 ## 0.5.5 — 2026-10-17
 
 - Ficha de pergaminho: retrato pela metade, 128×128 (continua quadrado, a arte do token cabe inteira), com Raça,
