@@ -19,6 +19,7 @@
  * - turn.mjs    turn helpers: notice, select, pan, clear the targets.
  * - status-links.mjs  statuses written in the chat applied with a click; quick-effect.mjs effects
  *               created from a chat card; notice.mjs the news of the release.
+ * - tokens.mjs  the HP bar, the Fate diamonds and the nameplate of the tokens in the style of the sheet.
  * Each part has its own setting (Game Settings → Configure Settings → this module).
  */
 import { MODULE_ID, registerClientSettings, registerSettings } from "./settings.mjs";
@@ -43,10 +44,12 @@ import { registerTurn } from "./turn.mjs";
 import { giveEffects, registerStatusLinks, statusEffectData } from "./status-links.mjs";
 import { registerQuickEffect } from "./quick-effect.mjs";
 import { registerNotice } from "./notice.mjs";
+import { registerTokens } from "./tokens.mjs";
 
 Hooks.once("init", () => {
   if (game.system.id !== "lhtrpg") return;
   registerSettings();
+  registerTokens();
   registerScenes();
   registerUse();
   registerHate();

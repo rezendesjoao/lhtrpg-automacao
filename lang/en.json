@@ -116,6 +116,17 @@
         "hide": "Hide (the HUD takes its place)",
         "swap": "Swap: shown when the HUD is gone",
         "show": "Show"
+      },
+      "tokenStyle": {
+        "Name": "Token bars and names in the module's style",
+        "Hint": "The HP bar, Fate and the name under the tokens in the look of the sheet: a slim bar with a gold edge (Fatigue hatched at its end, Barrier as a blue sliver above), Fate as gold diamonds, and the name in small caps on a band in the colour of the disposition (green friendly, wine hostile, bronze neutral)."
+      },
+      "tokenBars": {
+        "Name": "Who sees the tokens' HP bar",
+        "Hint": "For the HP bar. The second bar (Fate) follows each token's own setting.",
+        "always": "Everyone, always",
+        "identified": "Everyone; enemies only once [Identified]",
+        "core": "As each token is configured"
       }
     },
     "Use": {

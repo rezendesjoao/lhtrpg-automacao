@@ -116,6 +116,17 @@
         "hide": "Esconder (o HUD fica no lugar)",
         "swap": "Trocar: aparece quando o HUD some",
         "show": "Mostrar"
+      },
+      "tokenStyle": {
+        "Name": "Barras e nomes dos tokens no estilo do módulo",
+        "Hint": "A barra de PV, o Destino e o nome embaixo dos tokens no visual da ficha: barra fina com moldura dourada (com a Fadiga hachurada no fim e a Barreira num filete azul acima), Destino em losangos dourados e o nome em versalete numa faixa na cor da disposição (verde aliado, vinho inimigo, bronze neutro)."
+      },
+      "tokenBars": {
+        "Name": "Quem vê a barra de PV dos tokens",
+        "Hint": "Vale para a barra de PV. A segunda barra (o Destino) segue a configuração de cada token.",
+        "always": "Todos, sempre",
+        "identified": "Todos; os inimigos só depois de [Identificado]",
+        "core": "Como na configuração de cada token"
       }
     },
     "Use": {

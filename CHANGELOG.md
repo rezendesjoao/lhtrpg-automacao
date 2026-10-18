@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.2.0 — 2026-10-18
+
+- **Tokens no visual da ficha.** O módulo passa a desenhar a barra de PV, o Destino e o nome dos tokens:
+  - **barra de PV** fina com moldura dourada, apoiada na borda de baixo do token, no carmim da ficha e com marcas a
+    cada quarto; a **Fadiga** hachurada no fim da barra e a **Barreira** num filete azul-aço logo acima;
+  - **Destino** em losangos dourados na borda de cima;
+  - **nome** na fonte Eczar da ficha, em versalete, numa faixa na cor da disposição (verde aliado, vinho inimigo,
+    bronze neutro) com filete dourado e um losango em cada ponta; nomes longos terminam em "…"; a elevação usa a
+    mesma fonte.
+- **Quem vê a barra de PV** (configuração nova): todos, sempre (padrão); todos, mas os inimigos só depois de
+  [Identificado] para os jogadores; ou como cada token estiver configurado. A segunda barra (o Destino) segue a
+  configuração de cada token.
+- A fonte Eczar é carregada pelo Foundry antes de desenhar o mapa, então o nome já aparece na fonte certa.
+- Configuração "Barras e nomes dos tokens no estilo do módulo" para voltar ao visual do Foundry, sem recarregar.
+
 ## 1.1.0 — 2026-10-18
 
 - **O HUD no lugar da barra de macros.** A barra de macros do Foundry fica escondida e o HUD de ações ocupa o

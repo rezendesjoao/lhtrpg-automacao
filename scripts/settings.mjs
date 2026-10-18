@@ -73,6 +73,31 @@ export function registerSettings() {
     default: true,
     requiresReload: true
   });
+  // Tokens (tokens.mjs): their bars and nameplate redrawn when these change.
+  const tokens = () => Hooks.callAll("lhautoTokenStyle");
+  game.settings.register(MODULE_ID, "tokenStyle", {
+    name: "LHAUTO.Settings.tokenStyle.Name",
+    hint: "LHAUTO.Settings.tokenStyle.Hint",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true,
+    onChange: tokens
+  });
+  game.settings.register(MODULE_ID, "tokenBars", {
+    name: "LHAUTO.Settings.tokenBars.Name",
+    hint: "LHAUTO.Settings.tokenBars.Hint",
+    scope: "world",
+    config: true,
+    type: String,
+    choices: {
+      always: "LHAUTO.Settings.tokenBars.always",
+      identified: "LHAUTO.Settings.tokenBars.identified",
+      core: "LHAUTO.Settings.tokenBars.core"
+    },
+    default: "always",
+    onChange: tokens
+  });
 }
 
 /** The turn helpers (turn.mjs): each player's, after the HUD settings (hud.mjs). Call during `init`. */

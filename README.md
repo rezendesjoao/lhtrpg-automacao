@@ -83,6 +83,23 @@ verdes nas listas.
 As fichas e os scripts do sistema não mudam: o módulo só troca o visual. A configuração "Janelas do sistema em
 pergaminho" desliga tudo isso (pede para recarregar).
 
+## Os tokens
+
+A barra de PV, o Destino e o nome embaixo dos tokens seguem o visual da ficha:
+- **Barra de PV:** uma barra fina com moldura dourada, apoiada na borda de baixo do token, no carmim da ficha
+  (mais vivo com um quarto dos PV ou menos), com marcas discretas a cada quarto. A **Fadiga** aparece hachurada no
+  fim da barra (os PV máximos que ela tira) e a **Barreira** num filete azul-aço logo acima, do tamanho da parte dos
+  PV máximos que ela cobre.
+- **Destino:** losangos dourados na borda de cima, cheios ou vazios. Ele segue a configuração de cada token, então
+  fica escondido se o token não mostrar barras.
+- **Nome:** na fonte Eczar da ficha, em versalete, numa faixa na cor da disposição (verde aliado, vinho inimigo,
+  bronze neutro, cinza secreto), com filete dourado (que acende com o token selecionado ou sob o mouse) e um
+  losango em cada ponta. Nomes longos terminam em "…". A elevação acima do token usa a mesma fonte.
+- **Quem vê a barra de PV:** todos, sempre (padrão); todos, mas os jogadores só veem a de um inimigo depois que
+  ele estiver [Identificado]; ou como na configuração de cada token.
+
+A configuração "Barras e nomes dos tokens no estilo do módulo" devolve o visual do Foundry na hora, sem recarregar.
+
 ## O HUD de ações
 
 Com um token selecionado (ou, para um jogador, sem nenhum selecionado: o personagem atribuído a ele), aparece uma
@@ -334,6 +351,8 @@ hora, sem recarregar, menos as janelas em pergaminho, que pedem para recarregar.
 | Kuden (regra da casa) | ligado |
 | Tema pergaminho no chat | ligado |
 | Janelas do sistema em pergaminho | ligado |
+| Barras e nomes dos tokens no estilo do módulo | ligado |
+| Quem vê a barra de PV dos tokens | todos, sempre |
 
 "Limites de uso" e "Momento e economia de ações" têm três modos: **desligado**, **avisar** (pergunta se é
 para usar mesmo assim) e **bloquear** (o jogador não consegue; o Mestre pode forçar).
