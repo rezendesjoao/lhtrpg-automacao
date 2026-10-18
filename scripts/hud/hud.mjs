@@ -144,7 +144,7 @@ export class ActionHud extends HandlebarsApplicationMixin(ApplicationV2) {
   /**
    * Fit the bar in the free space of the bottom column: between the players list and the chat box that floats in the
    * corner when the sidebar is collapsed, when they sit at the bar's height (with the macro hotbar hidden, the bar is
-   * at the bottom of the screen). Narrower layouts first (icon-only panel buttons, then the name in the portrait,
+   * at the bottom of the screen), and short of the open sidebar. Narrower layouts first (icon-only panel buttons, then the name in the portrait,
    * then fewer pins); if it still doesn't fit beside them, the bar rises above them with the whole column; then it
    * stays centered, or slides into the free space.
    */
@@ -155,11 +155,11 @@ export class ActionHud extends HandlebarsApplicationMixin(ApplicationV2) {
     // The interface may be scaled (--ui-scale): page pixels → layout pixels.
     const scale = (el.getBoundingClientRect().width / el.offsetWidth) || 1;
     let span = freeSpan(el);
-    if (!this.#fitIn((span.right - span.left) / scale) && span.lift) {
+    if (!this.#fitIn((span.right - span.left) / scale, !span.lift) && span.lift) {
       const margin = parseFloat(getComputedStyle(el).marginBottom) || 0;
       el.style.marginBottom = `${Math.ceil(margin + (span.lift / scale))}px`;
       span = freeSpan(el);
-      this.#fitIn((span.right - span.left) / scale);
+      this.#fitIn((span.right - span.left) / scale, true);
     }
     // Centered when it fits between the neighbours, else slid into the free space.
     const box = el.getBoundingClientRect();
@@ -168,15 +168,17 @@ export class ActionHud extends HandlebarsApplicationMixin(ApplicationV2) {
   }
 
   /**
-   * Fit the bar in a width (layout pixels): narrow, then tiny, then fewer pins.
+   * Fit the bar in a width (layout pixels): narrow, then tiny, then fewer pins, then (squeeze) without the column of
+   * Fate, Hate and Fatigue.
    * @param {number} room
+   * @param {boolean} squeeze   Whether this is the last try (the bar can't rise any higher).
    * @returns {boolean}   Whether it fits.
    */
-  #fitIn(room) {
+  #fitIn(room, squeeze) {
     const el = this.element;
     room = Math.max(0, Math.floor(room));
     el.style.maxWidth = `${room}px`;
-    el.classList.remove("narrow", "tiny");
+    el.classList.remove("narrow", "tiny", "micro");
     const bar = el.querySelector(".lhh-bar");
     const name = el.querySelector(".lhh-name");
     // The bar is as wide as its content up to the room; past that its parts are squeezed (scrollWidth grows).
@@ -191,6 +193,8 @@ export class ActionHud extends HandlebarsApplicationMixin(ApplicationV2) {
     const pins = [...el.querySelectorAll(".lhh-pinned")];
     for (const pin of pins) pin.hidden = false;
     while (pins.length && overflows()) pins.pop().hidden = true;
+    // Last resort (the smallest screens with the sidebar open): the resources stay on the sheet.
+    if (squeeze && overflows()) el.classList.add("micro");
     return !overflows();
   }
 
@@ -405,8 +409,8 @@ const GAP = 10;
 
 /**
  * The free horizontal span of the bottom column at the bar's height (page pixels): the column, minus the players
- * list on the left and the chat box on the right when they overlap the bar's band; `lift` is how much higher the
- * bar must go to clear them (0 when nothing is beside it).
+ * list on the left and the chat box on the right when they overlap the bar's band, and short of the sidebar; `lift`
+ * is how much higher the bar must go to clear the first two (0 when nothing is beside it).
  * @param {HTMLElement} el   The HUD element
  */
 function freeSpan(el) {
@@ -424,6 +428,9 @@ function freeSpan(el) {
     left = Math.max(left, players.right + GAP);
     lift = Math.max(lift, band.bottom - players.top + GAP);
   }
+  // The middle column doesn't shrink for the open sidebar, which covers its right end (it runs the full height: no lift).
+  const sidebar = document.getElementById("sidebar")?.getBoundingClientRect();
+  if (sidebar?.width && (sidebar.left < right)) right = Math.min(right, sidebar.left - GAP);
   return { left, right: Math.max(left, right), lift };
 }
 

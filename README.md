@@ -64,6 +64,25 @@ As mensagens do sistema e do módulo ganham o mesmo pergaminho, mais curtas e or
 
 As duas partes têm configuração própria ("Tema pergaminho no chat").
 
+### Com o TBG
+
+Com o módulo [TBG](https://github.com/rezendesjoao/tbg) (balões de fala sobre os tokens, Modo Narrador e as abas
+ON, OFF e ROLL do Custom Chat Tabs), o mesmo tema veste as partes dele:
+- **Falas no chat:** cartões de pergaminho com o retrato num círculo de moldura dourada e o nome em versalete, na
+  Eczar da ficha e na cor do jogador. Falas seguidas do mesmo personagem viram um cartão só, e a hora aparece ao
+  passar o mouse.
+- **Cada modo de fala com o seu jeito:** o grito em negrito, com um filete carmim; o sussurro numa folha mais fria,
+  de borda tracejada; o pensamento pontilhado, com uma nuvem; a ação sem moldura, em itálico; o que é fora do
+  personagem compacto e cinza, com a marca OFF; a narração na faixa verde da ficha.
+- **Abas ON, OFF e ROLL:** verdes, com a ativa sublinhada em dourado.
+- **Balões sobre os tokens e do narrador:** pergaminho, com o nome em versalete; o balão de uso da ficha em
+  pergaminho dourado, o da narração em verde-escuro e o de fora do personagem em cinza. O selo de "digitando" e o
+  contador de caracteres ficam em dourado.
+
+Os cartões do sistema e deste módulo continuam com o visual próprio. Tudo segue a configuração "Tema pergaminho no
+chat". Para as abas, o TBG precisa do Custom Chat Tabs com a opção *Enable Chat Tabs* ligada (o TBG 0.13 pergunta ao
+Mestre se pode ligá-la).
+
 ## As outras janelas
 
 As janelas do sistema seguem a ficha: a barra verde no topo, pergaminho, o nome sobre a faixa verde com a imagem
@@ -132,7 +151,8 @@ barra de pergaminho no pé da tela, no lugar da barra de macros do Foundry, no v
 - **Telas menores:** quando falta espaço, os botões dos painéis viram só ícones (o nome aparece ao passar o mouse)
   e, no limite, o nome do personagem vai para o retrato. O HUD nunca fica por baixo da caixa de mensagem do chat
   (que flutua no canto quando a barra lateral está recolhida) nem da lista de jogadores: ele se ajusta ao espaço
-  ao lado deles ou, se não couber, sobe para cima deles.
+  ao lado deles ou, se não couber, sobe para cima deles. Também não entra por baixo da barra lateral aberta; nas
+  telas mais estreitas, com ela aberta, Destino, Ódio e Fadiga saem do HUD (continuam na ficha).
 - **Barra de macros do Foundry:** fica escondida e o HUD toma o lugar dela. As teclas 1 a 0 continuam executando as
   macros. Cada jogador escolhe entre esconder, trocar (a barra volta quando o HUD some, sem token selecionado) ou
   mostrar (o HUD fica acima dela).
@@ -526,6 +546,11 @@ Versão 1.0 (mesmo ambiente, em português e em 1024 e 1600 px de largura):
 - Jogador sem token selecionado vendo o próprio personagem; turno com as ações restantes, Espera e Encerrar.
 - Estados clicáveis com valor, com tag em português (vira a tag do catálogo), com valor perguntado e sem valor.
 - Criar efeito nos alvos com duração do sistema; seleção do token na vez e alvos limpos no fim do Processo.
+
+Versão 1.3 (mesmo ambiente, com TBG 0.13.0 e Custom Chat Tabs 1.1.3, em 1024 px de largura): falas, grito,
+sussurro, pensamento, ação, fora do personagem e narração no chat, nas abas e em balões sobre os tokens; selo de
+"digitando" e contador; balão do narrador; cartões de habilidade e de rolagem do sistema intactos no ROLL; HUD com a
+barra lateral aberta e recolhida.
 
 ## Dados dos compêndios
 

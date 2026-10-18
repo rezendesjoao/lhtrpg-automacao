@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.3.0 — 2026-10-18
+
+- **TBG no visual de Log Horizon.** Com o módulo TBG ativo, o tema pergaminho do chat passa a vestir também as falas
+  dele:
+  - cartões de pergaminho com o retrato num círculo dourado e o nome em versalete na Eczar, na cor do jogador;
+    falas seguidas do mesmo personagem num cartão só;
+  - um visual para cada modo: grito com filete carmim, sussurro tracejado, pensamento pontilhado com uma nuvem,
+    ação sem moldura, fora do personagem cinza e compacto com a marca OFF, narração na faixa verde da ficha;
+  - abas ON, OFF e ROLL verdes com a ativa sublinhada em dourado;
+  - balões sobre os tokens e do narrador em pergaminho (o de uso da ficha dourado, o da narração verde-escuro, o de
+    fora do personagem cinza), e o selo de "digitando" e o contador em dourado.
+
+  Os cartões do sistema e do módulo não mudam. Segue a configuração "Tema pergaminho no chat".
+- **HUD com a barra lateral aberta.** O HUD não entra mais por baixo da barra lateral aberta, que no Foundry v14
+  cobre a ponta da coluna de baixo. Nas telas mais estreitas, Destino, Ódio e Fadiga saem do HUD enquanto a barra
+  está aberta (continuam na ficha).
+
 ## 1.2.0 — 2026-10-18
 
 - **Tokens no visual da ficha.** O módulo passa a desenhar a barra de PV, o Destino e o nome dos tokens:

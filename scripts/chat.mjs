@@ -48,6 +48,10 @@ function labelsOf(key) {
 /** Call during the `init` hook. */
 export function registerChat() {
   Hooks.on("renderChatMessageHTML", onRender);
+  // The chat theme also dresses other modules' parts (TBG cards, bubbles and tabs: styles/tbg.css) through a body class.
+  const sync = () => document.body.classList.toggle("lhauto-chat", !!setting("chatTheme"));
+  Hooks.once("ready", sync);
+  Hooks.on("updateSetting", doc => { if (doc.key === `${MODULE_ID}.chatTheme`) sync(); });
 }
 
 function onRender(message, html) {

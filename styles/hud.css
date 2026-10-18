@@ -942,7 +942,7 @@ body.lhauto-no-hotbar #lhauto-hud {
 }
 
 /* --------------------------------------------------------------------------
-   Narrow bottom column (hud.mjs fit): icon-only panel buttons, then shorter labels
+   Narrow bottom column (hud.mjs fit): icon-only panel buttons, then shorter labels, then no resources column
    -------------------------------------------------------------------------- */
 #lhauto-hud.narrow .lhh-tab {
   padding: 0 7px;
@@ -960,6 +960,9 @@ body.lhauto-no-hotbar #lhauto-hud {
 }
 #lhauto-hud.tiny .lhh-hp-bar {
   width: 80px;
+}
+#lhauto-hud.micro .lhh-res {
+  display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
