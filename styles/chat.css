@@ -1062,3 +1062,25 @@
     transition: none !important;
   }
 }
+
+/* Statuses written in the cards, applied with a click (status-links.mjs) */
+.chat-message .lhauto-status {
+  padding: 0 2px;
+  border-bottom: 1px dotted currentColor;
+  border-radius: 2px;
+  color: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.chat-message .lhauto-status i {
+  margin-right: 3px;
+  font-size: 0.8em;
+  opacity: 0.6;
+}
+.chat-message .lhauto-status:hover {
+  background: rgba(31, 81, 55, 0.12);
+  text-shadow: none;
+}
+.chat-message.lhc-msg .lhauto-status {
+  color: #1f5137;
+}

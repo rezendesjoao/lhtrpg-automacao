@@ -69,6 +69,46 @@
       "windowTheme": {
         "Name": "Parchment system windows",
         "Hint": "Item and monster sheets, the effect editor, the skill and class browsers, chests and shops and the dialogs in the same look as the character sheet."
+      },
+      "hud": {
+        "Name": "Action HUD",
+        "Hint": "Shows a bar above the macro hotbar for the selected token: HP, Barrier, Fate, Hate and Fatigue, the checks, the skills by Timing, the Kuden, the items, the statuses, the turn and the pending dodges, to roll and use everything without opening the sheet. Your own setting: each player chooses."
+      },
+      "hudCharacter": {
+        "Name": "HUD with no token selected",
+        "Hint": "With no token selected, the HUD shows the character assigned to you (players only)."
+      },
+      "turnNotice": {
+        "Name": "Your turn notice",
+        "Hint": "Tells you, with a sound, when the Main Process of one of your characters starts."
+      },
+      "turnSelect": {
+        "Name": "Select the token on your turn",
+        "Hint": "When the Main Process of one of your characters starts, its token gets selected (for the GM: the enemies and NPCs no player controls)."
+      },
+      "turnPan": {
+        "Name": "Pan to whoever acts",
+        "Hint": "When a Main Process starts, the view goes to the acting token."
+      },
+      "turnUntarget": {
+        "Name": "Clear targets at the end of your turn",
+        "Hint": "When the Main Process of one of your characters ends, your targets are cleared, so the next skill doesn't go to the old target."
+      },
+      "statusLinks": {
+        "Name": "Clickable statuses in the chat",
+        "Hint": "Statuses written in the cards ([Staggered], [Decay: 10], [Weakness (Flame): 5]…) become links: a click applies the status to your targets (or the selected tokens), like skill effects, until the end of the scene. Ratings with SR are worked out; missing ones are asked."
+      },
+      "quickEffect": {
+        "Name": "Create an effect from a card",
+        "Hint": "Right click a skill or item card in the chat → Create effect on targets: an effect with the skill's name, picture and text, until the end of the Process, the Round or the Scene, to track what the skill only describes in text."
+      },
+      "Section": {
+        "rules": "Rules of use and combat",
+        "chat": "Cards and chat",
+        "content": "Content and house rules",
+        "look": "Look",
+        "hud": "Action HUD (each player chooses)",
+        "turn": "Turn (each player chooses)"
       }
     },
     "Use": {
@@ -115,7 +155,8 @@
       "CrLocked": "From CR {lock}, this item's effect cannot be used.",
       "MinHate": "Not enough Hate: needs {need}, has {have}.",
       "NoRankSkill": "Its number of uses is the SR of \"{skill}\", which the character doesn't have.",
-      "AlreadyActed": "Only before your Main Process this round (Not Acted)."
+      "AlreadyActed": "Only before your Main Process this round (Not Acted).",
+      "Incapacitated": "{name} is Incapacitated and can't act."
     },
     "Cards": {
       "RollDamage": "Roll damage",
@@ -413,6 +454,102 @@
       "Use": {
         "Unmet": "Kuden Restriction not met: {condition}."
       }
+    },
+    "Hud": {
+      "OpenSheet": "Open the sheet",
+      "Collapse": "Collapse the HUD",
+      "Expand": "Show the HUD",
+      "Panel": {
+        "checks": "Checks",
+        "skills": "Skills",
+        "kuden": "Kuden",
+        "items": "Items",
+        "effects": "Statuses"
+      },
+      "Hint": {
+        "checks": "Click: roll · Shift or right click: roll with a modifier · Pin: fix on the bar",
+        "skills": "Click: use · Shift + click: use and roll the Check · Right click: open · Pin: fix on the bar",
+        "kuden": "Click: use (Constants go to the chat) · Shift + click: use and roll the Check · Right click: open",
+        "items": "Click: use · Right click: open · Pin: fix on the bar",
+        "effects": "× removes the status or the effect"
+      },
+      "Cost": {
+        "hate": "Hate {n}",
+        "fate": "Fate {n}"
+      },
+      "UsesLeft": "{left} of {max} uses left ({per}).",
+      "Hands": "In hand",
+      "Powers": "Equipment powers",
+      "Usables": "Usable items",
+      "Effects": "Effects",
+      "NoSkills": "No skill to use.",
+      "NoItems": "Nothing to use.",
+      "Constant": "Constant",
+      "Pin": "Pin on the bar",
+      "PinsFull": "The bar already has {n} shortcuts: unpin one first.",
+      "RemoveBad": "Fate",
+      "Remove": "Remove",
+      "Round": "Round {n}",
+      "Join": "Join",
+      "JoinHint": "Join the combat (Initiative {n})",
+      "JoinFailed": "Could not join the combat. Ask the GM.",
+      "NoToken": "This character has no token on this scene.",
+      "End": "End",
+      "EndHint": "End your Main Process",
+      "Action": {
+        "major": "Major Action",
+        "minor": "Minor Action",
+        "move": "Move Action"
+      },
+      "FateTip": "Fate {value}/{max}. Click: +1. Right click: −1.",
+      "Dodge": "Dodge",
+      "DodgeHint": "{by} — {skill}: hit {total}. Click to roll {check} ({dice}).",
+      "DodgeMissing": "The attack card was not found in the chat.",
+      "HateTip": "Hate {value}",
+      "FatigueTip": "Fatigue {value}: the maximum HP drops by {value}.",
+      "Power": "Power",
+      "PowerN": "Power {n}"
+    },
+    "Keys": {
+      "hudDismiss": "Action HUD: close the open panel",
+      "hudToggle": "Action HUD: collapse or show",
+      "hudPanel": {
+        "checks": "Action HUD: Checks",
+        "skills": "Action HUD: Skills",
+        "kuden": "Action HUD: Kuden",
+        "items": "Action HUD: Items",
+        "effects": "Action HUD: Statuses"
+      }
+    },
+    "Turn": {
+      "Notice": "{name}'s Main Process has started!"
+    },
+    "StatusLink": {
+      "Hint": "Click: apply to your targets (or the selected tokens)",
+      "Title": "Apply {status}",
+      "Written": "In the text: {text}",
+      "Value": "Rating",
+      "Tag": "Tag",
+      "Apply": "Apply",
+      "NoTargets": "Target or select tokens to apply {status}.",
+      "Applied": "{status} applied to {names}."
+    },
+    "QuickEffect": {
+      "Menu": "Create effect on targets",
+      "NoTargets": "Target or select tokens to create the effect.",
+      "Default": "Effect",
+      "Title": "Create effect",
+      "Intro": "On: {names}.",
+      "Name": "Name",
+      "Duration": "Duration",
+      "Open": "Open to edit",
+      "Create": "Create",
+      "Created": "Effect {name} created on {names}."
+    },
+    "Notice": {
+      "Title": "Log Horizon TRPG — Automação {version}",
+      "Ok": "Got it",
+      "Body": "<p><strong>New in this version</strong></p><ul><li><strong>Action HUD.</strong> Select your token (or none, to see your character) and use the bar above the macro hotbar: roll checks, use skills, Kuden and items, follow HP, Fate and Hate, end your Main Process and roll the pending dodges. Hover for the details; the pin fixes a shortcut on the bar.</li><li><strong>Clickable statuses.</strong> Click a status written in a chat card, such as [Dazed] or [Decay: 10], to apply it to your targets.</li><li><strong>Create effect.</strong> Right click a skill card → Create effect on targets.</li><li><strong>Turn.</strong> A notice with a sound when your turn starts, and your targets cleared when it ends.</li></ul><p>Each player turns the HUD and the notices on or off in Game Settings → Configure Settings → Log Horizon TRPG — Automação.</p>"
     }
   },
   "LHTRPG": {

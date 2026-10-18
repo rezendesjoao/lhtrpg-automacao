@@ -3,10 +3,11 @@
  *
  * The system posts a skill's card from LHTrpgItem#ItemThrow, which is also where it applies the
  * skill's "when used" effects: that is the moment the skill is used. This wraps it:
- * - before: the Timing against the combat phase (Major / Minor / Move / Instant only in the user's
- *   own Main Process, Setup in the Setup Process…), the action already spent in this Main Process
- *   (one Major, one Minor and one Move), the usage limit (1/Scene, (SR)/Scenario, 1/Round…) and the
- *   Fate cost (the user must have it). An issue asks to go on, or refuses it (see the settings).
+ * - before: an Incapacitated or Dead user, the Timing against the combat phase (Major / Minor /
+ *   Move / Instant only in the user's own Main Process, Setup in the Setup Process…), the action
+ *   already spent in this Main Process (one Major, one Minor and one Move), the usage limit
+ *   (1/Scene, (SR)/Scenario, 1/Round…) and the Fate cost (the user must have it). An issue asks to
+ *   go on, or refuses it (see the settings). The action HUD reads the same checks (inspectUse).
  * - after: pay the Hate and Fate costs, count the use and the action, and note it all on the card,
  *   with an Undo button for mistakes.
  *
@@ -20,7 +21,7 @@
  */
 import { L, MODULE_ID, setting } from "./settings.mjs";
 import { parseSkillField, skillModifiers } from "./system.mjs";
-import { combatantOf, combatOf, confirm, escape, toInt, wrap } from "./util.mjs";
+import { actorName, combatantOf, combatOf, confirm, escape, toInt, wrap } from "./util.mjs";
 import { counter } from "./scenes.mjs";
 import { ITEM_SKILL, linkedSkill } from "./content.mjs";
 import { kudenUseIssues } from "./kuden/conditions.mjs";
@@ -267,20 +268,28 @@ export async function checkUsable(item) {
 /* -------------------------------------------- */
 
 /**
- * Check the use and decide whether it goes on.
+ * What using a skill now would meet, without asking anything: the issues (each with the mode of its
+ * setting), the action it spends, its counted limit and uses, and its cost. The action HUD reads it to
+ * show the uses left and to dim what can't be used now.
  * @param {Item} item
- * @returns {Promise<object|null>}   The plan to record after the card, or null when the use stops.
+ * @returns {{combat: Combat|null, combatant: Combatant|null, timing: string, action: string|null,
+ *   limit: object|null, key: string|null, uses: number, cost: object|null, issues: {text: string, mode: string}[]}}
  */
-async function planUse(item) {
+export function inspectUse(item) {
   const actor = item.actor;
   const combat = combatOf(actor);
   const combatant = combat ? combatantOf(combat, actor) : null;
   const timing = timingOf(item);
   const issues = [];
 
-  // Timing and action economy (in a started combat)
+  // An Incapacitated (or Dead) character takes no actions.
   let action = null;
   const actionsMode = setting("actions");
+  if (actionsMode && (actionsMode !== "off") && (actor.statuses.has("incapacitated") || actor.statuses.has("dead"))) {
+    issues.push({ text: L("Use.Incapacitated", { name: actorName(actor) }), mode: actionsMode });
+  }
+
+  // Timing and action economy (in a started combat)
   if (combatant && actionsMode && (actionsMode !== "off")) {
     for (const text of timingIssues(timing, combat, combatant)) issues.push({ text, mode: actionsMode });
     action = ACTIONS[timing] ?? null;
@@ -306,9 +315,33 @@ async function planUse(item) {
     if (fate < cost.fate) issues.push({ text: L("Use.NoFate", { need: cost.fate, have: fate }), mode: "block" });
   }
 
-  const forced = await decide(item, issues);
+  return { combat, combatant, timing, action, limit, key, uses, cost, issues };
+}
+
+/**
+ * The actions an actor still has in its Main Process of this round (Major, Minor, Move), or null outside a
+ * started combat or with the action economy off.
+ * @param {Actor} actor
+ * @returns {{major: boolean, minor: boolean, move: boolean}|null}
+ */
+export function actionsLeft(actor) {
+  const mode = setting("actions");
+  const combat = combatOf(actor);
+  if (!mode || (mode === "off") || !combat || !combatantOf(combat, actor)) return null;
+  const spent = spentActions(actor, combat);
+  return { major: !spent.major, minor: !spent.minor, move: !spent.move };
+}
+
+/**
+ * Check the use and decide whether it goes on.
+ * @param {Item} item
+ * @returns {Promise<object|null>}   The plan to record after the card, or null when the use stops.
+ */
+async function planUse(item) {
+  const state = inspectUse(item);
+  const forced = await decide(item, state.issues);
   if (!forced) return null;
-  return { combat, combatant, action, limit, key, uses, cost, forced };
+  return { ...state, forced };
 }
 
 /**

@@ -15,9 +15,13 @@
  * - sheet.mjs   the parchment character sheet; chat.mjs the chat cards; windows.mjs the other windows.
  * - kuden/      the Kuden house rule: signature pieces paid with the skill picks, Resources, scene
  *               environment and new effect conditions.
+ * - hud/        the action HUD above the hotbar: checks, skills, Kuden, items, statuses, turn, dodges.
+ * - turn.mjs    turn helpers: notice, select, pan, clear the targets.
+ * - status-links.mjs  statuses written in the chat applied with a click; quick-effect.mjs effects
+ *               created from a chat card; notice.mjs the news of the release.
  * Each part has its own setting (Game Settings → Configure Settings → this module).
  */
-import { MODULE_ID, registerSettings } from "./settings.mjs";
+import { MODULE_ID, registerClientSettings, registerSettings } from "./settings.mjs";
 import { registerUse, undoUse } from "./use.mjs";
 import { registerHate } from "./hate.mjs";
 import { registerRound } from "./round.mjs";
@@ -26,6 +30,7 @@ import { registerFate, removeBadStatus, spendFate } from "./fate.mjs";
 import { endScene, registerScenes } from "./scenes.mjs";
 import { fillWorld, registerContent, syncItemSkills } from "./content.mjs";
 import { parseMonsterDamage } from "./content/monster-damage.mjs";
+import { registerTerms } from "./terms.mjs";
 import { registerSheet } from "./sheet.mjs";
 import { registerChat } from "./chat.mjs";
 import { registerWindows } from "./windows.mjs";
@@ -33,6 +38,11 @@ import { registerReach } from "./reach.mjs";
 import { registerKuden } from "./kuden/index.mjs";
 import { ledgerOf, resourceOf, setResource, settle } from "./kuden/pieces.mjs";
 import { sceneEnv } from "./kuden/env.mjs";
+import { actionHud, registerHud, rollActorCheck } from "./hud/hud.mjs";
+import { registerTurn } from "./turn.mjs";
+import { giveEffects, registerStatusLinks, statusEffectData } from "./status-links.mjs";
+import { registerQuickEffect } from "./quick-effect.mjs";
+import { registerNotice } from "./notice.mjs";
 
 Hooks.once("init", () => {
   if (game.system.id !== "lhtrpg") return;
@@ -44,11 +54,18 @@ Hooks.once("init", () => {
   registerCards();
   registerFate();
   registerContent();
+  registerTerms();
   registerSheet();
   registerChat();
   registerWindows();
   registerReach();
   registerKuden();
+  registerHud();
+  registerClientSettings();
+  registerTurn();
+  registerStatusLinks();
+  registerQuickEffect();
+  registerNotice();
 
   // For macros and other modules.
   game.modules.get(MODULE_ID).api = {
@@ -58,10 +75,14 @@ Hooks.once("init", () => {
     parseMonsterDamage,
     rollCheck,
     rollDamage,
+    rollActorCheck,
     spendFate,
     removeBadStatus,
     syncItemSkills,
     undoUse,
+    applyStatus: (actor, id, { value = null, tag = "", expires = "endOfScene" } = {}) =>
+      giveEffects(actor, [statusEffectData(id, value, tag, { expires })]),
+    hud: actionHud,
     kuden: { ledgerOf, resourceOf, setResource, settle, sceneEnv }
   };
 });

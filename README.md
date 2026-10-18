@@ -6,7 +6,10 @@ substitui fichas nem cartões, só acrescenta o que faltava e corrige o que queb
 
 Já tem a **Fase 1 — núcleo do combate**, a **Fase 2 — conteúdo dos compêndios** e a **ficha de pergaminho**,
 com o chat e as outras janelas do sistema no mesmo visual, e o **Kuden**, uma regra da casa para assinaturas de
-personagem. As próximas fases (mesa por texto, cena e sessão, regras de construção) estão listadas no fim.
+personagem. A **versão 1.0** trouxe o **HUD de ações**, uma barra acima da barra de macros para rolar e usar tudo
+sem abrir a ficha, e as melhorias que vieram da análise dos módulos de Pathfinder 2e: ajudantes de turno, estados
+clicáveis no chat e efeitos criados a partir de um cartão. As próximas fases (mesa por texto, cena e sessão,
+regras de construção) estão listadas no fim.
 
 ## A ficha de pergaminho
 
@@ -80,6 +83,41 @@ verdes nas listas.
 As fichas e os scripts do sistema não mudam: o módulo só troca o visual. A configuração "Janelas do sistema em
 pergaminho" desliga tudo isso (pede para recarregar).
 
+## O HUD de ações
+
+Com um token selecionado (ou, para um jogador, sem nenhum selecionado: o personagem atribuído a ele), aparece uma
+barra de pergaminho logo acima da barra de macros, no visual da ficha:
+- **Retrato** na faixa verde: clique para abrir a ficha; a seta recolhe o HUD só no retrato.
+- **Recursos:** PV com a barra, Barreira, Destino em estrelas (clique +1, botão direito −1), Ódio (com a coroa do
+  Topo) e Fadiga.
+- **Turno:** a rodada e o Processo; no seu Processo Principal, as ações que ainda restam (Maior, Menor, Movimento),
+  Espera e **Encerrar**; fora dele, Pré-Ação, Espera ou Pós-Ação. Num combate em que o token não está, **Entrar**
+  coloca o token no combate com a Iniciativa dele.
+- **Esquivas pendentes:** quando um ataque mira o seu personagem, aparece **Esquivar** com o atacante; o clique
+  rola a Esquiva ou a Resistência pelo próprio botão do cartão (com o Mestre conectado, como no chat). Ataques que
+  já tiveram dano rolado ou com mais de 20 minutos não contam.
+- **Painéis** (um clique abre acima da barra, outro fecha; clicar no mapa ou Esc também fecha):
+  - **Testes:** os oito testes por atributo e os de combate, com os dados. Clique rola; Shift ou botão direito pede
+    o modificador, como na ficha. Um monstro mostra Esquiva e Resistência.
+  - **Habilidades:** as que se usam (as Constantes ficam de fora), agrupadas por Momento, com NH, o custo que vai
+    ser pago e os usos que restam em bolinhas. As que não dá para usar agora ficam esmaecidas, e o motivo aparece
+    ao passar o mouse (fora do seu Processo, Ação Maior já usada, limite atingido, Incapacitado…). Clique usa
+    (pelo mesmo caminho da ficha, com custos, limites e o Desfazer); **Shift + clique** usa e já rola o Teste.
+  - **Kuden:** o Recurso (os losangos mudam o valor manual), o Núcleo e as peças por tipo.
+  - **Itens:** o que está em mãos, com os poderes de gatilho de cada item, os poderes do resto do equipamento e os
+    itens de uso (poções, joias) com a quantidade.
+  - **Estados:** os estados e efeitos ativos, com × para remover, e o botão de Destino que remove um Estado Negativo.
+- **Detalhes ao passar o mouse:** Momento, Teste, Alvo, Alcance, Dano, Custo, Limite, as tags e a descrição.
+- **Atalhos fixos:** o alfinete de uma linha fixa a habilidade, o item ou o teste na própria barra (até 8, por
+  personagem; os tokens de um mesmo monstro dividem os mesmos). Botão direito numa linha abre a ficha do item.
+- **Teclado:** Esc fecha o painel aberto sem soltar o token. Recolher o HUD e abrir cada painel podem ganhar teclas
+  em Configurar Controles (vêm sem tecla).
+- **Telas menores:** quando falta espaço, os botões dos painéis viram só ícones (o nome aparece ao passar o mouse)
+  e, no limite, o nome do personagem vai para o retrato.
+
+Cada jogador liga ou desliga o HUD para si, e escolhe se ele mostra o personagem atribuído quando nada está
+selecionado.
+
 ## O que ele faz
 
 ### Uso de habilidades
@@ -100,6 +138,8 @@ pergaminho" desliga tudo isso (pede para recarregar).
   - a trava de NP: "〔NP21〕O efeito deste item não pode ser usado" vale a partir desse NP;
   - o Ódio mínimo ("só quando seu Ódio for 10 ou mais") e a Pré-Ação ("Pessoal: Pré-Ação");
   - limites pelo NH de outra habilidade ("[NH de «Invocar Shikigami»] vezes por cena").
+- **Incapacitado não age.** Um personagem Incapacitado (ou Morto) recebe o aviso antes de usar uma habilidade,
+  pela configuração do Momento e economia de ações.
 - **Avisar ou bloquear.** Quando algo não bate, o módulo pergunta se é para usar mesmo assim, ou bloqueia o
   jogador (o Mestre sempre pode forçar). Cada um tem a sua configuração.
 - **Registro no cartão.** O cartão da habilidade ganha uma linha com o que foi gasto (ação, Ódio, Destino,
@@ -125,6 +165,27 @@ pergaminho" desliga tudo isso (pede para recarregar).
   - Os Aventureiros Mortos revivem com 1 PV e [Fadiga: PV máx − 1].
   - Os inimigos Incapacitados morrem.
   - Acabam os Estados Negativos e de Combate; Fadiga e Fraqueza continuam.
+
+### Turno
+Cada jogador escolhe os seus (configurações de cliente):
+- **Aviso da sua vez:** um aviso com som quando começa o Processo Principal de um personagem seu (ligado).
+- **Selecionar o token na sua vez:** o token de quem começa o Processo fica selecionado para o dono, e o HUD passa
+  a mostrar ele. Para o Mestre, vale para os inimigos e PdMs que nenhum jogador controla (desligado).
+- **Levar a tela até quem age** (desligado).
+- **Limpar os alvos no fim da sua vez:** quando acaba o Processo Principal de um personagem seu, os seus alvos são
+  desmarcados, para a próxima habilidade não ir para o alvo antigo (ligado).
+
+Combates simultâneos são acompanhados separadamente.
+
+### Estados e efeitos a partir do chat
+- **Estados clicáveis.** Os estados escritos nos cartões, em português ou inglês ([Atordoado], [Deterioração: 10],
+  [Fraqueza (Chama): 5], [Barreira: NH×10]…), viram links. Um clique aplica o estado nos seus alvos (ou nos tokens
+  selecionados) do mesmo jeito que o sistema aplica os efeitos das habilidades: um efeito com os dados do estado,
+  que vale até o fim da cena e some com ele. Valores com NH usam o NH da habilidade do cartão; um valor que falta é
+  perguntado. Tokens de outros jogadores recebem pelo Mestre.
+- **Criar efeito nos alvos.** Botão direito num cartão de habilidade ou item no chat: um efeito com o nome, a
+  imagem e o texto da habilidade, até o fim do Processo, da Rodada ou da Cena, para marcar um bônus ou uma
+  penalidade que a habilidade só descreve em texto. Com um alvo só, a ficha do efeito abre para pôr as mudanças.
 
 ### Cartões de ataque e dano
 - **O dano fica ligado ao ataque certo.** O sistema procura "o último ataque desta habilidade" só nas 30
@@ -245,8 +306,8 @@ deste repositório. O módulo cuida da parte de mesa:
 
 ## Configurações
 
-Todas são do mundo (só o Mestre muda) e valem na hora, sem recarregar, menos as janelas em pergaminho, que
-pedem para recarregar.
+Em Configurar Opções, as configurações do módulo vêm separadas por seção. As do mundo (só o Mestre muda) valem na
+hora, sem recarregar, menos as janelas em pergaminho, que pedem para recarregar.
 
 | Configuração | Padrão |
 |---|---|
@@ -262,6 +323,8 @@ pedem para recarregar.
 | Correções nos cartões de ataque e dano | ligado |
 | Corpo a corpo alcança os quadrados vizinhos | ligado |
 | Botões de Destino | ligado |
+| Estados clicáveis no chat | ligado |
+| Criar efeito a partir de um cartão | ligado |
 | Completar os dados dos compêndios | ligado |
 | Kuden (regra da casa) | ligado |
 | Tema pergaminho no chat | ligado |
@@ -269,6 +332,17 @@ pedem para recarregar.
 
 "Limites de uso" e "Momento e economia de ações" têm três modos: **desligado**, **avisar** (pergunta se é
 para usar mesmo assim) e **bloquear** (o jogador não consegue; o Mestre pode forçar).
+
+Cada jogador escolhe as suas:
+
+| Configuração | Padrão |
+|---|---|
+| HUD de ações | ligado |
+| HUD sem token selecionado (mostra o seu personagem) | ligado |
+| Aviso da sua vez | ligado |
+| Selecionar o token na sua vez | desligado |
+| Levar a tela até quem age | desligado |
+| Limpar os alvos no fim da sua vez | ligado |
 
 ## Instalação
 
@@ -301,6 +375,9 @@ api.removeBadStatus(actor);       // diálogo de remover Estado Negativo com Des
 api.fillWorld({ dryRun: true });  // conta (ou completa) os dados que faltam no mundo
 api.syncItemSkills(actor);        // cria e liga as habilidades dos poderes dos itens do personagem
 api.parseMonsterDamage(html);     // lê o dano de um ataque de monstro escrito em texto
+api.rollActorCheck(actor, token, "athletics", { ask: true }); // teste de perícia, como na ficha
+api.applyStatus(actor, "decay", { value: 10 });             // aplica um estado como os efeitos de habilidade
+api.hud();                        // o HUD de ações desta tela (refresh, togglePanel("skills"), closePanel)
 api.kuden.ledgerOf(actor);        // Pontos de Kuden: custo, pago, guardado, escolhas pendentes, avisos
 api.kuden.settle(actor);          // paga o que falta com as escolhas pendentes e devolve as sobras
 api.kuden.resourceOf(actor);      // o Recurso do Núcleo (nome, valor, máximo, fonte)
@@ -416,6 +493,15 @@ Foundry 14.367, `lhtrpg` 2.1.0 e `lhtrpg-pt-br` 1.0.1. Cenários testados num mu
   ficha do item, sempre um cartão só. Habilidade de 4 quadrados com as distâncias de antes (4 aceita, 5 recusa,
   diagonal vizinha conta 2).
 
+Versão 1.0 (mesmo ambiente, em português e em 1024 e 1600 px de largura):
+- HUD de personagem e de monstro: recursos, testes (com e sem modificador), habilidades por Momento com os motivos
+  de não poder usar, Shift + clique (cartão e Teste ligados), Kuden com o Recurso manual, itens em mãos com os
+  poderes e itens de uso, estados com remoção, atalhos fixos de teste e de habilidade, Esc e recolher.
+- Esquiva pelo HUD com o Mestre (rolada e gravada no cartão) e, como jogador sem Mestre, o aviso do sistema.
+- Jogador sem token selecionado vendo o próprio personagem; turno com as ações restantes, Espera e Encerrar.
+- Estados clicáveis com valor, com tag em português (vira a tag do catálogo), com valor perguntado e sem valor.
+- Criar efeito nos alvos com duração do sistema; seleção do token na vez e alvos limpos no fim do Processo.
+
 ## Dados dos compêndios
 
 O arquivo `scripts/content/patches.mjs` é gerado a partir das fontes do sistema `lhtrpg` (`src/packs`). Depois
@@ -448,6 +534,13 @@ Log Horizon e Log Horizon TRPG (ログ・ホライズンTRPG) pertencem a Mamare
 fãs, não oficial e sem vínculo com os detentores dos direitos. O sistema para Foundry é de Kyane (Tenyryas) e
 DeadlyPoisonK; este módulo só acrescenta automação a ele. O código é distribuído sob a licença MIT
 ([LICENSE.txt](LICENSE.txt)); a licença não cobre o conteúdo de regras de Log Horizon TRPG.
+
+Ideias da versão 1.0 vieram da análise de módulos de Pathfinder 2e e de HUDs para Foundry: PF2e HUD e PF2e Toolbelt
+(reonZ), Token Action HUD (Larkinabout), PF2e Workbench (xdy), PF2e Extempore Effects (shemetz), PF2e Ctrl-Click
+Effects (websterguy), Sundry (ChasarooniZ), PF2e Utility Buttons (oWave), PF2e Dailies (reonZ), PF2e Keybind
+Menagerie (Drental), PF2e Usage Updater (ChasarooniZ) e PF2e Companion Compendia (TikaelSol). Nenhum código deles
+foi copiado: as funções foram escritas do zero para as regras e o sistema de Log Horizon. A análise completa está em
+[docs/ANALISE-MODULOS-PF2E.md](docs/ANALISE-MODULOS-PF2E.md).
 
 A organização e o estilo da ficha seguem a ficha do sistema Pathfinder Second Edition para Foundry; nenhuma arte
 dele é usada (as texturas são geradas por `tools/make-textures.py`). As fontes Eczar e Gelasio são distribuídas

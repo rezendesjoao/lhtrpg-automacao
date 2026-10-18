@@ -1,5 +1,39 @@
 # Changelog
 
+## 1.0.0 — 2026-10-18
+
+**HUD de ações** e as melhorias que vieram da análise de dez módulos de Pathfinder 2e e de três HUDs para Foundry
+(PF2e HUD, Token Action HUD, Argon). Nenhum código deles foi copiado; a análise está em
+`docs/ANALISE-MODULOS-PF2E.md`.
+
+- **HUD de ações.** Uma barra de pergaminho acima da barra de macros para o token selecionado ou, para um jogador
+  sem nada selecionado, o personagem dele:
+  - retrato (abre a ficha), PV com a barra, Barreira, Destino em estrelas (clique +1, botão direito −1), Ódio com
+    a coroa do Topo e Fadiga;
+  - o turno: rodada e Processo, as ações que restam no seu Processo Principal (Maior, Menor, Movimento), Espera,
+    Encerrar e Entrar no combate;
+  - **esquivas pendentes**: quando um ataque mira o seu personagem, o botão Esquivar rola a defesa pelo próprio
+    cartão do ataque;
+  - painéis de **Testes** (Shift ou botão direito pede o modificador), **Habilidades** por Momento (custo, usos
+    que restam e o motivo de não poder usar agora; Shift + clique usa e já rola o Teste), **Kuden** (com o
+    Recurso), **Itens** (em mãos com os poderes de gatilho, e itens de uso) e **Estados** (remover, e remover
+    Estado Negativo com Destino);
+  - detalhes ao passar o mouse, até 8 atalhos fixos na barra, Esc fecha o painel, teclas configuráveis, e um
+    layout mais estreito quando falta espaço.
+- **Turno** (configurações de cada jogador): aviso com som quando começa o seu Processo Principal; selecionar o
+  token na vez; levar a tela até quem age; limpar os alvos no fim do seu Processo Principal.
+- **Estados clicáveis no chat.** [Atordoado], [Deterioração: 10], [Fraqueza (Chama): 5]… escritos nos cartões
+  viram links que aplicam o estado nos alvos pelo motor de estados do sistema, até o fim da cena. Valores com NH
+  são calculados; os que faltam são perguntados.
+- **Criar efeito nos alvos.** Botão direito num cartão de habilidade ou item: efeito com nome, imagem e texto da
+  habilidade, até o fim do Processo, da Rodada ou da Cena.
+- **Incapacitado não age.** O uso de uma habilidade por um personagem Incapacitado ou Morto avisa (ou bloqueia,
+  pela configuração do Momento e economia de ações).
+- **Configurações em seções** no menu do módulo, e uma janela de novidades que aparece uma vez por usuário.
+- **API:** `rollActorCheck`, `applyStatus` e `hud`.
+- Interno: os tradutores de termos do `lhtrpg-pt-br` ficaram em `scripts/terms.mjs`, usados pela ficha e pelo HUD;
+  a checagem de uso das habilidades (`inspectUse`) é a mesma para o cartão e para o HUD.
+
 ## 0.10.0 — 2026-10-18
 
 **Kuden (regra da casa).** Assinaturas de personagem pagas com as mesmas escolhas de habilidade das oficiais. As

@@ -14,6 +14,7 @@ import { removeBadStatus } from "./fate.mjs";
 import { itemSkillsOf, linkedSkill } from "./content.mjs";
 import { checkUsable } from "./use.mjs";
 import { actorName, escape, toInt } from "./util.mjs";
+import { isEmpty, tagLabel, term } from "./terms.mjs";
 import { announceSettle, changeRank, colorOf, createPiece, isKuden, kudenContext, resourceOf, setColor, setResource } from "./kuden/pieces.mjs";
 import { LHTrpgActorSheet } from "../../../systems/lhtrpg/module/sheets/actor-sheet.mjs";
 import { allocateBonusPoints } from "../../../systems/lhtrpg/module/apps/stat-allocation.mjs";
@@ -33,7 +34,7 @@ const TABS = [
 ];
 
 /** Groups of the skills tab by Timing (as parseSkillField reads it), in display order. */
-const TIMING_GROUPS = [
+export const TIMING_GROUPS = [
   { id: "major", timings: ["Major", "Main Process"] },
   { id: "minor", timings: ["Minor"] },
   { id: "move", timings: ["Move"] },
@@ -46,13 +47,13 @@ const TIMING_GROUPS = [
   { id: "other", timings: [] }
 ];
 
-const ATTRIBUTES = [
+export const ATTRIBUTES = [
   { key: "str", checks: ["athletics", "endurance"] },
   { key: "dex", checks: ["disable", "operation"] },
   { key: "pow", checks: ["perception", "negotiation"] },
   { key: "int", checks: ["knowledge", "analysis"] }
 ];
-const COMBAT_CHECKS = ["accuracy", "evasion", "resistance"];
+export const COMBAT_CHECKS = ["accuracy", "evasion", "resistance"];
 const ITEM_TYPES = ["weapon", "armor", "shield", "accessory", "bag", "usable", "gear"];
 
 /**
@@ -84,29 +85,6 @@ function dollPlace(pos) {
 /** "athletics" -> "Athletics" (the key the system's roll-check action localizes) */
 const checkName = key => key.charAt(0).toUpperCase() + key.slice(1);
 const signed = n => (n >= 0 ? `+${n}` : `${n}`);
-const isEmpty = value => !value || /^[\p{Pd}−\s]*$/u.test(String(value));
-
-/**
- * Term translators of the lhtrpg-pt-br module (Timing, Target, Range, Cost, Limit, tags), when it is
- * active and showing Portuguese; else the values are shown as the system stores them.
- */
-let terms = null;
-async function loadTerms() {
-  const ptbr = game.modules.get("lhtrpg-pt-br");
-  if (!ptbr?.active || (game.i18n.lang !== "pt-BR")) return;
-  try {
-    if (game.settings.get("lhtrpg-pt-br", "display") === false) return;
-  }
-  catch { /* the setting may not exist in older versions: translate anyway */ }
-  try {
-    terms = await import("/modules/lhtrpg-pt-br/scripts/terms.mjs");
-  }
-  catch (err) {
-    console.warn(`${MODULE_ID} | lhtrpg-pt-br terms not available`, err);
-  }
-}
-const term = (field, value) => (terms?.FIELD_TRANSLATORS?.[field] ? terms.FIELD_TRANSLATORS[field](value) : value);
-const tagLabel = tag => (terms?.translateTag ? terms.translateTag(tag) : tag);
 
 export class LHAutoCharacterSheet extends LHTrpgActorSheet {
 
@@ -562,7 +540,6 @@ export function registerSheet() {
   foundry.applications.handlebars.loadTemplates([`${DIR}/sheet.hbs`, ...PARTIALS.map(p => `${DIR}/${p}.hbs`)]);
   // An effect without an origin has the localized "None" as its source: shown as nothing.
   Handlebars.registerHelper("lhautoSource", value => ((value === game.i18n.localize("None")) ? "" : value));
-  Hooks.once("ready", () => loadTerms());
   foundry.documents.collections.Actors.registerSheet(MODULE_ID, LHAutoCharacterSheet, {
     types: ["character"],
     makeDefault: true,

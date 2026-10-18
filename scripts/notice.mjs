@@ -1,0 +1,24 @@
+/**
+ * What's new: once per user and release line, a short window with the news of this version (the HUD, the turn
+ * helpers, the status links…), so the players know the bar above their hotbar is theirs to use.
+ */
+import { L, MODULE_ID, setting } from "./settings.mjs";
+
+/** The release line the notice speaks about. */
+const NOTICE = "1.0";
+
+/** Call during the `init` hook. */
+export function registerNotice() {
+  Hooks.once("ready", () => {
+    if (setting("noticeSeen") === NOTICE) return;
+    const version = game.modules.get(MODULE_ID)?.version ?? NOTICE;
+    foundry.applications.api.DialogV2.prompt({
+      window: { title: L("Notice.Title", { version }), icon: "fa-solid fa-scroll" },
+      classes: ["lhauto-dialog", "lhauto-notice"],
+      position: { width: 520 },
+      content: L("Notice.Body"),
+      ok: { label: L("Notice.Ok"), icon: "fa-solid fa-check" },
+      rejectClose: false
+    }).finally(() => game.settings.set(MODULE_ID, "noticeSeen", NOTICE));
+  });
+}

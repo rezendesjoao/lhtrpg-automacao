@@ -69,6 +69,46 @@
       "windowTheme": {
         "Name": "Janelas do sistema em pergaminho",
         "Hint": "Fichas de item e de monstro, editor de efeitos, seleção de habilidades e de classe, baús e lojas e as caixas de diálogo no mesmo visual da ficha de personagem."
+      },
+      "hud": {
+        "Name": "HUD de ações",
+        "Hint": "Mostra uma barra acima da barra de macros com o token selecionado: PV, Barreira, Destino, Ódio e Fadiga, os testes, as habilidades por Momento, o Kuden, os itens, os estados, o turno e as esquivas pendentes, para rolar e usar tudo sem abrir a ficha. Configuração sua: cada jogador escolhe."
+      },
+      "hudCharacter": {
+        "Name": "HUD sem token selecionado",
+        "Hint": "Sem nenhum token selecionado, o HUD mostra o personagem atribuído a você (só para jogadores)."
+      },
+      "turnNotice": {
+        "Name": "Aviso da sua vez",
+        "Hint": "Avisa, com um som, quando começa o Processo Principal de um personagem seu."
+      },
+      "turnSelect": {
+        "Name": "Selecionar o token na sua vez",
+        "Hint": "Quando começa o Processo Principal de um personagem seu, o token dele fica selecionado (para o Mestre: os inimigos e PdMs que nenhum jogador controla)."
+      },
+      "turnPan": {
+        "Name": "Levar a tela até quem age",
+        "Hint": "Quando começa um Processo Principal, a tela vai até o token de quem age."
+      },
+      "turnUntarget": {
+        "Name": "Limpar os alvos no fim da sua vez",
+        "Hint": "Quando acaba o Processo Principal de um personagem seu, os seus alvos são desmarcados, para a próxima habilidade não ir para o alvo antigo."
+      },
+      "statusLinks": {
+        "Name": "Estados clicáveis no chat",
+        "Hint": "Os estados escritos nos cartões ([Cambaleante], [Deterioração: 10], [Fraqueza (Chama): 5]…) viram links: um clique aplica o estado nos seus alvos (ou nos tokens selecionados), como os efeitos das habilidades, até o fim da cena. Valores com NH são calculados; os que faltam são perguntados."
+      },
+      "quickEffect": {
+        "Name": "Criar efeito a partir de um cartão",
+        "Hint": "Botão direito num cartão de habilidade ou de item no chat → Criar efeito nos alvos: um efeito com o nome, a imagem e o texto da habilidade, até o fim do Processo, da Rodada ou da Cena, para marcar o que a habilidade só descreve em texto."
+      },
+      "Section": {
+        "rules": "Regras de uso e de combate",
+        "chat": "Cartões e chat",
+        "content": "Conteúdo e regras da casa",
+        "look": "Visual",
+        "hud": "HUD de ações (cada jogador escolhe)",
+        "turn": "Turno (cada jogador escolhe)"
       }
     },
     "Use": {
@@ -115,7 +155,8 @@
       "CrLocked": "A partir do NP {lock}, o efeito deste item não pode ser usado.",
       "MinHate": "Ódio insuficiente: precisa de {need}, tem {have}.",
       "NoRankSkill": "O limite de usos vem do NH de \"{skill}\", que o personagem não tem.",
-      "AlreadyActed": "Só antes do seu Processo Principal nesta rodada (Pré-Ação)."
+      "AlreadyActed": "Só antes do seu Processo Principal nesta rodada (Pré-Ação).",
+      "Incapacitated": "{name} está Incapacitado e não pode agir."
     },
     "Cards": {
       "RollDamage": "Rolar dano",
@@ -413,6 +454,102 @@
       "Use": {
         "Unmet": "Restrição do Kuden não cumprida: {condition}."
       }
+    },
+    "Hud": {
+      "OpenSheet": "Abrir a ficha",
+      "Collapse": "Recolher o HUD",
+      "Expand": "Mostrar o HUD",
+      "Panel": {
+        "checks": "Testes",
+        "skills": "Habilidades",
+        "kuden": "Kuden",
+        "items": "Itens",
+        "effects": "Estados"
+      },
+      "Hint": {
+        "checks": "Clique: rolar · Shift ou botão direito: rolar com modificador · Alfinete: fixar na barra",
+        "skills": "Clique: usar · Shift + clique: usar e já rolar o Teste · Botão direito: abrir · Alfinete: fixar na barra",
+        "kuden": "Clique: usar (as Constantes vão para o chat) · Shift + clique: usar e já rolar o Teste · Botão direito: abrir",
+        "items": "Clique: usar · Botão direito: abrir · Alfinete: fixar na barra",
+        "effects": "× remove o estado ou o efeito"
+      },
+      "Cost": {
+        "hate": "Ódio {n}",
+        "fate": "Destino {n}"
+      },
+      "UsesLeft": "Restam {left} de {max} usos ({per}).",
+      "Hands": "Em mãos",
+      "Powers": "Poderes do equipamento",
+      "Usables": "Itens de uso",
+      "Effects": "Efeitos",
+      "NoSkills": "Nenhuma habilidade para usar.",
+      "NoItems": "Nada para usar.",
+      "Constant": "Constante",
+      "Pin": "Fixar na barra",
+      "PinsFull": "A barra já tem {n} atalhos: solte um antes.",
+      "RemoveBad": "Destino",
+      "Remove": "Remover",
+      "Round": "Rodada {n}",
+      "Join": "Entrar",
+      "JoinHint": "Entrar no combate (Iniciativa {n})",
+      "JoinFailed": "Não foi possível entrar no combate. Peça ao Mestre.",
+      "NoToken": "Este personagem não tem token nesta cena.",
+      "End": "Encerrar",
+      "EndHint": "Encerrar o seu Processo Principal",
+      "Action": {
+        "major": "Ação Maior",
+        "minor": "Ação Menor",
+        "move": "Ação de Movimento"
+      },
+      "FateTip": "Destino {value}/{max}. Clique: +1. Botão direito: −1.",
+      "Dodge": "Esquivar",
+      "DodgeHint": "{by} — {skill}: acerto {total}. Clique para rolar {check} ({dice}).",
+      "DodgeMissing": "O cartão do ataque não foi encontrado no chat.",
+      "HateTip": "Ódio {value}",
+      "FatigueTip": "Fadiga {value}: o PV máximo cai {value}.",
+      "Power": "Poder",
+      "PowerN": "Poder {n}"
+    },
+    "Keys": {
+      "hudDismiss": "HUD de ações: fechar o painel aberto",
+      "hudToggle": "HUD de ações: recolher ou mostrar",
+      "hudPanel": {
+        "checks": "HUD de ações: Testes",
+        "skills": "HUD de ações: Habilidades",
+        "kuden": "HUD de ações: Kuden",
+        "items": "HUD de ações: Itens",
+        "effects": "HUD de ações: Estados"
+      }
+    },
+    "Turn": {
+      "Notice": "Começou o Processo Principal de {name}!"
+    },
+    "StatusLink": {
+      "Hint": "Clique: aplicar nos seus alvos (ou nos tokens selecionados)",
+      "Title": "Aplicar {status}",
+      "Written": "No texto: {text}",
+      "Value": "Valor",
+      "Tag": "Tag",
+      "Apply": "Aplicar",
+      "NoTargets": "Marque alvos ou selecione tokens para aplicar {status}.",
+      "Applied": "{status} aplicado em {names}."
+    },
+    "QuickEffect": {
+      "Menu": "Criar efeito nos alvos",
+      "NoTargets": "Marque alvos ou selecione tokens para criar o efeito.",
+      "Default": "Efeito",
+      "Title": "Criar efeito",
+      "Intro": "Em: {names}.",
+      "Name": "Nome",
+      "Duration": "Duração",
+      "Open": "Abrir para editar",
+      "Create": "Criar",
+      "Created": "Efeito {name} criado em {names}."
+    },
+    "Notice": {
+      "Title": "Log Horizon TRPG — Automação {version}",
+      "Ok": "Entendi",
+      "Body": "<p><strong>Novidades desta versão</strong></p><ul><li><strong>HUD de ações.</strong> Selecione o seu token (ou nenhum, para ver o seu personagem) e use a barra acima da barra de macros: rolar testes, usar habilidades, Kuden e itens, acompanhar PV, Destino e Ódio, encerrar o seu Processo Principal e rolar as esquivas pendentes. Passe o mouse para ver os detalhes; o alfinete fixa um atalho na barra.</li><li><strong>Estados clicáveis.</strong> Clique num estado escrito num cartão do chat, como [Atordoado] ou [Deterioração: 10], para aplicá-lo nos seus alvos.</li><li><strong>Criar efeito.</strong> Botão direito num cartão de habilidade → Criar efeito nos alvos.</li><li><strong>Turno.</strong> Aviso com som quando começa a sua vez e alvos limpos quando ela acaba.</li></ul><p>Cada jogador liga ou desliga o HUD e os avisos em Configurações do Jogo → Configurar Opções → Log Horizon TRPG — Automação.</p>"
     }
   },
   "LHTRPG": {

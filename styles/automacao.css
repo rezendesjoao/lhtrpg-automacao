@@ -114,3 +114,25 @@
   gap: 8px;
   padding: 8px;
 }
+
+/* Configure Settings: section headers of this module (settings.mjs) */
+.lhauto-settings-section {
+  margin: 16px 0 4px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid currentColor;
+  font-family: "Signika", sans-serif;
+  font-size: 15px;
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+  opacity: 0.85;
+}
+
+/* Release notice (notice.mjs) */
+.lhauto-notice .dialog-content ul {
+  margin: 6px 0 8px;
+  padding-left: 20px;
+}
+.lhauto-notice .dialog-content li {
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
